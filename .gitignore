@@ -1,0 +1,7 @@
+# 忽略本地版本标记(应用脚本生成)
+.omp-hanhua-version
+
+# 编辑器/系统杂项
+.DS_Store
+Thumbs.db
+*.swp
