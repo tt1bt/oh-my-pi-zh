@@ -1,4 +1,4 @@
-# omp 简体中文汉化补丁 (omp-hanhua)
+# oh-my-pi-zh — omp 简体中文汉化补丁
 
 将 [oh-my-pi](https://github.com/can1357/oh-my-pi) (omp) CLI 的终端界面汉化为简体中文。
 
@@ -54,8 +54,8 @@ graph LR
 ### Windows
 
 ```powershell
-git clone https://github.com/<你的用户名>/omp-hanhua.git
-cd omp-hanhua
+git clone https://github.com/tt1bt/oh-my-pi-zh.git
+cd oh-my-pi-zh
 .\apply.ps1
 ```
 
@@ -67,8 +67,8 @@ cd omp-hanhua
 ### macOS / Linux
 
 ```bash
-git clone https://github.com/<你的用户名>/omp-hanhua.git
-cd omp-hanhua
+git clone https://github.com/tt1bt/oh-my-pi-zh.git
+cd oh-my-pi-zh
 ./apply.sh
 ```
 
