@@ -1,0 +1,21 @@
+{
+	// 刻意不翻译的范围。extract 不再把这些文件报为「新增未译」。
+	// files   —— 具体文件（整文件保留英文）
+	// prefixes—— 目录前缀
+	"files": [
+		// 模型侧内容：发给模型、与程序精确匹配，汉化会破坏行为
+		"src/tools/output-meta.ts",
+		"src/tools/yield.ts",
+		// 通用 Yes/No 确认（内部按 === "Yes" 比较）所在文件若出现误报可加 here
+	],
+	"prefixes": [
+		// 截图/演示素材，非运行时界面
+		"src/cli/gallery-fixtures/",
+		// 浏览器扩展注入资源（JS 代码）
+		"src/tools/browser/relay/",
+		// puppeteer 注入脚本资产
+		"src/tools/puppeteer/",
+		// eval 脚本资产
+		"src/eval/"
+	]
+}

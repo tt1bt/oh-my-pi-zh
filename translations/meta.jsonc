@@ -1,0 +1,4 @@
+{
+	// 翻译库基线：当前条目内容对应的 omp 版本（extract 用它做 diff 驱动扫描）
+	"baseVersion": "17.2.9"
+}

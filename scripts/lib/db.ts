@@ -47,7 +47,36 @@ function readJsonString(text: string, start: number): number {
 }
 
 export function parseJsonc<T>(text: string): T {
-	return JSON.parse(stripJsonComments(text)) as T;
+	const stripped = stripJsonComments(text);
+	// 容忍尾逗号（字符串感知：仅删除不在字符串内的、后随 } 或 ] 的逗号）
+	const cleaned = removeTrailingCommas(stripped);
+	return JSON.parse(cleaned) as T;
+}
+
+function removeTrailingCommas(text: string): string {
+	let out = '';
+	let i = 0;
+	const n = text.length;
+	while (i < n) {
+		const c = text[i];
+		if (c === '"') {
+			const end = readJsonString(text, i);
+			out += text.slice(i, end);
+			i = end;
+			continue;
+		}
+		if (c === ',') {
+			let j = i + 1;
+			while (j < n && /\s/.test(text[j])) j++;
+			if (text[j] === '}' || text[j] === ']') {
+				i++; // 丢弃尾逗号
+				continue;
+			}
+		}
+		out += c;
+		i++;
+	}
+	return out;
 }
 
 /** 读取翻译目录下全部条目。 */
