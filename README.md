@@ -1,5 +1,13 @@
 # oh-my-pi-zh — omp 简体中文汉化补丁
 
+![image-20260906230531065](C:\Users\79913\AppData\Roaming\Typora\typora-user-images\image-20260906230531065.png)
+
+汉化主界面
+
+![image-20260906230518169](C:\Users\79913\AppData\Roaming\Typora\typora-user-images\image-20260906230518169.png)
+
+汉化设置界面
+
 将 [oh-my-pi](https://github.com/can1357/oh-my-pi) (omp) CLI 的终端界面汉化为简体中文。
 
 > **这不是官方插件。** omp 目前没有 i18n/本地化钩子，因此本项目以**源码级翻译**方式工作：
