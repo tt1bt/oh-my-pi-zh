@@ -301,6 +301,7 @@
 		{"kind":"string","file":"src/commands/ps.ts","en":"Read from the beginning instead of the tail (logs)","zh":"从头读取而非尾部（logs）"},
 		{"kind":"string","file":"src/commands/ps.ts","en":"Number of log lines, max 1000 (logs)","zh":"日志行数，最多 1000（logs）"},
 		{"kind":"string","file":"src/commands/ps.ts","en":"Regex filter applied to log lines (logs)","zh":"应用于日志行的正则过滤（logs）"},
-		{"kind":"string","file":"src/commands/ps.ts","en":"Grace period in seconds before hard kill (stop)","zh":"强制终止前的宽限期秒数（stop）"}
+		{"kind":"string","file":"src/commands/ps.ts","en":"Grace period in seconds before hard kill (stop)","zh":"强制终止前的宽限期秒数（stop）"},
+		{"kind":"string","file":"src/commands/stats.ts","en":"Host to bind","zh":"要绑定的主机"}
 	]
 }
