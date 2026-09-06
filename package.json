@@ -1,0 +1,11 @@
+{
+	"name": "oh-my-pi-zh",
+	"private": true,
+	"description": "omp (oh-my-pi) CLI 简体中文汉化补丁——翻译即数据架构",
+	"scripts": {
+		"apply": "bun scripts/apply.ts",
+		"check": "bun scripts/apply.ts --check",
+		"extract": "bun scripts/extract.ts",
+		"gen-patch": "bun scripts/gen-patch.ts"
+	}
+}
