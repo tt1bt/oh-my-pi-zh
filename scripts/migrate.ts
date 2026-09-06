@@ -280,7 +280,7 @@ interface DiffIssue {
 interface RoundtripResult {
 	issues: DiffIssue[];
 	/** "file:line" -> 命中该行的条目 */
-	offenderByLine: Map<string, Entry>;
+	offenderByLine: Map<string, Entry[]>;
 }
 
 function runRoundtrip(entries: Entry[]): RoundtripResult {
@@ -289,7 +289,7 @@ function runRoundtrip(entries: Entry[]): RoundtripResult {
 	const grouped = groupEntries(entries);
 	const patchFiles = new Set<string>();
 	for (const e of entries) patchFiles.add(e.file);
-	const offenderByLine = new Map<string, Entry>();
+	const offenderByLine = new Map<string, Entry[]>();
 	const issues: DiffIssue[] = [];
 
 	for (const file of patchFiles) {
@@ -302,7 +302,11 @@ function runRoundtrip(entries: Entry[]): RoundtripResult {
 		}
 		const res = applyEntriesToText(readText(srcPath), set);
 		for (const [entry, lines] of res.hitLines) {
-			for (const ln of lines) offenderByLine.set(`${file}:${ln}`, entry);
+			for (const ln of lines) {
+				const list = offenderByLine.get(`${file}:${ln}`) ?? [];
+				list.push(entry);
+				offenderByLine.set(`${file}:${ln}`, list);
+			}
 		}
 		for (const m of res.misses) {
 			const name = (m.entry as SnippetEntry).name ?? (m.entry as StringEntry).kind;
@@ -486,7 +490,7 @@ function main() {
 				console.error(`  ! [miss] ${is.file}: ${is.detail}`);
 				continue;
 			}
-			const offender = rt.offenderByLine.get(`${is.file}:${is.line}`);
+			const offender = rt.offenderByLine.get(`${is.file}:${is.line}`)?.[0];
 			if (!offender) {
 				console.error(`  ! 无法归因 ${is.file}:${is.line + 1}\n      期望: ${JSON.stringify(short(is.expected, 90))}\n      实际: ${JSON.stringify(short(is.actual, 90))}`);
 				continue;
@@ -507,31 +511,74 @@ function main() {
 
 	console.log('[5/6] 上下文泛化');
 	if (clean) {
-		const droppable: Entry[] = [];
-		for (const e of entries) {
-			if (e.kind !== 'string' && e.kind !== 'template') continue;
+		const beforeGeneralization = [...entries];
+		const qualified = entries.filter((e): e is StringEntry => {
+			if (e.kind !== 'string' && e.kind !== 'template') return false;
 			const se = e as StringEntry;
-			if (se.context === undefined) continue;
-			const pc = countLitOccurrences(PRISTINE, se.file, se.en);
-			const gc = countLitOccurrences(GOLDEN, se.file, se.zh);
-			if (pc > 0 && pc === gc) droppable.push(e);
-		}
-		if (droppable.length) {
-			const kept = entries.filter((e) => !droppable.includes(e));
-			const dropped = droppable.map((e) => {
+			return se.context !== undefined || se.occurrence !== undefined || se.span !== undefined;
+		});
+		if (qualified.length) {
+			// 策略：全部 strip（去 context/span/occurrence），然后"归因修复"——
+			// strip 只会放大命中集合，不会减少；因此任何往返差异都来自某条
+			// 过度命中的条目，把它恢复成原限定形式，循环至收敛。
+			// 收敛后达到最大泛化（跨版本命中率最高）。
+			const originalOf = new Map<Entry, Entry>();
+			const strip = (e: Entry): Entry => {
 				const se = JSON.parse(JSON.stringify(e)) as StringEntry;
 				delete se.context;
 				delete se.occurrence;
+				delete se.span;
 				return se as Entry;
+			};
+			let current: Entry[] = entries.map((e) => {
+				if (!qualified.includes(e as StringEntry)) return e;
+				const s = strip(e);
+				originalOf.set(s, e);
+				return s;
 			});
-			const rt = runRoundtrip([...kept, ...dropped]);
-			if (rt.issues.length === 0) {
-				entries = [...kept, ...dropped];
-				console.log(`      去掉 ${dropped.length} 个 context ✓`);
-			} else {
-				console.log(`      泛化引发 ${rt.issues.length} 处差异，保守整批回退`);
-				entries = [...kept, ...droppable];
-				runRoundtrip(entries);
+			let restored = 0;
+			for (let iter = 0; iter < 40; iter++) {
+				const rt = runRoundtrip(current);
+				if (rt.issues.length === 0) {
+					entries = current;
+					console.log(`      泛化成功：${qualified.length - restored} 条保持纯内容匹配，${restored} 条恢复限定 ✓`);
+					break;
+				}
+				const offenders = new Set<Entry>();
+				const missFiles = new Set<string>();
+				for (const is of rt.issues) {
+					if (is.kind === 'miss') {
+						// snippet 锚点可能被本文件过度命中的 strip 条目污染 → 该文件全部恢复
+						missFiles.add(is.file);
+						continue;
+					}
+					// hitLines 是 pristine 坐标，diff 是输出坐标；snippet 附近会错位，±3 行窗口搜索
+					const offs: Entry[] = [];
+					for (let d = 0; d <= 3 && offs.length === 0; d++) {
+						for (const ln of d === 0 ? [is.line] : [is.line - d, is.line + d]) {
+							if (ln < 0) continue;
+							offs.push(...(rt.offenderByLine.get(`${is.file}:${ln}`) ?? []));
+						}
+					}
+					if (is.kind === 'diff' && offs.length === 0) console.error(`      [debug] 无 offender: ${is.file}:${is.line} actual=${JSON.stringify((is.actual || '').slice(0, 60))}`);
+					for (const off of offs) if (originalOf.has(off)) offenders.add(off);
+				}
+				const toRestore: Entry[] = [];
+				for (const e of originalOf.keys()) {
+					const orig = originalOf.get(e)!;
+					if (offenders.has(e) || missFiles.has(orig.file)) toRestore.push(e);
+				}
+				if (toRestore.length === 0) {
+					console.error(`      ✗ 差异无法归因（${rt.issues.length} 处），中止泛化并回滚`);
+					mkdirSync('.tmp', { recursive: true });
+					writeFileSync('.tmp/generalize-stuck.json', JSON.stringify(rt.issues, null, 2), 'utf8');
+					entries = beforeGeneralization;
+					runRoundtrip(entries);
+					break;
+				}
+				restored += toRestore.length;
+				const restoreSet = new Set(toRestore);
+				current = current.map((e) => (restoreSet.has(e) ? originalOf.get(e)! : e));
 			}
 		} else {
 			console.log('      无可泛化条目');

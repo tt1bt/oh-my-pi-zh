@@ -66,11 +66,13 @@ console.log(`[extract] 基线 v${baseVersion} → 目标 v${targetVersion}`);
 const excludedPath = 'translations/excluded.jsonc';
 const excludedFiles = new Set<string>(['src/tools/output-meta.ts', 'src/tools/yield.ts']);
 const excludedPrefixes = new Set<string>();
+const keepEnglish = new Set<string>();
 if (existsSync(excludedPath)) {
 	try {
-		const ex = parseJsonc<{ files?: string[]; prefixes?: string[] }>(readFileSync(excludedPath, 'utf8'));
+		const ex = parseJsonc<{ files?: string[]; prefixes?: string[]; keepEnglish?: string[] }>(readFileSync(excludedPath, 'utf8'));
 		for (const f of ex.files ?? []) excludedFiles.add(f);
 		for (const p of ex.prefixes ?? []) excludedPrefixes.add(p);
+		for (const s of ex.keepEnglish ?? []) keepEnglish.add(s);
 	} catch (e) {
 		console.warn('[extract] excluded.jsonc 解析失败，忽略:', e);
 	}
@@ -161,7 +163,7 @@ for (const file of [...allFiles].sort()) {
 		for (let li = 0; li < lines.length; li++) {
 			for (const lit of lines[li].lits) {
 				const m = lines[li].text.slice(0, lit.startCol).match(FIELD_RE);
-				if (m) fresh.push({ file, line: li + 1, en: lit.content, field: m[1] });
+				if (m && !keepEnglish.has(lit.content)) fresh.push({ file, line: li + 1, en: lit.content, field: m[1] });
 			}
 		}
 		continue;
@@ -187,7 +189,7 @@ for (const file of [...allFiles].sort()) {
 			if (!info) continue;
 			for (const lit of info.lits) {
 				const m = info.text.slice(0, lit.startCol).match(FIELD_RE);
-				if (m && !dbCont?.has(lit.content)) fresh.push({ file, line: newNo + 1, en: lit.content, field: m[1] });
+				if (m && !dbCont?.has(lit.content) && !keepEnglish.has(lit.content)) fresh.push({ file, line: newNo + 1, en: lit.content, field: m[1] });
 			}
 			continue;
 		}

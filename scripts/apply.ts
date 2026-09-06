@@ -27,11 +27,13 @@ interface Args {
 	noAutoHeal: boolean;
 	check: boolean;
 	quiet: boolean;
+	/** 维护者用：对指定源码目录预演（不安装） */
+	source: string;
 }
 
 function parseArgs(argv: string[]): Args {
 	const norm = (a: string) => (a.startsWith('-') ? a.replace(/^--?/, '').toLowerCase() : a);
-	const args: Args = { force: false, bunGlobal: '', launcherDir: '', noAutoHeal: false, check: false, quiet: false };
+	const args: Args = { force: false, bunGlobal: '', launcherDir: '', noAutoHeal: false, check: false, quiet: false, source: '' };
 	for (let i = 0; i < argv.length; i++) {
 		const a = norm(argv[i]);
 		switch (a) {
@@ -41,6 +43,7 @@ function parseArgs(argv: string[]): Args {
 			case 'no-auto-heal': args.noAutoHeal = true; break;
 			case 'check': args.check = true; break;
 			case 'quiet': args.quiet = true; break;
+			case 'source': args.source = argv[++i] ?? ''; break;
 			default:
 				console.error(`[omp-zh] 未知参数: ${argv[i]}`);
 				process.exit(1);
@@ -49,6 +52,7 @@ function parseArgs(argv: string[]): Args {
 	return args;
 }
 const args = parseArgs(process.argv.slice(2));
+if (args.source) args.check = true; // --source 仅用于预演
 const log = (...m: unknown[]) => { if (!args.quiet) console.log(...m); };
 
 // ---------- 定位 bun 全局目录 ----------
@@ -83,17 +87,18 @@ function main(): number {
 	const scriptDir = resolve(import.meta.dir);
 	const repoRoot = resolve(scriptDir, '..');
 	const translationsDir = join(repoRoot, 'translations');
-	const globalModules = findBunGlobalModules();
-	if (!globalModules || !existsSync(globalModules)) {
+	// --source：维护者对任意 omp 源码目录预演；否则用真实安装
+	const globalModules = args.source ? '' : findBunGlobalModules();
+	if (!args.source && (!globalModules || !existsSync(globalModules))) {
 		console.error('[omp-zh] ERROR: 找不到 bun 全局 node_modules。请确认已安装 bun，或用 --bun-global 指定路径。');
 		return 1;
 	}
-	const srcPkg = join(globalModules, '@oh-my-pi', 'pi-coding-agent');
-	const dstPkg = join(globalModules, '@oh-my-pi', 'pi-coding-agent-zh');
+	const srcPkg = args.source ? resolve(args.source) : join(globalModules, '@oh-my-pi', 'pi-coding-agent');
+	const dstPkg = join(globalModules || '', '@oh-my-pi', 'pi-coding-agent-zh');
 	const srcPkgJson = join(srcPkg, 'package.json');
 	if (!existsSync(srcPkgJson)) {
 		console.error(`[omp-zh] ERROR: 未找到 omp 源码包: ${srcPkg}`);
-		console.error('[omp-zh] 请先安装: bun add -g @oh-my-pi/pi-coding-agent');
+		if (!args.source) console.error('[omp-zh] 请先安装: bun add -g @oh-my-pi/pi-coding-agent');
 		return 1;
 	}
 	const ompVersion = (JSON.parse(readFileSync(srcPkgJson, 'utf8')) as { version: string }).version;
