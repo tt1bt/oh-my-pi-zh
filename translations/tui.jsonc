@@ -1,0 +1,8 @@
+{
+	"entries": [
+		{"kind":"line","file":"src/tui/code-cell.ts","en":"\t\t\tparts.push(`${icon} ${theme.fg(\"muted\", status)}`);","zh":"\t\t\tparts.push(`${icon} ${theme.fg(\"muted\", status === \"pending\" ? \"待处理\" : \"运行中\")}`);"},
+		{"kind":"line","file":"src/tui/code-cell.ts","en":"\t\t\tconst earlier = `… ${hiddenCodeLines} earlier line${hiddenCodeLines === 1 ? \"\" : \"s\"}${hint ? ` ${hint}` : \"\"}`;","zh":"\t\t\tconst earlier = `… 之前还有 ${hiddenCodeLines} 行${hint ? ` ${hint}` : \"\"}`;"},
+		{"kind":"string","file":"src/tui/code-cell.ts","en":"Code","zh":"代码"},
+		{"kind":"string","file":"src/tui/code-cell.ts","en":"Output","zh":"输出"}
+	]
+}

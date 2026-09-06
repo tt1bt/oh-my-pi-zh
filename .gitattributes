@@ -1,0 +1,6 @@
+# 统一 LF：补丁/翻译数据/脚本对行尾敏感
+* text=auto eol=lf
+*.cmd -text
+*.png -text
+*.jpg -text
+*.ico -text
