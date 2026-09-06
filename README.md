@@ -1,10 +1,12 @@
 # oh-my-pi-zh — omp 简体中文汉化补丁
 
-![image-20260906230531065](C:\Users\79913\AppData\Roaming\Typora\typora-user-images\image-20260906230531065.png)
+<img width="1481" height="820" alt="PixPin_2026-09-06_23-08-53" src="https://github.com/user-attachments/assets/ae0db8e6-e79b-4d9a-b384-5f3145b0fef5" />
+
 
 汉化主界面
 
-![image-20260906230518169](C:\Users\79913\AppData\Roaming\Typora\typora-user-images\image-20260906230518169.png)
+<img width="1481" height="820" alt="PixPin_2026-09-06_23-09-07" src="https://github.com/user-attachments/assets/40d39284-4abd-46e4-8691-bb5f393ebf09" />
+
 
 汉化设置界面
 
