@@ -1,7 +1,0 @@
-{
-	"entries": [
-		{"kind":"line","file":"src/prompts/system/plan-mode-active.md","en":"- **Approve and execute** — execution starts in fresh context (session cleared).","zh":"- **批准并执行** — execution starts in fresh context (session cleared)."},
-		{"kind":"line","file":"src/prompts/system/plan-mode-active.md","en":"- **Approve and compact context** — distills this discussion into a summary, then executes here.","zh":"- **批准并压缩上下文** — distills this discussion into a summary, then executes here."},
-		{"kind":"line","file":"src/prompts/system/plan-mode-active.md","en":"- **Approve and keep context** — executes here, preserving exploration history.","zh":"- **批准并保留上下文** — executes here, preserving exploration history."}
-	]
-}

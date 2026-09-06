@@ -1,7 +1,7 @@
 // 翻译库读写：JSONC 解析（剥离注释）、条目序列化、按区域分组。
 
 import type { Entry, TranslationFile } from './types';
-import { readdirSync, readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 
 /** 剥离 JSONC 注释（字符串字面量内的 // 与 /* 不受影响）。 */
@@ -115,6 +115,7 @@ export function writeTranslationFiles(dir: string, entries: Entry[]): string[] {
 		groups.set(area, list);
 	}
 	const written: string[] = [];
+	const writtenNames = new Set<string>();
 	for (const [area, list] of groups) {
 		const lines = ['{', `\t"entries": [`];
 		list.forEach((e, idx) => {
@@ -125,6 +126,12 @@ export function writeTranslationFiles(dir: string, entries: Entry[]): string[] {
 		const file = join(dir, `${area}.jsonc`);
 		writeFileSync(file, lines.join('\n') + '\n', 'utf8');
 		written.push(file);
+		writtenNames.add(`${area}.jsonc`);
+	}
+	// 清掉已无条目的区域文件（否则残留文件会被下次加载读回）
+	for (const name of readdirSync(dir)) {
+		if (!name.endsWith('.jsonc') || name === 'excluded.jsonc' || name === 'meta.jsonc') continue;
+		if (!writtenNames.has(name)) rmSync(join(dir, name));
 	}
 	return written;
 }
