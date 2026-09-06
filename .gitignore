@@ -5,3 +5,6 @@
 .DS_Store
 Thumbs.db
 *.swp
+
+# 基线与临时工作区
+.tmp/
