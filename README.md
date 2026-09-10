@@ -127,7 +127,7 @@ bun scripts/gen-patch.ts --version <新版>
 
 ### translations/ 数据格式
 
-- `cli.jsonc` / `commands.jsonc` / `tools.jsonc` / `modes.jsonc` / `settings.jsonc` / `tui.jsonc` / `prompts.jsonc`：按界面区域拆分的条目，每行一条 JSON，git diff 友好
+- `cli.jsonc` / `commands.jsonc` / `tools.jsonc` / `modes.jsonc` / `settings.jsonc` / `tui.jsonc`：按界面区域拆分的条目，每行一条 JSON，git diff 友好（区域文件由脚本按 `src/` 前缀自动归类生成，无需手工新建）
 - `snippets.jsonc`：结构性代码补丁（如中文量词表、状态标签函数），按精确文本锚点定位
 - `excluded.jsonc`：刻意不翻译的范围（模型侧内容、截图素材等）
 - `meta.jsonc`：基线版本等元信息
@@ -152,8 +152,8 @@ bun scripts/gen-patch.ts --version <新版>
 
 ## 兼容性与已知限制
 
-- 翻译库当前基线为 **omp 18.1.11**（`translations/meta.jsonc`），该版本界面文案覆盖率 100%；对 17.2.9 等旧版本仍可回退兼容（约 93% 命中）。新版本发布后运行 `bun scripts/apply.ts`（或直接启动 omp 触发自愈）即可：命中的照常生效，未命中的局部保持英文并可在 `apply` 输出与 `extract` 报告中看到明细。
-- 模型侧提示词（如 `src/prompts/system/plan-mode-active.md`）自基线 18.1.11 起完全保留英文，与"模型侧保留"原则保持一致。
+- 翻译库当前基线为 **omp 18.1.16**（`translations/meta.jsonc`），该版本下翻译条目零未命中。新版本发布后运行 `bun scripts/apply.ts`（或直接启动 omp 触发自愈）即可：命中的照常生效，未命中的局部保持英文并可在 `apply` 输出与 `extract` 报告中看到明细。
+- 模型侧提示词（如 `src/prompts/system/plan-mode-active.md`）与工具返回给模型的内容（如 `src/tools/context-notes.ts` 的 `text`）完全保留英文，与"模型侧保留"原则保持一致。
 - 汉化版每次启动约 4–5 秒（bun 直跑 TS 源码，未打包）。
 
 ## 许可

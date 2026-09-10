@@ -158,12 +158,14 @@ for (const file of [...allFiles].sort()) {
 	const basePath = join(baseDir, file);
 	const targetPath = join(targetDir, file);
 	if (!existsSync(basePath)) {
-		// 新文件：仅字段启发式
+		// 新文件：仅字段启发式（同样要排除翻译库已覆盖的内容，否则已译条目会被误报为新增未译）
 		const { lines } = analyzeLines(readFileSync(targetPath, 'utf8'));
+		const newFileDbCont = dbContents.get(file);
 		for (let li = 0; li < lines.length; li++) {
 			for (const lit of lines[li].lits) {
 				const m = lines[li].text.slice(0, lit.startCol).match(FIELD_RE);
-				if (m && !keepEnglish.has(lit.content)) fresh.push({ file, line: li + 1, en: lit.content, field: m[1] });
+				if (m && !newFileDbCont?.has(lit.content) && !keepEnglish.has(lit.content))
+					fresh.push({ file, line: li + 1, en: lit.content, field: m[1] });
 			}
 		}
 		continue;

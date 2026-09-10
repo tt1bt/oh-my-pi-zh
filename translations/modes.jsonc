@@ -299,6 +299,12 @@
 		{"kind":"string","file":"src/modes/acp/acp-agent.ts","en":"Auto-detect per prompt","zh":"按提示自动检测"},
 		{"kind":"string","file":"src/modes/acp/acp-agent.ts","en":"Standard ACP headless mode","zh":"标准 ACP 无头模式"},
 		{"kind":"string","file":"src/modes/acp/acp-agent.ts","en":"Read-only planning mode that drafts a plan to a markdown file before any code changes","zh":"只读规划模式：先起草计划到 markdown 文件，再进行代码更改"},
-		{"kind":"template","file":"src/modes/acp/acp-agent.ts","en":"Plan approved at ${planFilePath}. Plan mode exited; proceed with the implementation.","zh":"计划已在 ${planFilePath} 批准。已退出计划模式；请继续实施。"}
+		{"kind":"template","file":"src/modes/acp/acp-agent.ts","en":"Plan approved at ${planFilePath}. Plan mode exited; proceed with the implementation.","zh":"计划已在 ${planFilePath} 批准。已退出计划模式；请继续实施。"},
+		{"kind":"template","file":"src/modes/loop-condition.ts","en":"Loop condition ${quoteCommand(condition.command)} could not run: ${truncateToWidth(sanitizeStatusText(String(error)), OUTPUT_PREVIEW_WIDTH)}. Loop mode disabled.","zh":"循环条件 ${quoteCommand(condition.command)} 无法执行：${truncateToWidth(sanitizeStatusText(String(error)), OUTPUT_PREVIEW_WIDTH)}。已停用循环模式。"},
+		{"kind":"template","file":"src/modes/loop-condition.ts","en":"Loop condition ${quoteCommand(condition.command)} timed out after ${formatTimeout(options.timeoutMs)}. Loop mode disabled.","zh":"循环条件 ${quoteCommand(condition.command)} 在 ${formatTimeout(options.timeoutMs)} 后超时。已停用循环模式。"},
+		{"kind":"template","file":"src/modes/loop-condition.ts","en":"Loop condition ${quoteCommand(condition.command)} is now satisfied. Loop mode disabled.","zh":"循环条件 ${quoteCommand(condition.command)} 现已满足。已停用循环模式。"},
+		{"kind":"template","file":"src/modes/loop-condition.ts","en":"Loop condition ${quoteCommand(condition.command)} no longer holds. Loop mode disabled.","zh":"循环条件 ${quoteCommand(condition.command)} 已不再成立。已停用循环模式。"},
+		{"kind":"template","file":"src/modes/loop-condition.ts","en":"Loop condition ${quoteCommand(condition.command)} failed (${status})${detail}. Loop mode disabled.","zh":"循环条件 ${quoteCommand(condition.command)} 执行失败（${status}）${detail}。已停用循环模式。"},
+		{"kind":"string","file":"src/modes/interactive-mode.ts","en":"continue with","zh":"继续使用"}
 	]
 }

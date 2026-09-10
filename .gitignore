@@ -8,3 +8,6 @@ Thumbs.db
 
 # 基线与临时工作区
 .tmp/
+
+# WorkBuddy 会话数据
+.workbuddy/
