@@ -41,29 +41,51 @@ graph LR
 
 ## 安装
 
-### 前置
+### 方式一：一行命令（推荐）
 
-- [bun](https://bun.sh) ≥ 1.3.14
-- omp 已全局安装：`bun add -g @oh-my-pi/pi-coding-agent`
-- 本仓库（`git clone` 后无需其他依赖，补丁应用不再需要 git/patch 二进制）
-
-### Windows
+**Windows（PowerShell）**
 
 ```powershell
-git clone https://github.com/tt1bt/oh-my-pi-zh.git
-cd oh-my-pi-zh
-.\apply.ps1
+irm https://raw.githubusercontent.com/tt1bt/oh-my-pi-zh/main/install.ps1 | iex
 ```
 
-### macOS / Linux
+**macOS / Linux**
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/tt1bt/oh-my-pi-zh/main/install.sh | sh
+```
+
+脚本会自动：
+
+1. 检查 bun（未安装会给出安装命令）
+2. 把本仓库下载到 `~/.oh-my-pi-zh`（**不需要 git**）
+3. 若本机还没装 omp，自动 `bun add -g @oh-my-pi/pi-coding-agent@latest`
+4. 应用汉化并在 `~/.local/bin` 安装 `omp` 启动器
+
+重复执行同一条命令即为**更新**。可选参数：`--dir <路径>`（安装目录）、`--ref <分支/标签>`、`--no-apply`（只下载）。
+管道执行时要传参写成 `curl ... | sh -s -- --dir ~/oh-my-pi-zh`。
+
+### 方式二：npm 安装
+
+```bash
+bun install -g omp-zh
+```
+
+装完直接敲 `omp` 就是中文界面，不需要 clone 仓库、不需要任何配置。
+（包由本项目构建发布，见下方「发布到 npm」；本包用 bun 直跑汉化源码，启动约 4–5 秒。）
+
+### 方式三：手动（改翻译 / 开发时用）
+
+前置：[bun](https://bun.sh) ≥ 1.3.14；omp 已全局安装（`bun add -g @oh-my-pi/pi-coding-agent`）
 
 ```bash
 git clone https://github.com/tt1bt/oh-my-pi-zh.git
 cd oh-my-pi-zh
-./apply.sh
 ```
 
-也可以直接 `bun scripts/apply.ts`（两种入口等价）。
+- Windows：`.\apply.ps1`
+- macOS / Linux：`./apply.sh`
+- 或直接 `bun scripts/apply.ts`（三种入口等价）
 
 脚本会自动：
 1. 定位 bun 全局 `node_modules`
@@ -97,6 +119,23 @@ omp                 # 欢迎横幅应为中文
 
 ## 卸载
 
+按安装方式选一种：
+
+**npm 安装（方式二）**
+
+```bash
+bun remove -g omp-zh
+```
+
+**一行命令（方式一）**
+
+```powershell
+Remove-Item -Recurse -Force "$HOME\.oh-my-pi-zh"   # 下载的仓库
+Remove-Item "$HOME\.local\bin\omp.cmd"             # 启动器
+```
+
+**手动（方式三）**
+
 ```powershell
 # 删除汉化副本
 Remove-Item -Recurse -Force "$HOME\.bun\install\global\node_modules\@oh-my-pi\pi-coding-agent-zh"
@@ -104,6 +143,8 @@ Remove-Item -Recurse -Force "$HOME\.bun\install\global\node_modules\@oh-my-pi\pi
 Remove-Item "$HOME\.local\bin\omp.cmd"
 # 还原 omp(删除启动器后,PATH 中 bun 的原始 omp.exe 即恢复生效)
 ```
+
+> 原包 `pi-coding-agent` 全程只读，卸载不会影响它。
 
 ## 维护者指南：跟进新版本
 
@@ -124,6 +165,36 @@ bun scripts/gen-patch.ts --version <新版>
 
 # 5. 更新 translations/meta.jsonc 的 baseVersion，提交
 ```
+
+### 发布到 npm（omp-zh）
+
+把汉化后的整包发布到 npm，用户侧即可 `bun install -g omp-zh` 一条命令安装。
+
+前置：本机已 `npm login` 到**官方源**。若 `~/.npmrc` 指向 npmmirror 等镜像，发布时必须显式加
+`--registry https://registry.npmjs.org`，否则会推失败。
+
+```bash
+# 1. 构建（产物在 .tmp/npm-pkg/omp-zh）
+bun scripts/build-npm-pkg.ts --version <omp版本> --strict-baseline
+
+# 2. 本地试装验证（可选但强烈建议）
+cd .tmp/npm-pkg/omp-zh && npm pack
+#   再把 tgz 装进任意临时项目：bun add <tgz>，然后 node_modules/.bin/omp --help 看是不是中文
+
+# 3. 发布
+cd .tmp/npm-pkg/omp-zh
+npm publish --registry https://registry.npmjs.org --access public
+```
+
+- `--strict-baseline`：当 `translations/meta.jsonc` 的 `baseVersion` 与目标版本不一致时**拒绝构建**，
+  避免把「大面积仍是英文」的包发出去。发布前请先按上面的步骤跟进翻译。
+- 版本号沿用上游版本（如 `18.1.17`），一眼看出对应哪个上游版本。
+- 发布包的 `bin` 指向 `bin/omp.mjs`（用 bun 直跑汉化后的 `src/cli.ts`）；包内 `dist/cli.js` 是上游原版，仅为兼容保留。
+- 构建脚本会改写 `package.json`（包名/版本/bin/描述/仓库）并**删除上游的 `scripts`**——其中的 `prepack` 会在 `npm publish` 时触发构建且必然失败。
+
+**CI 自动发布**：`.github/workflows/publish-npm.yml`，支持手动触发（Actions → publish-npm → Run workflow，可指定版本）
+或推送 `v*` tag 触发。需在仓库 `Settings → Secrets → Actions` 配置 `NPM_TOKEN`（npm 的 Automation token）。
+工作流带安全阀：只有 `baseVersion` 等于要发布的版本时才真正发布——上游发新版后必须先跟进翻译并更新基线，才会发出新包。
 
 ### translations/ 数据格式
 

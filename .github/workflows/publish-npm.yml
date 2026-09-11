@@ -1,0 +1,95 @@
+# 构建并发布汉化整包到 npm（omp-zh）。
+#
+# 触发方式：
+#   1. 手动：Actions → publish-npm → Run workflow（可指定上游版本，留空取 npm latest）
+#   2. 打 tag：git tag v18.1.17 && git push origin v18.1.17
+#
+# 前置条件：仓库 Settings → Secrets → Actions 里配置 NPM_TOKEN（npm 的 Automation token）。
+#
+# 安全阀：只有当 translations/meta.jsonc 的 baseVersion **等于**要发布的版本时才会发布，
+# 避免上游刚发新版就自动发出一个"大面积还是英文"的包。跟进翻译后 baseVersion 才会被更新。
+
+name: publish-npm
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "上游 omp 版本（留空 = npm 上的 latest）"
+        required: false
+        type: string
+      dry_run:
+        description: "只构建不发布"
+        required: false
+        type: boolean
+        default: false
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: https://registry.npmjs.org
+
+      - name: 决定目标版本
+        id: v
+        run: |
+          if [ -n "${{ inputs.version }}" ]; then
+            VER="${{ inputs.version }}"
+          elif [ "${GITHUB_REF_TYPE}" = "tag" ]; then
+            VER="${GITHUB_REF_NAME#v}"
+          else
+            VER=$(npm view @oh-my-pi/pi-coding-agent version)
+          fi
+          echo "version=$VER" >> "$GITHUB_OUTPUT"
+          echo "目标版本: $VER"
+
+      - name: 校验翻译库基线
+        id: base
+        run: |
+          BASE=$(bun -e 'const t=require("fs").readFileSync("translations/meta.jsonc","utf8");console.log(JSON.parse(t.replace(/^\s*\/\/.*$/gm,"")).baseVersion)')
+          echo "base=$BASE" >> "$GITHUB_OUTPUT"
+          if [ "$BASE" = "${{ steps.v.outputs.version }}" ]; then
+            echo "same=1" >> "$GITHUB_OUTPUT"
+            echo "✓ 基线 $BASE 与目标一致，可以发布"
+          else
+            echo "same=0" >> "$GITHUB_OUTPUT"
+            echo "::warning::翻译库基线为 $BASE，目标为 ${{ steps.v.outputs.version }}；跳过发布。请先跟进翻译并更新 meta.jsonc。"
+          fi
+
+      - name: 构建
+        if: steps.base.outputs.same == '1'
+        run: bun scripts/build-npm-pkg.ts --version "${{ steps.v.outputs.version }}" --strict-baseline
+
+      - name: 打包自检
+        if: steps.base.outputs.same == '1'
+        run: |
+          cd ".tmp/npm-pkg/omp-zh"
+          npm pack --dry-run 2>&1 | tail -20
+          node -e 'const p=require("./package.json");if(p.name!=="omp-zh")throw new Error("包名不对: "+p.name);if(!p.bin||!p.bin.omp)throw new Error("bin 未设置");console.log("✓ package.json 自检通过:",p.name,p.version,p.bin.omp)'
+
+      - name: 发布到 npm
+        if: steps.base.outputs.same == '1' && inputs.dry_run != true
+        working-directory: .tmp/npm-pkg/omp-zh
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          if [ -z "$NODE_AUTH_TOKEN" ]; then
+            echo "::error::缺少 NPM_TOKEN secret，无法发布。请在仓库 Settings → Secrets → Actions 中添加。"
+            exit 1
+          fi
+          npm publish --access public

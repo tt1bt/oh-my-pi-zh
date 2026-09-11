@@ -6,6 +6,7 @@
 		"apply": "bun scripts/apply.ts",
 		"check": "bun scripts/apply.ts --check",
 		"extract": "bun scripts/extract.ts",
-		"gen-patch": "bun scripts/gen-patch.ts"
+		"gen-patch": "bun scripts/gen-patch.ts",
+		"build:npm": "bun scripts/build-npm-pkg.ts"
 	}
 }
