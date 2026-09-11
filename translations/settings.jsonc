@@ -1196,6 +1196,21 @@
 		{"kind":"string","file":"src/config/settings-schema.ts","en":"Positive finite active-work timeout for extension tool_call handlers; invalid values use 30000ms, and time awaiting OMP-owned dialogs does not count","zh":"扩展 tool_call 处理器的有效工作超时（须为正的有限值）；取值非法时按 30000 毫秒处理，等待 OMP 自身对话框的时间不计入"},
 		{"kind":"string","file":"src/config/settings-schema.ts","en":"Requires FIRECRAWL_API_KEY","zh":"需要 FIRECRAWL_API_KEY"},
 		{"kind":"string","file":"src/config/settings-schema.ts","en":"Enable the Exa web search provider","zh":"启用 Exa 网页搜索提供商"},
-		{"kind":"string","file":"src/config/settings-schema.ts","en":"Priority: native > trafilatura > lynx > parallel > firecrawl > jina","zh":"优先级：native > trafilatura > lynx > parallel > firecrawl > jina"}
+		{"kind":"string","file":"src/config/settings-schema.ts","en":"Priority: native > trafilatura > lynx > parallel > firecrawl > jina","zh":"优先级：native > trafilatura > lynx > parallel > firecrawl > jina"},
+		{"kind":"string","file":"src/config/settings-schema.ts","en":"Vim Editing Mode","zh":"Vim 编辑模式"},
+		{"kind":"string","file":"src/config/settings-schema.ts","en":"Modal prompt editing. Escape leaves Insert mode; Normal mode has hjkl, 0, $, ^, w, b, e, gg, G, counts, x/D/C, dd/yy, p and u; operators take motions or text objects (diw, ca(, dap); v/V start a Visual selection that y copies and d deletes","zh":"模态化的提示词编辑。Escape 退出插入模式；普通模式支持 hjkl、0、$、^、w、b、e、gg、G、计数前缀、x/D/C、dd/yy、p 和 u；操作符可接动作或文本对象（diw、ca(、dap）；v/V 开始可视选择，y 复制、d 删除"},
+		{"kind":"string","file":"src/config/settings-schema.ts","en":"Vim Mode Indicator","zh":"Vim 模式指示器"},
+		{"kind":"string","file":"src/config/settings-schema.ts","en":"How the current Vim mode appears in the status line","zh":"当前 Vim 模式在状态栏中的显示方式"},
+		{"kind":"string","file":"src/config/settings-schema.ts","en":"Text","zh":"文本"},
+		{"kind":"string","file":"src/config/settings-schema.ts","en":"Full mode name — NORMAL, INSERT, VISUAL, V-LINE","zh":"完整模式名 —— NORMAL、INSERT、VISUAL、V-LINE"},
+		{"kind":"string","file":"src/config/settings-schema.ts","en":"Icon","zh":"图标"},
+		{"kind":"string","file":"src/config/settings-schema.ts","en":"Single compact glyph per mode","zh":"每个模式显示为单个紧凑字形"},
+		{"kind":"string","file":"src/config/settings-schema.ts","en":"Do not show the mode in the status line","zh":"不在状态栏中显示模式"},
+		{"kind":"string","file":"src/config/settings-schema.ts","en":"Recall Cleared Drafts","zh":"恢复已清除的草稿"},
+		{"kind":"string","file":"src/config/settings-schema.ts","en":"Keep drafts cleared with Ctrl+C in local Up/Down history until exit; disabling affects future clears","zh":"用 Ctrl+C 清除的草稿会保留在本地上/下键历史中直到退出；关闭后仅影响之后的清除操作"},
+		{"kind":"string","file":"src/config/settings-schema.ts","en":"Autosave Plans","zh":"自动保存计划"},
+		{"kind":"string","file":"src/config/settings-schema.ts","en":"Automatically save approved plans to disk when plan mode completes","zh":"计划模式结束时自动把已批准的计划保存到磁盘"},
+		{"kind":"string","file":"src/config/settings-schema.ts","en":"Autosave Directory","zh":"自动保存目录"},
+		{"kind":"string","file":"src/config/settings-schema.ts","en":"Directory for autosaved plans. Supports ~, absolute, and cwd-relative paths. Empty uses <project>/.omp/plans/.","zh":"自动保存计划的目录。支持 ~、绝对路径和相对当前工作目录的路径。留空则使用 <project>/.omp/plans/。"}
 	]
 }

@@ -152,7 +152,7 @@ bun scripts/gen-patch.ts --version <新版>
 
 ## 兼容性与已知限制
 
-- 翻译库当前基线为 **omp 18.1.16**（`translations/meta.jsonc`），该版本下翻译条目零未命中。新版本发布后运行 `bun scripts/apply.ts`（或直接启动 omp 触发自愈）即可：命中的照常生效，未命中的局部保持英文并可在 `apply` 输出与 `extract` 报告中看到明细。
+- 翻译库当前基线为 **omp 18.1.17**（`translations/meta.jsonc`），该版本下翻译条目零未命中。新版本发布后运行 `bun scripts/apply.ts`（或直接启动 omp 触发自愈）即可：命中的照常生效，未命中的局部保持英文并可在 `apply` 输出与 `extract` 报告中看到明细。
 - 模型侧提示词（如 `src/prompts/system/plan-mode-active.md`）与工具返回给模型的内容（如 `src/tools/context-notes.ts` 的 `text`）完全保留英文，与"模型侧保留"原则保持一致。
 - 汉化版每次启动约 4–5 秒（bun 直跑 TS 源码，未打包）。
 

@@ -276,10 +276,10 @@ index c56f7f2..1d063e3 100644
    ${APP_NAME} grep "TODO" . --glob "*.ts"
    ${APP_NAME} grep "function" --files
 diff --git a/pi-coding-agent/src/cli/help-extra.ts b/pi-coding-agent-zh/src/cli/help-extra.ts
-index eaed4f2..98d40b1 100644
+index dc3082a..4e8871b 100644
 --- a/pi-coding-agent/src/cli/help-extra.ts
 +++ b/pi-coding-agent-zh/src/cli/help-extra.ts
-@@ -3,89 +3,89 @@ import chalk from "@oh-my-pi/pi-utils/chalk";
+@@ -3,90 +3,90 @@ import chalk from "@oh-my-pi/pi-utils/chalk";
  import { APP_NAME, CONFIG_DIR_NAME } from "@oh-my-pi/pi-utils/dirs";
  
  export function getExtraHelpText(): string {
@@ -343,6 +343,7 @@ index eaed4f2..98d40b1 100644
 +  OPENCODE_API_KEY           - OpenCode Zen/OpenCode Go 模型
 +  CURSOR_ACCESS_TOKEN        - Cursor AI 模型
 +  CLINE_API_KEY              - ClinePass 订阅模型
+   COMMAND_CODE_API_KEY       - Command Code Provider API models
    AI_GATEWAY_API_KEY         - Vercel AI Gateway
 -  WAFER_SERVERLESS_API_KEY   - Wafer Serverless (pay-as-you-go)
 -  YOLO_AUTO_API_KEY          - Yolo-Auto flat-rate Qwen models
@@ -2127,7 +2128,7 @@ index 645df79..73bde5e 100644
  
  	static examples = [
 diff --git a/pi-coding-agent/src/config/settings-schema.ts b/pi-coding-agent-zh/src/config/settings-schema.ts
-index bd9fea2..e356de3 100644
+index 753b061..1ba1fac 100644
 --- a/pi-coding-agent/src/config/settings-schema.ts
 +++ b/pi-coding-agent-zh/src/config/settings-schema.ts
 @@ -107,43 +107,43 @@ export type ComposerShape = string;
@@ -2279,7 +2280,7 @@ index bd9fea2..e356de3 100644
  };
  
  /** Status line segment identifiers */
-@@ -410,32 +410,32 @@ export const DEFAULT_BASH_INTERCEPTOR_RULES: BashInterceptorRule[] = [
+@@ -411,32 +411,32 @@ export const DEFAULT_BASH_INTERCEPTOR_RULES: BashInterceptorRule[] = [
  	{
  		pattern: "^\\s*(cat|head|tail|less|more)\\s+",
  		tool: "read",
@@ -2318,7 +2319,7 @@ index bd9fea2..e356de3 100644
  	},
  	{
  		// `>` must sit outside quoted regions (so `echo "a -> b"` passes) and be
-@@ -447,7 +447,7 @@ export const DEFAULT_BASH_INTERCEPTOR_RULES: BashInterceptorRule[] = [
+@@ -448,7 +448,7 @@ export const DEFAULT_BASH_INTERCEPTOR_RULES: BashInterceptorRule[] = [
  		pattern:
  			"^\\s*(echo|printf|cat\\s*<<)\\s+(?:(?:[^\"'>]|\"[^\"]*\"|'[^']*')|(?<!\\|)>{1,2}\\|?\\s*(?:\"/dev/(?:null|tty|stdout|stderr)\"|'/dev/(?:null|tty|stdout|stderr)'|/dev/(?:null|tty|stdout|stderr))(?:[\\s;&|]|$))*(?<!\\|)>{1,2}\\|?\\s*(?!(?:\"/dev/(?:null|tty|stdout|stderr)\"|'/dev/(?:null|tty|stdout|stderr)'|/dev/(?:null|tty|stdout|stderr))(?:[\\s;&|]|$))[$\\w./~\"'-]",
  		tool: "write",
@@ -2327,7 +2328,7 @@ index bd9fea2..e356de3 100644
  	},
  	{
  		pattern: "^\\s*nohup\\s+|(?<!&)\\&\\s*$",
-@@ -466,7 +466,7 @@ export const DEFAULT_BASH_INTERCEPTOR_RULES: BashInterceptorRule[] = [
+@@ -467,7 +467,7 @@ export const DEFAULT_BASH_INTERCEPTOR_RULES: BashInterceptorRule[] = [
  		pattern:
  			"^\\s*(?:(?:bun|npm|pnpm|yarn)\\s+(?:run\\s+)?\\S+|cargo\\s+watch|watchexec|pytest|vitest|jest|tsc)(?:.|\\n)*(?:--watch|-w)(?:\\s|$)",
  		tool: "hub",
@@ -2336,7 +2337,7 @@ index bd9fea2..e356de3 100644
  	},
  ];
  
-@@ -490,9 +490,9 @@ export const SETTINGS_SCHEMA = {
+@@ -491,9 +491,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "interaction",
@@ -2349,7 +2350,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -503,29 +503,29 @@ export const SETTINGS_SCHEMA = {
+@@ -504,29 +504,29 @@ export const SETTINGS_SCHEMA = {
  		default: "idle",
  		ui: {
  			tab: "interaction",
@@ -2388,7 +2389,7 @@ index bd9fea2..e356de3 100644
  					description:
  						"Also block all system sleep on AC and declare the user active (macOS `caffeinate -i -d -s -u`)",
  				},
-@@ -537,10 +537,10 @@ export const SETTINGS_SCHEMA = {
+@@ -538,10 +538,10 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "model",
@@ -2402,7 +2403,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  	"prewalk.enabled": {
-@@ -549,9 +549,9 @@ export const SETTINGS_SCHEMA = {
+@@ -550,9 +550,9 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "model",
  			group: "Prewalk",
@@ -2414,7 +2415,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  	"advisor.syncBacklog": {
-@@ -560,10 +560,10 @@ export const SETTINGS_SCHEMA = {
+@@ -561,10 +561,10 @@ export const SETTINGS_SCHEMA = {
  		default: "off",
  		ui: {
  			tab: "model",
@@ -2428,7 +2429,7 @@ index bd9fea2..e356de3 100644
  			condition: "advisorEnabled",
  		},
  	},
-@@ -572,17 +572,17 @@ export const SETTINGS_SCHEMA = {
+@@ -573,17 +573,17 @@ export const SETTINGS_SCHEMA = {
  		default: 3,
  		ui: {
  			tab: "model",
@@ -2455,7 +2456,7 @@ index bd9fea2..e356de3 100644
  			],
  			condition: "advisorEnabled",
  		},
-@@ -592,16 +592,16 @@ export const SETTINGS_SCHEMA = {
+@@ -593,16 +593,16 @@ export const SETTINGS_SCHEMA = {
  		default: ADVISOR_DEFAULT_BUDGET_PER_UPDATE,
  		ui: {
  			tab: "model",
@@ -2480,7 +2481,7 @@ index bd9fea2..e356de3 100644
  			],
  			condition: "advisorEnabled",
  		},
-@@ -613,8 +613,8 @@ export const SETTINGS_SCHEMA = {
+@@ -614,8 +614,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "interaction",
  			group: "Git",
@@ -2491,7 +2492,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -631,10 +631,10 @@ export const SETTINGS_SCHEMA = {
+@@ -632,10 +632,10 @@ export const SETTINGS_SCHEMA = {
  		default: EMPTY_NUMBER_RECORD,
  		ui: {
  			tab: "providers",
@@ -2505,7 +2506,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -644,8 +644,8 @@ export const SETTINGS_SCHEMA = {
+@@ -645,8 +645,8 @@ export const SETTINGS_SCHEMA = {
  		default: "off",
  		ui: {
  			tab: "providers",
@@ -2516,7 +2517,7 @@ index bd9fea2..e356de3 100644
  			description:
  				"Route Codex code_mode_only models (GPT-5.6) through eval. The direct tools are eval, ask, todo, yield, think, checkpoint, and rewind. Use eval cells for other session tools. Mirrors codex-rs Code Mode. 'auto' follows the model catalog flag.",
  		},
-@@ -656,8 +656,8 @@ export const SETTINGS_SCHEMA = {
+@@ -657,8 +657,8 @@ export const SETTINGS_SCHEMA = {
  		default: EMPTY_STRING_ARRAY,
  		ui: {
  			tab: "providers",
@@ -2527,7 +2528,7 @@ index bd9fea2..e356de3 100644
  			description:
  				"Extra direct tools for Codex Code Mode. The standard direct tools are eval, ask, todo, yield, think, checkpoint, and rewind.",
  		},
-@@ -671,19 +671,19 @@ export const SETTINGS_SCHEMA = {
+@@ -672,19 +672,19 @@ export const SETTINGS_SCHEMA = {
  		default: "global",
  		ui: {
  			tab: "model",
@@ -2554,7 +2555,7 @@ index bd9fea2..e356de3 100644
  				},
  			],
  		},
-@@ -707,9 +707,9 @@ export const SETTINGS_SCHEMA = {
+@@ -708,9 +708,9 @@ export const SETTINGS_SCHEMA = {
  		default: "titanium",
  		ui: {
  			tab: "appearance",
@@ -2567,7 +2568,7 @@ index bd9fea2..e356de3 100644
  			options: "runtime",
  		},
  	},
-@@ -719,9 +719,9 @@ export const SETTINGS_SCHEMA = {
+@@ -720,9 +720,9 @@ export const SETTINGS_SCHEMA = {
  		default: "light",
  		ui: {
  			tab: "appearance",
@@ -2580,7 +2581,7 @@ index bd9fea2..e356de3 100644
  			options: "runtime",
  		},
  	},
-@@ -732,13 +732,13 @@ export const SETTINGS_SCHEMA = {
+@@ -733,13 +733,13 @@ export const SETTINGS_SCHEMA = {
  		default: "unicode",
  		ui: {
  			tab: "appearance",
@@ -2600,7 +2601,7 @@ index bd9fea2..e356de3 100644
  			],
  		},
  	},
-@@ -748,9 +748,9 @@ export const SETTINGS_SCHEMA = {
+@@ -749,9 +749,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "appearance",
@@ -2613,7 +2614,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  	// Composer
-@@ -759,9 +759,9 @@ export const SETTINGS_SCHEMA = {
+@@ -760,9 +760,9 @@ export const SETTINGS_SCHEMA = {
  		default: "band",
  		ui: {
  			tab: "appearance",
@@ -2626,7 +2627,7 @@ index bd9fea2..e356de3 100644
  			options: "runtime",
  		},
  	},
-@@ -773,17 +773,17 @@ export const SETTINGS_SCHEMA = {
+@@ -774,17 +774,17 @@ export const SETTINGS_SCHEMA = {
  		default: "default",
  		ui: {
  			tab: "appearance",
@@ -2654,7 +2655,7 @@ index bd9fea2..e356de3 100644
  			],
  		},
  	},
-@@ -794,17 +794,17 @@ export const SETTINGS_SCHEMA = {
+@@ -795,17 +795,17 @@ export const SETTINGS_SCHEMA = {
  		default: "powerline-thin",
  		ui: {
  			tab: "appearance",
@@ -2682,7 +2683,7 @@ index bd9fea2..e356de3 100644
  			],
  		},
  	},
-@@ -815,25 +815,25 @@ export const SETTINGS_SCHEMA = {
+@@ -816,25 +816,25 @@ export const SETTINGS_SCHEMA = {
  		default: "embedded",
  		ui: {
  			tab: "appearance",
@@ -2718,7 +2719,7 @@ index bd9fea2..e356de3 100644
  				},
  			],
  		},
-@@ -844,9 +844,9 @@ export const SETTINGS_SCHEMA = {
+@@ -845,9 +845,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "appearance",
@@ -2731,7 +2732,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -855,10 +855,10 @@ export const SETTINGS_SCHEMA = {
+@@ -856,10 +856,10 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "appearance",
@@ -2745,7 +2746,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  	"statusLine.compactThinkingLevel": {
-@@ -866,10 +866,10 @@ export const SETTINGS_SCHEMA = {
+@@ -867,10 +867,10 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "appearance",
@@ -2759,7 +2760,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  	"tools.artifactSpillThreshold": {
-@@ -877,22 +877,22 @@ export const SETTINGS_SCHEMA = {
+@@ -878,22 +878,22 @@ export const SETTINGS_SCHEMA = {
  		default: 50,
  		ui: {
  			tab: "tools",
@@ -2797,7 +2798,7 @@ index bd9fea2..e356de3 100644
  			],
  		},
  	},
-@@ -901,18 +901,18 @@ export const SETTINGS_SCHEMA = {
+@@ -902,18 +902,18 @@ export const SETTINGS_SCHEMA = {
  		default: 20,
  		ui: {
  			tab: "tools",
@@ -2827,7 +2828,7 @@ index bd9fea2..e356de3 100644
  			],
  		},
  	},
-@@ -921,20 +921,20 @@ export const SETTINGS_SCHEMA = {
+@@ -922,20 +922,20 @@ export const SETTINGS_SCHEMA = {
  		default: 20,
  		ui: {
  			tab: "tools",
@@ -2860,7 +2861,7 @@ index bd9fea2..e356de3 100644
  			],
  		},
  	},
-@@ -943,18 +943,18 @@ export const SETTINGS_SCHEMA = {
+@@ -944,18 +944,18 @@ export const SETTINGS_SCHEMA = {
  		default: 768,
  		ui: {
  			tab: "tools",
@@ -2886,7 +2887,7 @@ index bd9fea2..e356de3 100644
  			],
  		},
  	},
-@@ -963,17 +963,17 @@ export const SETTINGS_SCHEMA = {
+@@ -964,17 +964,17 @@ export const SETTINGS_SCHEMA = {
  		default: 500,
  		ui: {
  			tab: "tools",
@@ -2914,7 +2915,7 @@ index bd9fea2..e356de3 100644
  			],
  		},
  	},
-@@ -983,9 +983,9 @@ export const SETTINGS_SCHEMA = {
+@@ -984,9 +984,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "appearance",
@@ -2927,7 +2928,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -1001,9 +1001,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1002,9 +1002,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "appearance",
@@ -2940,7 +2941,7 @@ index bd9fea2..e356de3 100644
  			condition: "hasImageProtocol",
  		},
  	},
-@@ -1013,9 +1013,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1014,9 +1014,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "appearance",
@@ -2953,7 +2954,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -1024,9 +1024,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1025,9 +1025,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "appearance",
@@ -2966,7 +2967,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -1035,10 +1035,10 @@ export const SETTINGS_SCHEMA = {
+@@ -1036,10 +1036,10 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "model",
@@ -2980,7 +2981,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -1047,8 +1047,8 @@ export const SETTINGS_SCHEMA = {
+@@ -1048,8 +1048,8 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "model",
@@ -2991,7 +2992,7 @@ index bd9fea2..e356de3 100644
  			description:
  				"Publish outgoing images through the configured backend chain and send URL-fetching providers short URLs instead of inline base64. Falls back to inline automatically when every backend or a provider fetch fails",
  		},
-@@ -1059,9 +1059,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1060,9 +1060,9 @@ export const SETTINGS_SCHEMA = {
  		default: ["provider-files", "tailscale", "cloudflared", "litterbox"] as BlobDestinationId[],
  		ui: {
  			tab: "model",
@@ -3004,7 +3005,7 @@ index bd9fea2..e356de3 100644
  			options: BLOB_BACKEND_CHOICES,
  			ordered: true,
  		},
-@@ -1083,8 +1083,8 @@ export const SETTINGS_SCHEMA = {
+@@ -1084,8 +1084,8 @@ export const SETTINGS_SCHEMA = {
  		default: undefined,
  		ui: {
  			tab: "model",
@@ -3015,7 +3016,7 @@ index bd9fea2..e356de3 100644
  			description:
  				"Argv template for the command backend; {file} is the image path, {mime}/{ext} optional. The last URL printed on stdout is used (e.g. pasta -b -f {file})",
  		},
-@@ -1095,9 +1095,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1096,9 +1096,9 @@ export const SETTINGS_SCHEMA = {
  		default: undefined,
  		ui: {
  			tab: "model",
@@ -3028,7 +3029,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -1106,8 +1106,8 @@ export const SETTINGS_SCHEMA = {
+@@ -1107,8 +1107,8 @@ export const SETTINGS_SCHEMA = {
  		default: 72,
  		ui: {
  			tab: "model",
@@ -3039,7 +3040,7 @@ index bd9fea2..e356de3 100644
  			description:
  				"Serving window for locally hosted image URLs, measured from the last time a conversation sent them; resuming a conversation re-arms the window at the same link. 0 keeps links alive while the broker runs",
  		},
-@@ -1118,9 +1118,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1119,9 +1119,9 @@ export const SETTINGS_SCHEMA = {
  		default: "127.0.0.1",
  		ui: {
  			tab: "model",
@@ -3052,7 +3053,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -1129,9 +1129,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1130,9 +1130,9 @@ export const SETTINGS_SCHEMA = {
  		default: undefined,
  		ui: {
  			tab: "model",
@@ -3065,7 +3066,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -1140,9 +1140,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1141,9 +1141,9 @@ export const SETTINGS_SCHEMA = {
  		default: 8787,
  		ui: {
  			tab: "model",
@@ -3078,7 +3079,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -1150,21 +1150,21 @@ export const SETTINGS_SCHEMA = {
+@@ -1151,21 +1151,21 @@ export const SETTINGS_SCHEMA = {
  		type: "number",
  		default: 100,
  		description:
@@ -3103,7 +3104,7 @@ index bd9fea2..e356de3 100644
  	},
  	"tui.resizeScrollback": {
  		type: "enum",
-@@ -1172,24 +1172,24 @@ export const SETTINGS_SCHEMA = {
+@@ -1173,24 +1173,24 @@ export const SETTINGS_SCHEMA = {
  		default: "rebuild",
  		ui: {
  			tab: "appearance",
@@ -3137,7 +3138,7 @@ index bd9fea2..e356de3 100644
  				},
  			],
  		},
-@@ -1200,9 +1200,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1201,9 +1201,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "appearance",
@@ -3150,7 +3151,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -1211,10 +1211,10 @@ export const SETTINGS_SCHEMA = {
+@@ -1212,10 +1212,10 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "appearance",
@@ -3164,7 +3165,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -1223,9 +1223,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1224,9 +1224,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "appearance",
@@ -3177,7 +3178,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -1234,9 +1234,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1235,9 +1235,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "appearance",
@@ -3190,7 +3191,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -1245,10 +1245,10 @@ export const SETTINGS_SCHEMA = {
+@@ -1246,10 +1246,10 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "appearance",
@@ -3204,7 +3205,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -1257,23 +1257,23 @@ export const SETTINGS_SCHEMA = {
+@@ -1258,23 +1258,23 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "appearance",
@@ -3235,7 +3236,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  	"tui.tight": {
-@@ -1281,9 +1281,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1282,9 +1282,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "appearance",
@@ -3248,7 +3249,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -1293,13 +1293,13 @@ export const SETTINGS_SCHEMA = {
+@@ -1294,13 +1294,13 @@ export const SETTINGS_SCHEMA = {
  		default: "classic",
  		ui: {
  			tab: "appearance",
@@ -3268,7 +3269,7 @@ index bd9fea2..e356de3 100644
  			],
  		},
  	},
-@@ -1309,9 +1309,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1310,9 +1310,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "appearance",
@@ -3281,7 +3282,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -1320,9 +1320,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1321,9 +1321,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "appearance",
@@ -3294,7 +3295,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -1331,9 +1331,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1332,9 +1332,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "appearance",
@@ -3307,7 +3308,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -1342,9 +1342,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1343,9 +1343,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "appearance",
@@ -3320,7 +3321,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  	"display.cacheMissMarker": {
-@@ -1352,9 +1352,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1353,9 +1353,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "appearance",
@@ -3333,7 +3334,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -1363,10 +1363,10 @@ export const SETTINGS_SCHEMA = {
+@@ -1364,10 +1364,10 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "appearance",
@@ -3347,7 +3348,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -1375,9 +1375,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1376,9 +1376,9 @@ export const SETTINGS_SCHEMA = {
  		default: true, // will be computed based on platform if undefined
  		ui: {
  			tab: "appearance",
@@ -3360,7 +3361,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -1386,9 +1386,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1387,9 +1387,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "appearance",
@@ -3373,7 +3374,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -1403,9 +1403,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1404,9 +1404,9 @@ export const SETTINGS_SCHEMA = {
  		default: "high",
  		ui: {
  			tab: "model",
@@ -3386,7 +3387,7 @@ index bd9fea2..e356de3 100644
  			options: [
  				getConfiguredThinkingLevelMetadata(AUTO_THINKING),
  				...THINKING_EFFORTS.map(getThinkingLevelMetadata),
-@@ -1418,9 +1418,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1419,9 +1419,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "model",
@@ -3399,7 +3400,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  	proseOnlyThinking: {
-@@ -1428,9 +1428,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1429,9 +1429,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "model",
@@ -3412,7 +3413,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -1439,10 +1439,10 @@ export const SETTINGS_SCHEMA = {
+@@ -1440,10 +1440,10 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "model",
@@ -3426,7 +3427,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -1451,9 +1451,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1452,9 +1452,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "model",
@@ -3439,7 +3440,7 @@ index bd9fea2..e356de3 100644
  			warning:
  				"At your own risk: providers have flagged this request shape as abuse, up to account-level enforcement",
  		},
-@@ -1464,9 +1464,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1465,9 +1465,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "model",
@@ -3452,7 +3453,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -1475,9 +1475,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1476,9 +1476,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "model",
@@ -3465,7 +3466,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -1486,10 +1486,10 @@ export const SETTINGS_SCHEMA = {
+@@ -1487,10 +1487,10 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "model",
@@ -3479,7 +3480,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -1498,9 +1498,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1499,9 +1499,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "model",
@@ -3492,7 +3493,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -1509,9 +1509,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1510,9 +1510,9 @@ export const SETTINGS_SCHEMA = {
  		default: 5,
  		ui: {
  			tab: "model",
@@ -3505,7 +3506,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -1520,9 +1520,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1521,9 +1521,9 @@ export const SETTINGS_SCHEMA = {
  		default: DEFAULT_TOOL_CALL_LOOP_EXEMPT_TOOLS,
  		ui: {
  			tab: "model",
@@ -3518,7 +3519,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -1532,18 +1532,18 @@ export const SETTINGS_SCHEMA = {
+@@ -1533,18 +1533,18 @@ export const SETTINGS_SCHEMA = {
  		default: "auto",
  		ui: {
  			tab: "model",
@@ -3544,7 +3545,7 @@ index bd9fea2..e356de3 100644
  			],
  		},
  	},
-@@ -1553,9 +1553,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1554,9 +1554,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "model",
@@ -3557,7 +3558,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -1564,10 +1564,10 @@ export const SETTINGS_SCHEMA = {
+@@ -1565,10 +1565,10 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "model",
@@ -3571,7 +3572,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -1576,8 +1576,8 @@ export const SETTINGS_SCHEMA = {
+@@ -1577,8 +1577,8 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "model",
@@ -3582,7 +3583,7 @@ index bd9fea2..e356de3 100644
  			description:
  				"List available skills in the system prompt; disable to save context and toggle per-session with /skillful",
  		},
-@@ -1588,10 +1588,10 @@ export const SETTINGS_SCHEMA = {
+@@ -1589,10 +1589,10 @@ export const SETTINGS_SCHEMA = {
  		default: [] as string[],
  		ui: {
  			tab: "context",
@@ -3596,7 +3597,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -1601,26 +1601,26 @@ export const SETTINGS_SCHEMA = {
+@@ -1602,26 +1602,26 @@ export const SETTINGS_SCHEMA = {
  		default: "default",
  		ui: {
  			tab: "model",
@@ -3633,7 +3634,7 @@ index bd9fea2..e356de3 100644
  			],
  		},
  	},
-@@ -1631,16 +1631,16 @@ export const SETTINGS_SCHEMA = {
+@@ -1632,16 +1632,16 @@ export const SETTINGS_SCHEMA = {
  		default: -1,
  		ui: {
  			tab: "model",
@@ -3659,7 +3660,7 @@ index bd9fea2..e356de3 100644
  			],
  		},
  	},
-@@ -1650,16 +1650,16 @@ export const SETTINGS_SCHEMA = {
+@@ -1651,16 +1651,16 @@ export const SETTINGS_SCHEMA = {
  		default: -1,
  		ui: {
  			tab: "model",
@@ -3684,7 +3685,7 @@ index bd9fea2..e356de3 100644
  			],
  		},
  	},
-@@ -1669,15 +1669,15 @@ export const SETTINGS_SCHEMA = {
+@@ -1670,15 +1670,15 @@ export const SETTINGS_SCHEMA = {
  		default: -1,
  		ui: {
  			tab: "model",
@@ -3707,7 +3708,7 @@ index bd9fea2..e356de3 100644
  			],
  		},
  	},
-@@ -1687,14 +1687,14 @@ export const SETTINGS_SCHEMA = {
+@@ -1688,14 +1688,14 @@ export const SETTINGS_SCHEMA = {
  		default: -1,
  		ui: {
  			tab: "model",
@@ -3728,7 +3729,7 @@ index bd9fea2..e356de3 100644
  			],
  		},
  	},
-@@ -1704,15 +1704,15 @@ export const SETTINGS_SCHEMA = {
+@@ -1705,15 +1705,15 @@ export const SETTINGS_SCHEMA = {
  		default: -1,
  		ui: {
  			tab: "model",
@@ -3752,7 +3753,7 @@ index bd9fea2..e356de3 100644
  			],
  		},
  	},
-@@ -1722,16 +1722,16 @@ export const SETTINGS_SCHEMA = {
+@@ -1723,16 +1723,16 @@ export const SETTINGS_SCHEMA = {
  		default: -1,
  		ui: {
  			tab: "model",
@@ -3778,7 +3779,7 @@ index bd9fea2..e356de3 100644
  			],
  		},
  	},
-@@ -1742,13 +1742,13 @@ export const SETTINGS_SCHEMA = {
+@@ -1743,13 +1743,13 @@ export const SETTINGS_SCHEMA = {
  		default: "medium",
  		ui: {
  			tab: "model",
@@ -3798,7 +3799,7 @@ index bd9fea2..e356de3 100644
  			],
  		},
  	},
-@@ -1759,10 +1759,10 @@ export const SETTINGS_SCHEMA = {
+@@ -1760,10 +1760,10 @@ export const SETTINGS_SCHEMA = {
  		default: "none",
  		ui: {
  			tab: "model",
@@ -3812,7 +3813,7 @@ index bd9fea2..e356de3 100644
  			options: SERVICE_TIER_OPENAI_OPTIONS,
  		},
  	},
-@@ -1773,10 +1773,10 @@ export const SETTINGS_SCHEMA = {
+@@ -1774,10 +1774,10 @@ export const SETTINGS_SCHEMA = {
  		default: "none",
  		ui: {
  			tab: "model",
@@ -3826,7 +3827,7 @@ index bd9fea2..e356de3 100644
  			options: SERVICE_TIER_ANTHROPIC_OPTIONS,
  		},
  	},
-@@ -1787,10 +1787,10 @@ export const SETTINGS_SCHEMA = {
+@@ -1788,10 +1788,10 @@ export const SETTINGS_SCHEMA = {
  		default: "none",
  		ui: {
  			tab: "model",
@@ -3840,7 +3841,7 @@ index bd9fea2..e356de3 100644
  			options: SERVICE_TIER_GOOGLE_OPTIONS,
  		},
  	},
-@@ -1801,10 +1801,10 @@ export const SETTINGS_SCHEMA = {
+@@ -1802,10 +1802,10 @@ export const SETTINGS_SCHEMA = {
  		default: "inherit",
  		ui: {
  			tab: "model",
@@ -3854,7 +3855,7 @@ index bd9fea2..e356de3 100644
  			options: SERVICE_TIER_INHERIT_OPTIONS,
  		},
  	},
-@@ -1815,10 +1815,10 @@ export const SETTINGS_SCHEMA = {
+@@ -1816,10 +1816,10 @@ export const SETTINGS_SCHEMA = {
  		default: "none",
  		ui: {
  			tab: "model",
@@ -3868,7 +3869,7 @@ index bd9fea2..e356de3 100644
  			options: SERVICE_TIER_INHERIT_OPTIONS,
  			condition: "advisorEnabled",
  		},
-@@ -1832,15 +1832,15 @@ export const SETTINGS_SCHEMA = {
+@@ -1833,15 +1833,15 @@ export const SETTINGS_SCHEMA = {
  		default: 10,
  		ui: {
  			tab: "model",
@@ -3892,7 +3893,7 @@ index bd9fea2..e356de3 100644
  			],
  		},
  	},
-@@ -1851,10 +1851,10 @@ export const SETTINGS_SCHEMA = {
+@@ -1852,10 +1852,10 @@ export const SETTINGS_SCHEMA = {
  		default: 5 * 60 * 1000,
  		ui: {
  			tab: "model",
@@ -3906,7 +3907,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  	"retry.waitForUsageReset": {
-@@ -1862,8 +1862,8 @@ export const SETTINGS_SCHEMA = {
+@@ -1863,8 +1863,8 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "model",
@@ -3917,7 +3918,7 @@ index bd9fea2..e356de3 100644
  			description:
  				"When a provider reports usage-limit exhaustion with a reset time (5-hour or weekly quota windows on any provider), sleep until the reset instead of failing fast past retry.maxDelayMs. Waits are abortable (Esc) but also hold subagents, so leave off for unattended runs.",
  		},
-@@ -1873,9 +1873,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1874,9 +1874,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "model",
@@ -3930,7 +3931,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  	"retry.usageAwareFallback": {
-@@ -1883,10 +1883,10 @@ export const SETTINGS_SCHEMA = {
+@@ -1884,10 +1884,10 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "model",
@@ -3944,7 +3945,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  	"retry.usageReservePct": {
-@@ -1894,17 +1894,17 @@ export const SETTINGS_SCHEMA = {
+@@ -1895,17 +1895,17 @@ export const SETTINGS_SCHEMA = {
  		default: 10,
  		ui: {
  			tab: "model",
@@ -3970,7 +3971,7 @@ index bd9fea2..e356de3 100644
  			],
  		},
  	},
-@@ -1914,25 +1914,25 @@ export const SETTINGS_SCHEMA = {
+@@ -1915,25 +1915,25 @@ export const SETTINGS_SCHEMA = {
  		default: "confirm",
  		ui: {
  			tab: "model",
@@ -4005,7 +4006,7 @@ index bd9fea2..e356de3 100644
  				},
  			],
  		},
-@@ -1942,28 +1942,28 @@ export const SETTINGS_SCHEMA = {
+@@ -1943,28 +1943,28 @@ export const SETTINGS_SCHEMA = {
  		default: {} as Record<string, string[]>,
  		ui: {
  			tab: "model",
@@ -4044,7 +4045,7 @@ index bd9fea2..e356de3 100644
  			],
  		},
  	},
-@@ -1973,10 +1973,10 @@ export const SETTINGS_SCHEMA = {
+@@ -1974,10 +1974,10 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "model",
@@ -4058,7 +4059,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -1991,9 +1991,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1992,9 +1992,9 @@ export const SETTINGS_SCHEMA = {
  		default: "one-at-a-time",
  		ui: {
  			tab: "interaction",
@@ -4071,7 +4072,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -2003,9 +2003,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2004,9 +2004,9 @@ export const SETTINGS_SCHEMA = {
  		default: "one-at-a-time",
  		ui: {
  			tab: "interaction",
@@ -4084,7 +4085,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -2015,9 +2015,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2016,9 +2016,9 @@ export const SETTINGS_SCHEMA = {
  		default: "immediate",
  		ui: {
  			tab: "interaction",
@@ -4097,7 +4098,42 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -2027,21 +2027,21 @@ export const SETTINGS_SCHEMA = {
+@@ -2027,10 +2027,10 @@ export const SETTINGS_SCHEMA = {
+ 		default: false,
+ 		ui: {
+ 			tab: "interaction",
+-			group: "Input",
+-			label: "Vim Editing Mode",
++			group: "输入",
++			label: "Vim 编辑模式",
+ 			description:
+-				"Modal prompt editing. Escape leaves Insert mode; Normal mode has hjkl, 0, $, ^, w, b, e, gg, G, counts, x/D/C, dd/yy, p and u; operators take motions or text objects (diw, ca(, dap); v/V start a Visual selection that y copies and d deletes",
++				"模态化的提示词编辑。Escape 退出插入模式；普通模式支持 hjkl、0、$、^、w、b、e、gg、G、计数前缀、x/D/C、dd/yy、p 和 u；操作符可接动作或文本对象（diw、ca(、dap）；v/V 开始可视选择，y 复制、d 删除",
+ 		},
+ 	},
+ 
+@@ -2040,14 +2040,14 @@ export const SETTINGS_SCHEMA = {
+ 		default: "text",
+ 		ui: {
+ 			tab: "interaction",
+-			group: "Input",
+-			label: "Vim Mode Indicator",
+-			description: "How the current Vim mode appears in the status line",
++			group: "输入",
++			label: "Vim 模式指示器",
++			description: "当前 Vim 模式在状态栏中的显示方式",
+ 			condition: "vimModeEnabled",
+ 			options: [
+-				{ value: "text", label: "Text", description: "Full mode name — NORMAL, INSERT, VISUAL, V-LINE" },
+-				{ value: "icon", label: "Icon", description: "Single compact glyph per mode" },
+-				{ value: "none", label: "Hidden", description: "Do not show the mode in the status line" },
++				{ value: "text", label: "文本", description: "完整模式名 —— NORMAL、INSERT、VISUAL、V-LINE" },
++				{ value: "icon", label: "图标", description: "每个模式显示为单个紧凑字形" },
++				{ value: "none", label: "隐藏", description: "不在状态栏中显示模式" },
+ 			],
+ 		},
+ 	},
+@@ -2058,21 +2058,21 @@ export const SETTINGS_SCHEMA = {
  		default: "prompt",
  		ui: {
  			tab: "interaction",
@@ -4127,7 +4163,7 @@ index bd9fea2..e356de3 100644
  			],
  		},
  	},
-@@ -2051,15 +2051,15 @@ export const SETTINGS_SCHEMA = {
+@@ -2082,15 +2082,15 @@ export const SETTINGS_SCHEMA = {
  		default: 30_000,
  		ui: {
  			tab: "interaction",
@@ -4150,7 +4186,21 @@ index bd9fea2..e356de3 100644
  			],
  		},
  	},
-@@ -2071,8 +2071,8 @@ export const SETTINGS_SCHEMA = {
+@@ -2101,10 +2101,10 @@ export const SETTINGS_SCHEMA = {
+ 		default: true,
+ 		ui: {
+ 			tab: "interaction",
+-			group: "Input",
+-			label: "Recall Cleared Drafts",
++			group: "输入",
++			label: "恢复已清除的草稿",
+ 			description:
+-				"Keep drafts cleared with Ctrl+C in local Up/Down history until exit; disabling affects future clears",
++				"用 Ctrl+C 清除的草稿会保留在本地上/下键历史中直到退出；关闭后仅影响之后的清除操作",
+ 		},
+ 	},
+ 
+@@ -2114,8 +2114,8 @@ export const SETTINGS_SCHEMA = {
  		default: "rewind",
  		ui: {
  			tab: "interaction",
@@ -4161,7 +4211,7 @@ index bd9fea2..e356de3 100644
  			description:
  				"What pressing Escape twice with an empty editor does: open the transcript rewind selector, open the session tree, or nothing",
  		},
-@@ -2084,9 +2084,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2127,9 +2127,9 @@ export const SETTINGS_SCHEMA = {
  		default: "default",
  		ui: {
  			tab: "interaction",
@@ -4174,7 +4224,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -2095,16 +2095,16 @@ export const SETTINGS_SCHEMA = {
+@@ -2138,16 +2138,16 @@ export const SETTINGS_SCHEMA = {
  		default: 10,
  		ui: {
  			tab: "interaction",
@@ -4200,7 +4250,7 @@ index bd9fea2..e356de3 100644
  			],
  		},
  	},
-@@ -2114,9 +2114,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2157,9 +2157,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "interaction",
@@ -4213,7 +4263,7 @@ index bd9fea2..e356de3 100644
  			condition: "macOS",
  		},
  	},
-@@ -2126,9 +2126,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2169,9 +2169,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "interaction",
@@ -4226,7 +4276,7 @@ index bd9fea2..e356de3 100644
  			condition: "macOS",
  		},
  	},
-@@ -2138,9 +2138,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2181,9 +2181,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "interaction",
@@ -4239,7 +4289,7 @@ index bd9fea2..e356de3 100644
  			condition: "macOS",
  		},
  	},
-@@ -2150,9 +2150,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2193,9 +2193,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "interaction",
@@ -4252,7 +4302,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -2161,16 +2161,16 @@ export const SETTINGS_SCHEMA = {
+@@ -2204,16 +2204,16 @@ export const SETTINGS_SCHEMA = {
  		default: 100,
  		ui: {
  			tab: "interaction",
@@ -4277,7 +4327,7 @@ index bd9fea2..e356de3 100644
  			],
  		},
  	},
-@@ -2180,9 +2180,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2223,9 +2223,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "interaction",
@@ -4290,7 +4340,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -2191,10 +2191,10 @@ export const SETTINGS_SCHEMA = {
+@@ -2234,10 +2234,10 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "interaction",
@@ -4304,7 +4354,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -2203,9 +2203,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2246,9 +2246,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "interaction",
@@ -4317,7 +4367,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -2214,9 +2214,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2257,9 +2257,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "interaction",
@@ -4330,7 +4380,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  	"update.channel": {
-@@ -2225,12 +2225,12 @@ export const SETTINGS_SCHEMA = {
+@@ -2268,12 +2268,12 @@ export const SETTINGS_SCHEMA = {
  		default: "stable",
  		ui: {
  			tab: "interaction",
@@ -4348,7 +4398,7 @@ index bd9fea2..e356de3 100644
  			],
  		},
  	},
-@@ -2241,13 +2241,13 @@ export const SETTINGS_SCHEMA = {
+@@ -2284,13 +2284,13 @@ export const SETTINGS_SCHEMA = {
  		default: "notify",
  		ui: {
  			tab: "interaction",
@@ -4368,7 +4418,7 @@ index bd9fea2..e356de3 100644
  			],
  		},
  	},
-@@ -2258,24 +2258,24 @@ export const SETTINGS_SCHEMA = {
+@@ -2301,24 +2301,24 @@ export const SETTINGS_SCHEMA = {
  		default: "summary",
  		ui: {
  			tab: "interaction",
@@ -4402,7 +4452,7 @@ index bd9fea2..e356de3 100644
  				},
  			],
  		},
-@@ -2286,9 +2286,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2329,9 +2329,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "interaction",
@@ -4415,7 +4465,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -2297,9 +2297,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2340,9 +2340,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "interaction",
@@ -4428,7 +4478,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -2308,9 +2308,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2351,9 +2351,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "interaction",
@@ -4441,7 +4491,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -2319,9 +2319,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2362,9 +2362,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "interaction",
@@ -4454,7 +4504,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -2332,9 +2332,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2375,9 +2375,9 @@ export const SETTINGS_SCHEMA = {
  		default: "on",
  		ui: {
  			tab: "interaction",
@@ -4467,7 +4517,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -2344,9 +2344,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2387,9 +2387,9 @@ export const SETTINGS_SCHEMA = {
  		default: "off",
  		ui: {
  			tab: "interaction",
@@ -4480,7 +4530,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -2355,15 +2355,15 @@ export const SETTINGS_SCHEMA = {
+@@ -2398,15 +2398,15 @@ export const SETTINGS_SCHEMA = {
  		default: 0,
  		ui: {
  			tab: "interaction",
@@ -4504,7 +4554,7 @@ index bd9fea2..e356de3 100644
  			],
  		},
  	},
-@@ -2374,9 +2374,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2417,9 +2417,9 @@ export const SETTINGS_SCHEMA = {
  		default: "on",
  		ui: {
  			tab: "interaction",
@@ -4517,7 +4567,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -2385,9 +2385,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2428,9 +2428,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "interaction",
@@ -4530,7 +4580,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -2396,15 +2396,15 @@ export const SETTINGS_SCHEMA = {
+@@ -2439,15 +2439,15 @@ export const SETTINGS_SCHEMA = {
  		default: 240,
  		ui: {
  			tab: "interaction",
@@ -4554,7 +4604,7 @@ index bd9fea2..e356de3 100644
  			],
  		},
  	},
-@@ -2415,9 +2415,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2458,9 +2458,9 @@ export const SETTINGS_SCHEMA = {
  		default: DEFAULT_RELAY_URL,
  		ui: {
  			tab: "interaction",
@@ -4567,7 +4617,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -2426,10 +2426,10 @@ export const SETTINGS_SCHEMA = {
+@@ -2469,10 +2469,10 @@ export const SETTINGS_SCHEMA = {
  		default: "",
  		ui: {
  			tab: "interaction",
@@ -4580,7 +4630,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -2438,9 +2438,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2481,9 +2481,9 @@ export const SETTINGS_SCHEMA = {
  		default: "",
  		ui: {
  			tab: "interaction",
@@ -4593,7 +4643,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -2449,10 +2449,10 @@ export const SETTINGS_SCHEMA = {
+@@ -2492,10 +2492,10 @@ export const SETTINGS_SCHEMA = {
  		default: DEFAULT_SHARE_URL,
  		ui: {
  			tab: "interaction",
@@ -4607,7 +4657,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -2462,19 +2462,19 @@ export const SETTINGS_SCHEMA = {
+@@ -2505,19 +2505,19 @@ export const SETTINGS_SCHEMA = {
  		default: "blob",
  		ui: {
  			tab: "interaction",
@@ -4633,7 +4683,7 @@ index bd9fea2..e356de3 100644
  				},
  			],
  		},
-@@ -2485,9 +2485,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2528,9 +2528,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "interaction",
@@ -4646,7 +4696,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -2497,9 +2497,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2540,9 +2540,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "interaction",
@@ -4659,7 +4709,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -2514,23 +2514,23 @@ export const SETTINGS_SCHEMA = {
+@@ -2557,23 +2557,23 @@ export const SETTINGS_SCHEMA = {
  		default: DEFAULT_STT_MODEL_KEY,
  		ui: {
  			tab: "interaction",
@@ -4690,7 +4740,7 @@ index bd9fea2..e356de3 100644
  			options: STT_SUBMIT_TRIGGER_OPTIONS,
  		},
  	},
-@@ -2545,9 +2545,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2588,9 +2588,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "context",
@@ -4703,7 +4753,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -2559,10 +2559,10 @@ export const SETTINGS_SCHEMA = {
+@@ -2602,10 +2602,10 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "context",
@@ -4717,7 +4767,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -2572,9 +2572,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2615,9 +2615,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "context",
@@ -4730,7 +4780,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  	"compaction.experimentalContextManagement": {
-@@ -2582,10 +2582,10 @@ export const SETTINGS_SCHEMA = {
+@@ -2625,10 +2625,10 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "context",
@@ -4744,7 +4794,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -2594,9 +2594,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2637,9 +2637,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "context",
@@ -4757,7 +4807,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -2605,8 +2605,8 @@ export const SETTINGS_SCHEMA = {
+@@ -2648,8 +2648,8 @@ export const SETTINGS_SCHEMA = {
  		default: [...DEFAULT_COMPACTION_METHOD_ORDER],
  		ui: {
  			tab: "context",
@@ -4768,7 +4818,7 @@ index bd9fea2..e356de3 100644
  			description:
  				"Preferred fallback order for automatic context maintenance; unavailable or failed methods advance to the next choice",
  			options: COMPACTION_METHOD_CHOICES,
-@@ -2619,23 +2619,23 @@ export const SETTINGS_SCHEMA = {
+@@ -2662,23 +2662,23 @@ export const SETTINGS_SCHEMA = {
  		default: -1,
  		ui: {
  			tab: "context",
@@ -4808,7 +4858,7 @@ index bd9fea2..e356de3 100644
  			],
  		},
  	},
-@@ -2644,18 +2644,18 @@ export const SETTINGS_SCHEMA = {
+@@ -2687,18 +2687,18 @@ export const SETTINGS_SCHEMA = {
  		default: -1,
  		ui: {
  			tab: "context",
@@ -4838,7 +4888,7 @@ index bd9fea2..e356de3 100644
  			],
  		},
  	},
-@@ -2665,9 +2665,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2708,9 +2708,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "context",
@@ -4851,7 +4901,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -2676,9 +2676,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2719,9 +2719,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "context",
@@ -4864,7 +4914,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -2687,8 +2687,8 @@ export const SETTINGS_SCHEMA = {
+@@ -2730,8 +2730,8 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "context",
@@ -4875,7 +4925,7 @@ index bd9fea2..e356de3 100644
  			description:
  				"Speculatively summarize in the background as context nears the compaction threshold, then splice the ready result in when the threshold is crossed",
  		},
-@@ -2714,9 +2714,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2757,9 +2757,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "context",
@@ -4888,7 +4938,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -2725,9 +2725,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2768,9 +2768,9 @@ export const SETTINGS_SCHEMA = {
  		default: 200000,
  		ui: {
  			tab: "context",
@@ -4901,7 +4951,7 @@ index bd9fea2..e356de3 100644
  			options: [
  				{ value: "100000", label: "100K tokens" },
  				{ value: "200000", label: "200K tokens" },
-@@ -2747,16 +2747,16 @@ export const SETTINGS_SCHEMA = {
+@@ -2790,16 +2790,16 @@ export const SETTINGS_SCHEMA = {
  		default: 300,
  		ui: {
  			tab: "context",
@@ -4927,7 +4977,7 @@ index bd9fea2..e356de3 100644
  			],
  		},
  	},
-@@ -2766,9 +2766,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2809,9 +2809,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "context",
@@ -4940,7 +4990,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -2777,10 +2777,10 @@ export const SETTINGS_SCHEMA = {
+@@ -2820,10 +2820,10 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "context",
@@ -4954,7 +5004,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -2791,21 +2791,21 @@ export const SETTINGS_SCHEMA = {
+@@ -2834,21 +2834,21 @@ export const SETTINGS_SCHEMA = {
  		default: "none",
  		ui: {
  			tab: "context",
@@ -4983,7 +5033,7 @@ index bd9fea2..e356de3 100644
  				},
  			],
  		},
-@@ -2816,10 +2816,10 @@ export const SETTINGS_SCHEMA = {
+@@ -2859,10 +2859,10 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "context",
@@ -4997,7 +5047,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -2843,28 +2843,28 @@ export const SETTINGS_SCHEMA = {
+@@ -2886,28 +2886,28 @@ export const SETTINGS_SCHEMA = {
  		default: "auto",
  		ui: {
  			tab: "context",
@@ -5043,7 +5093,7 @@ index bd9fea2..e356de3 100644
  			],
  		},
  	},
-@@ -2875,103 +2875,103 @@ export const SETTINGS_SCHEMA = {
+@@ -2918,103 +2918,103 @@ export const SETTINGS_SCHEMA = {
  		default: "auto",
  		ui: {
  			tab: "context",
@@ -5186,7 +5236,7 @@ index bd9fea2..e356de3 100644
  				},
  			],
  		},
-@@ -2983,9 +2983,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3026,9 +3026,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "context",
@@ -5199,7 +5249,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -3039,17 +3039,17 @@ export const SETTINGS_SCHEMA = {
+@@ -3082,17 +3082,17 @@ export const SETTINGS_SCHEMA = {
  		default: "off",
  		ui: {
  			tab: "memory",
@@ -5224,7 +5274,7 @@ index bd9fea2..e356de3 100644
  				},
  				{
  					value: "sharpshooter",
-@@ -3066,8 +3066,8 @@ export const SETTINGS_SCHEMA = {
+@@ -3109,8 +3109,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Sharpshooter",
@@ -5235,7 +5285,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  	"sharpshooter.intervalMinutes": { type: "number", default: 5 },
-@@ -3081,10 +3081,10 @@ export const SETTINGS_SCHEMA = {
+@@ -3124,10 +3124,10 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "memory",
@@ -5249,7 +5299,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  	"autolearn.autoContinue": {
-@@ -3092,10 +3092,10 @@ export const SETTINGS_SCHEMA = {
+@@ -3135,10 +3135,10 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "memory",
@@ -5263,7 +5313,7 @@ index bd9fea2..e356de3 100644
  			condition: "autolearnActive",
  		},
  	},
-@@ -3109,8 +3109,8 @@ export const SETTINGS_SCHEMA = {
+@@ -3152,8 +3152,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Mnemopi",
@@ -5274,7 +5324,7 @@ index bd9fea2..e356de3 100644
  			condition: "mnemopiActive",
  		},
  	},
-@@ -3120,8 +3120,8 @@ export const SETTINGS_SCHEMA = {
+@@ -3163,8 +3163,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Mnemopi",
@@ -5285,7 +5335,7 @@ index bd9fea2..e356de3 100644
  			condition: "mnemopiActive",
  		},
  	},
-@@ -3132,24 +3132,24 @@ export const SETTINGS_SCHEMA = {
+@@ -3175,24 +3175,24 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Mnemopi",
@@ -5318,7 +5368,7 @@ index bd9fea2..e356de3 100644
  				},
  			],
  			condition: "mnemopiActive",
-@@ -3162,19 +3162,19 @@ export const SETTINGS_SCHEMA = {
+@@ -3205,19 +3205,19 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Mnemopi",
@@ -5344,7 +5394,7 @@ index bd9fea2..e356de3 100644
  				},
  			],
  			condition: "mnemopiActive",
-@@ -3186,8 +3186,8 @@ export const SETTINGS_SCHEMA = {
+@@ -3229,8 +3229,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Mnemopi",
@@ -5355,7 +5405,7 @@ index bd9fea2..e356de3 100644
  			condition: "mnemopiActive",
  		},
  	},
-@@ -3197,8 +3197,8 @@ export const SETTINGS_SCHEMA = {
+@@ -3240,8 +3240,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Mnemopi",
@@ -5366,7 +5416,7 @@ index bd9fea2..e356de3 100644
  			condition: "mnemopiActive",
  		},
  	},
-@@ -3208,8 +3208,8 @@ export const SETTINGS_SCHEMA = {
+@@ -3251,8 +3251,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Mnemopi",
@@ -5377,7 +5427,7 @@ index bd9fea2..e356de3 100644
  			condition: "mnemopiActive",
  		},
  	},
-@@ -3219,8 +3219,8 @@ export const SETTINGS_SCHEMA = {
+@@ -3262,8 +3262,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Mnemopi",
@@ -5388,7 +5438,7 @@ index bd9fea2..e356de3 100644
  			condition: "mnemopiActive",
  		},
  	},
-@@ -3230,9 +3230,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3273,9 +3273,9 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Mnemopi",
@@ -5400,7 +5450,7 @@ index bd9fea2..e356de3 100644
  			condition: "mnemopiActive",
  		},
  	},
-@@ -3242,8 +3242,8 @@ export const SETTINGS_SCHEMA = {
+@@ -3285,8 +3285,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Mnemopi",
@@ -5411,7 +5461,7 @@ index bd9fea2..e356de3 100644
  			condition: "mnemopiActive",
  		},
  	},
-@@ -3253,9 +3253,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3296,9 +3296,9 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Mnemopi",
@@ -5423,7 +5473,7 @@ index bd9fea2..e356de3 100644
  			condition: "mnemopiActive",
  		},
  	},
-@@ -3265,8 +3265,8 @@ export const SETTINGS_SCHEMA = {
+@@ -3308,8 +3308,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Mnemopi",
@@ -5434,7 +5484,7 @@ index bd9fea2..e356de3 100644
  			condition: "mnemopiActive",
  		},
  	},
-@@ -3277,8 +3277,8 @@ export const SETTINGS_SCHEMA = {
+@@ -3320,8 +3320,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Mnemopi",
@@ -5445,7 +5495,7 @@ index bd9fea2..e356de3 100644
  			condition: "mnemopiActive",
  		},
  	},
-@@ -3289,18 +3289,18 @@ export const SETTINGS_SCHEMA = {
+@@ -3332,18 +3332,18 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Mnemopi",
@@ -5470,7 +5520,7 @@ index bd9fea2..e356de3 100644
  			],
  		},
  	},
-@@ -3310,8 +3310,8 @@ export const SETTINGS_SCHEMA = {
+@@ -3353,8 +3353,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Mnemopi",
@@ -5481,7 +5531,7 @@ index bd9fea2..e356de3 100644
  			condition: "mnemopiActive",
  		},
  	},
-@@ -3322,8 +3322,8 @@ export const SETTINGS_SCHEMA = {
+@@ -3365,8 +3365,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Mnemopi",
@@ -5492,7 +5542,7 @@ index bd9fea2..e356de3 100644
  			condition: "mnemopiActive",
  		},
  	},
-@@ -3333,8 +3333,8 @@ export const SETTINGS_SCHEMA = {
+@@ -3376,8 +3376,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Mnemopi",
@@ -5503,7 +5553,7 @@ index bd9fea2..e356de3 100644
  			condition: "mnemopiActive",
  		},
  	},
-@@ -3353,7 +3353,7 @@ export const SETTINGS_SCHEMA = {
+@@ -3396,7 +3396,7 @@ export const SETTINGS_SCHEMA = {
  			tab: "memory",
  			group: "Hindsight",
  			label: "Hindsight API URL",
@@ -5512,7 +5562,7 @@ index bd9fea2..e356de3 100644
  			condition: "hindsightActive",
  		},
  	},
-@@ -3365,8 +3365,8 @@ export const SETTINGS_SCHEMA = {
+@@ -3408,8 +3408,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Hindsight",
@@ -5523,7 +5573,7 @@ index bd9fea2..e356de3 100644
  			condition: "hindsightActive",
  		},
  	},
-@@ -3377,8 +3377,8 @@ export const SETTINGS_SCHEMA = {
+@@ -3420,8 +3420,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Hindsight",
@@ -5534,7 +5584,7 @@ index bd9fea2..e356de3 100644
  			condition: "hindsightActive",
  		},
  	},
-@@ -3391,25 +3391,25 @@ export const SETTINGS_SCHEMA = {
+@@ -3434,25 +3434,25 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Hindsight",
@@ -5568,7 +5618,7 @@ index bd9fea2..e356de3 100644
  				},
  			],
  			condition: "hindsightActive",
-@@ -3424,8 +3424,8 @@ export const SETTINGS_SCHEMA = {
+@@ -3467,8 +3467,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Hindsight",
@@ -5579,7 +5629,7 @@ index bd9fea2..e356de3 100644
  			condition: "hindsightActive",
  		},
  	},
-@@ -3435,8 +3435,8 @@ export const SETTINGS_SCHEMA = {
+@@ -3478,8 +3478,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Hindsight",
@@ -5590,7 +5640,7 @@ index bd9fea2..e356de3 100644
  			condition: "hindsightActive",
  		},
  	},
-@@ -3448,15 +3448,15 @@ export const SETTINGS_SCHEMA = {
+@@ -3491,15 +3491,15 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Hindsight",
@@ -5611,7 +5661,7 @@ index bd9fea2..e356de3 100644
  			],
  			condition: "hindsightActive",
  		},
-@@ -3488,9 +3488,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3531,9 +3531,9 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Hindsight",
@@ -5623,7 +5673,7 @@ index bd9fea2..e356de3 100644
  			condition: "hindsightActive",
  		},
  	},
-@@ -3500,9 +3500,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3543,9 +3543,9 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Hindsight",
@@ -5635,7 +5685,7 @@ index bd9fea2..e356de3 100644
  			condition: "hindsightActive",
  		},
  	},
-@@ -3515,9 +3515,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3558,9 +3558,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "context",
@@ -5647,7 +5697,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -3527,26 +3527,26 @@ export const SETTINGS_SCHEMA = {
+@@ -3570,26 +3570,26 @@ export const SETTINGS_SCHEMA = {
  		default: "discard",
  		ui: {
  			tab: "context",
@@ -5686,7 +5736,7 @@ index bd9fea2..e356de3 100644
  			],
  		},
  	},
-@@ -3557,9 +3557,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3600,9 +3600,9 @@ export const SETTINGS_SCHEMA = {
  		default: "once",
  		ui: {
  			tab: "context",
@@ -5699,7 +5749,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -3568,15 +3568,15 @@ export const SETTINGS_SCHEMA = {
+@@ -3611,15 +3611,15 @@ export const SETTINGS_SCHEMA = {
  		default: 10,
  		ui: {
  			tab: "context",
@@ -5723,7 +5773,7 @@ index bd9fea2..e356de3 100644
  			],
  		},
  	},
-@@ -3586,9 +3586,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3629,9 +3629,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "context",
@@ -5736,7 +5786,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -3597,9 +3597,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3640,9 +3640,9 @@ export const SETTINGS_SCHEMA = {
  		default: [] as string[],
  		ui: {
  			tab: "context",
@@ -5749,7 +5799,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -3614,9 +3614,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3657,9 +3657,9 @@ export const SETTINGS_SCHEMA = {
  		default: "hashline",
  		ui: {
  			tab: "files",
@@ -5762,7 +5812,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -3625,9 +3625,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3668,9 +3668,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "files",
@@ -5775,7 +5825,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -3636,14 +3636,14 @@ export const SETTINGS_SCHEMA = {
+@@ -3679,14 +3679,14 @@ export const SETTINGS_SCHEMA = {
  		default: 0.95,
  		ui: {
  			tab: "files",
@@ -5797,7 +5847,7 @@ index bd9fea2..e356de3 100644
  			],
  		},
  	},
-@@ -3653,9 +3653,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3696,9 +3696,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "files",
@@ -5810,7 +5860,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -3664,9 +3664,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3707,9 +3707,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "files",
@@ -5823,7 +5873,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -3675,9 +3675,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3718,9 +3718,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "files",
@@ -5836,7 +5886,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -3686,9 +3686,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3729,9 +3729,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "files",
@@ -5849,7 +5899,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  	"edit.blackbox.enabled": {
-@@ -3696,9 +3696,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3739,9 +3739,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "files",
@@ -5862,7 +5912,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  	"edit.autoRepair.enabled": {
-@@ -3706,8 +3706,8 @@ export const SETTINGS_SCHEMA = {
+@@ -3749,8 +3749,8 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "files",
@@ -5873,7 +5923,7 @@ index bd9fea2..e356de3 100644
  			description:
  				"When an edit breaks a file's AST parse, ask the smol model to fix the broken region (validated by re-parse; falls back to a warning)",
  		},
-@@ -3718,9 +3718,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3761,9 +3761,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "files",
@@ -5886,7 +5936,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -3729,15 +3729,15 @@ export const SETTINGS_SCHEMA = {
+@@ -3772,15 +3772,15 @@ export const SETTINGS_SCHEMA = {
  		default: 300,
  		ui: {
  			tab: "files",
@@ -5910,7 +5960,7 @@ index bd9fea2..e356de3 100644
  			],
  		},
  	},
-@@ -3747,9 +3747,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3790,9 +3790,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "files",
@@ -5923,7 +5973,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -3758,9 +3758,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3801,9 +3801,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "files",
@@ -5936,7 +5986,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -3769,9 +3769,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3812,9 +3812,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "files",
@@ -5949,7 +5999,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -3780,9 +3780,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3823,9 +3823,9 @@ export const SETTINGS_SCHEMA = {
  		default: 4,
  		ui: {
  			tab: "files",
@@ -5962,7 +6012,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -3791,9 +3791,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3834,9 +3834,9 @@ export const SETTINGS_SCHEMA = {
  		default: 6,
  		ui: {
  			tab: "files",
@@ -5975,7 +6025,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -3802,9 +3802,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3845,9 +3845,9 @@ export const SETTINGS_SCHEMA = {
  		default: 100,
  		ui: {
  			tab: "files",
@@ -5988,7 +6038,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -3813,10 +3813,10 @@ export const SETTINGS_SCHEMA = {
+@@ -3856,10 +3856,10 @@ export const SETTINGS_SCHEMA = {
  		default: 50,
  		ui: {
  			tab: "files",
@@ -6002,7 +6052,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -3825,10 +3825,10 @@ export const SETTINGS_SCHEMA = {
+@@ -3868,10 +3868,10 @@ export const SETTINGS_SCHEMA = {
  		default: 100,
  		ui: {
  			tab: "files",
@@ -6016,7 +6066,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -3837,9 +3837,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3880,9 +3880,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "files",
@@ -6029,7 +6079,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -3851,7 +3851,7 @@ export const SETTINGS_SCHEMA = {
+@@ -3894,7 +3894,7 @@ export const SETTINGS_SCHEMA = {
  			tab: "files",
  			group: "LSP",
  			label: "LSP",
@@ -6038,7 +6088,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -3861,9 +3861,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3904,9 +3904,9 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "files",
  			group: "LSP",
@@ -6050,7 +6100,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -3873,9 +3873,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3916,9 +3916,9 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "files",
  			group: "LSP",
@@ -6062,7 +6112,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -3885,8 +3885,8 @@ export const SETTINGS_SCHEMA = {
+@@ -3928,8 +3928,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "files",
  			group: "LSP",
@@ -6073,7 +6123,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -3896,8 +3896,8 @@ export const SETTINGS_SCHEMA = {
+@@ -3939,8 +3939,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "files",
  			group: "LSP",
@@ -6084,7 +6134,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -3907,8 +3907,8 @@ export const SETTINGS_SCHEMA = {
+@@ -3950,8 +3950,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "files",
  			group: "LSP",
@@ -6095,7 +6145,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -3918,8 +3918,8 @@ export const SETTINGS_SCHEMA = {
+@@ -3961,8 +3961,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "files",
  			group: "LSP",
@@ -6106,7 +6156,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -3930,7 +3930,7 @@ export const SETTINGS_SCHEMA = {
+@@ -3973,7 +3973,7 @@ export const SETTINGS_SCHEMA = {
  			tab: "shell",
  			group: "Bash",
  			label: "Bash",
@@ -6115,7 +6165,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -3940,7 +3940,7 @@ export const SETTINGS_SCHEMA = {
+@@ -3983,7 +3983,7 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "shell",
  			group: "Bash",
@@ -6124,7 +6174,7 @@ index bd9fea2..e356de3 100644
  			description:
  				"Evaluate literal && chains per command; unmatched commands use normal bash approval policy and mode",
  		},
-@@ -3952,8 +3952,8 @@ export const SETTINGS_SCHEMA = {
+@@ -3995,8 +3995,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "shell",
  			group: "Bash",
@@ -6135,7 +6185,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  	"bash.patterns": {
-@@ -3962,9 +3962,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4005,9 +4005,9 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "shell",
  			group: "Bash",
@@ -6147,7 +6197,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -3975,8 +3975,8 @@ export const SETTINGS_SCHEMA = {
+@@ -4018,8 +4018,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "shell",
  			group: "Bash",
@@ -6158,7 +6208,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  	"bashInterceptor.patterns": { type: "array", default: DEFAULT_BASH_INTERCEPTOR_RULES },
-@@ -3988,9 +3988,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4031,9 +4031,9 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "shell",
  			group: "Bash",
@@ -6170,7 +6220,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  	"bash.direnvLoadTimeoutMs": {
-@@ -3999,9 +3999,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4042,9 +4042,9 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "shell",
  			group: "Bash",
@@ -6182,7 +6232,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  	// Shell output minimizer
-@@ -4011,8 +4011,8 @@ export const SETTINGS_SCHEMA = {
+@@ -4054,8 +4054,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "shell",
  			group: "Bash",
@@ -6193,7 +6243,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  	"shellMinimizer.settingsPath": {
-@@ -4032,8 +4032,8 @@ export const SETTINGS_SCHEMA = {
+@@ -4075,8 +4075,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "shell",
  			group: "Bash",
@@ -6204,7 +6254,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  	"shellMinimizer.legacyFilters": {
-@@ -4047,9 +4047,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4090,9 +4090,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "shell",
@@ -6217,7 +6267,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -4058,9 +4058,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4101,9 +4101,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "shell",
@@ -6230,7 +6280,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -4069,8 +4069,8 @@ export const SETTINGS_SCHEMA = {
+@@ -4112,8 +4112,8 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "shell",
@@ -6241,7 +6291,7 @@ index bd9fea2..e356de3 100644
  			description:
  				"Let eval cells define tools (@tool in Python, tool(fn) in JS) that task, agent(), and workpool() subagents can call",
  		},
-@@ -4081,8 +4081,8 @@ export const SETTINGS_SCHEMA = {
+@@ -4124,8 +4124,8 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "shell",
@@ -6252,7 +6302,7 @@ index bd9fea2..e356de3 100644
  			description:
  				"Spawn a new subagent for every workpool item instead of reusing workers or batching queued items",
  		},
-@@ -4093,9 +4093,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4136,9 +4136,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "shell",
@@ -6265,7 +6315,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -4111,9 +4111,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4154,9 +4154,9 @@ export const SETTINGS_SCHEMA = {
  		default: "session",
  		ui: {
  			tab: "shell",
@@ -6278,7 +6328,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  	"python.interpreter": {
-@@ -4121,10 +4121,10 @@ export const SETTINGS_SCHEMA = {
+@@ -4164,10 +4164,10 @@ export const SETTINGS_SCHEMA = {
  		default: "",
  		ui: {
  			tab: "shell",
@@ -6292,7 +6342,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -4138,10 +4138,10 @@ export const SETTINGS_SCHEMA = {
+@@ -4181,10 +4181,10 @@ export const SETTINGS_SCHEMA = {
  		default: {},
  		ui: {
  			tab: "interaction",
@@ -6306,7 +6356,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -4155,27 +4155,27 @@ export const SETTINGS_SCHEMA = {
+@@ -4198,27 +4198,27 @@ export const SETTINGS_SCHEMA = {
  		default: "yolo",
  		ui: {
  			tab: "interaction",
@@ -6342,7 +6392,7 @@ index bd9fea2..e356de3 100644
  				},
  			],
  		},
-@@ -4187,9 +4187,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4230,9 +4230,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tools",
@@ -6355,7 +6405,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -4198,9 +4198,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4241,9 +4241,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tools",
@@ -6368,7 +6418,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -4209,35 +4209,35 @@ export const SETTINGS_SCHEMA = {
+@@ -4252,35 +4252,35 @@ export const SETTINGS_SCHEMA = {
  		default: 3,
  		ui: {
  			tab: "tools",
@@ -6419,7 +6469,7 @@ index bd9fea2..e356de3 100644
  			],
  		},
  	},
-@@ -4248,9 +4248,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4291,9 +4291,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tools",
@@ -6431,7 +6481,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -4259,9 +4259,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4302,9 +4302,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tools",
@@ -6443,7 +6493,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -4270,15 +4270,15 @@ export const SETTINGS_SCHEMA = {
+@@ -4313,15 +4313,15 @@ export const SETTINGS_SCHEMA = {
  		default: 1,
  		ui: {
  			tab: "tools",
@@ -6467,7 +6517,7 @@ index bd9fea2..e356de3 100644
  			],
  		},
  	},
-@@ -4288,16 +4288,16 @@ export const SETTINGS_SCHEMA = {
+@@ -4331,16 +4331,16 @@ export const SETTINGS_SCHEMA = {
  		default: 3,
  		ui: {
  			tab: "tools",
@@ -6493,7 +6543,7 @@ index bd9fea2..e356de3 100644
  			],
  		},
  	},
-@@ -4307,9 +4307,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4350,9 +4350,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "tools",
@@ -6505,7 +6555,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -4318,9 +4318,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4361,9 +4361,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tools",
@@ -6517,7 +6567,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -4331,9 +4331,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4374,9 +4374,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tools",
@@ -6529,7 +6579,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -4342,9 +4342,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4385,9 +4385,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tools",
@@ -6541,7 +6591,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -4353,9 +4353,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4396,9 +4396,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "tools",
@@ -6554,7 +6604,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  	"generate_image.enabled": {
-@@ -4363,10 +4363,10 @@ export const SETTINGS_SCHEMA = {
+@@ -4406,10 +4406,10 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "tools",
@@ -6568,7 +6618,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -4375,9 +4375,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4418,9 +4418,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "tools",
@@ -6581,7 +6631,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -4386,9 +4386,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4429,9 +4429,9 @@ export const SETTINGS_SCHEMA = {
  		default: "all",
  		ui: {
  			tab: "tools",
@@ -6594,7 +6644,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -4397,9 +4397,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4440,9 +4440,9 @@ export const SETTINGS_SCHEMA = {
  		default: 3840,
  		ui: {
  			tab: "tools",
@@ -6607,7 +6657,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -4408,9 +4408,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4451,9 +4451,9 @@ export const SETTINGS_SCHEMA = {
  		default: 2400,
  		ui: {
  			tab: "tools",
@@ -6620,7 +6670,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -4419,16 +4419,16 @@ export const SETTINGS_SCHEMA = {
+@@ -4462,16 +4462,16 @@ export const SETTINGS_SCHEMA = {
  		default: 300_000,
  		ui: {
  			tab: "tools",
@@ -6644,7 +6694,7 @@ index bd9fea2..e356de3 100644
  			],
  		},
  	},
-@@ -4438,9 +4438,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4481,9 +4481,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "tools",
@@ -6657,7 +6707,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -4450,9 +4450,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4493,9 +4493,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tools",
@@ -6670,7 +6720,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -4461,10 +4461,10 @@ export const SETTINGS_SCHEMA = {
+@@ -4504,10 +4504,10 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "tools",
@@ -6683,7 +6733,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -4473,10 +4473,10 @@ export const SETTINGS_SCHEMA = {
+@@ -4516,10 +4516,10 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "tools",
@@ -6696,7 +6746,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -4486,8 +4486,8 @@ export const SETTINGS_SCHEMA = {
+@@ -4529,8 +4529,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "tools",
  			group: "GitHub",
@@ -6707,7 +6757,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -4497,9 +4497,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4540,9 +4540,9 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "tools",
  			group: "GitHub",
@@ -6719,7 +6769,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -4509,9 +4509,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4552,9 +4552,9 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "tools",
  			group: "GitHub",
@@ -6731,7 +6781,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -4520,9 +4520,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4563,9 +4563,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tools",
@@ -6744,7 +6794,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -4531,10 +4531,10 @@ export const SETTINGS_SCHEMA = {
+@@ -4574,10 +4574,10 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "tools",
@@ -6758,7 +6808,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -4543,9 +4543,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4586,9 +4586,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tools",
@@ -6771,7 +6821,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -4554,9 +4554,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4597,9 +4597,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tools",
@@ -6783,7 +6833,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -4565,10 +4565,10 @@ export const SETTINGS_SCHEMA = {
+@@ -4608,10 +4608,10 @@ export const SETTINGS_SCHEMA = {
  		default: undefined,
  		ui: {
  			tab: "tools",
@@ -6797,7 +6847,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -4577,8 +4577,8 @@ export const SETTINGS_SCHEMA = {
+@@ -4620,8 +4620,8 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "tools",
@@ -6808,7 +6858,7 @@ index bd9fea2..e356de3 100644
  			description:
  				"Drive your own Chrome tabs through the omp browser relay. Install the extension once (`omp browser-relay install`); the relay server auto-starts when the browser prelude needs it. Takes precedence over Browser CDP URL; set PI_BROWSER_RELAY=0 or PI_BROWSER_RELAY=1 to override.",
  		},
-@@ -4589,9 +4589,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4632,9 +4632,9 @@ export const SETTINGS_SCHEMA = {
  		default: undefined,
  		ui: {
  			tab: "tools",
@@ -6821,7 +6871,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -4600,9 +4600,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4643,9 +4643,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tools",
@@ -6834,7 +6884,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -4611,10 +4611,10 @@ export const SETTINGS_SCHEMA = {
+@@ -4654,10 +4654,10 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tools",
@@ -6848,7 +6898,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  	"browser.freezeOnTurnEnd": {
-@@ -4622,10 +4622,10 @@ export const SETTINGS_SCHEMA = {
+@@ -4665,10 +4665,10 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tools",
@@ -6862,7 +6912,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  	"browser.idleCloseSec": {
-@@ -4633,15 +4633,15 @@ export const SETTINGS_SCHEMA = {
+@@ -4676,15 +4676,15 @@ export const SETTINGS_SCHEMA = {
  		default: 1800,
  		ui: {
  			tab: "tools",
@@ -6885,7 +6935,7 @@ index bd9fea2..e356de3 100644
  			],
  		},
  	},
-@@ -4650,10 +4650,10 @@ export const SETTINGS_SCHEMA = {
+@@ -4693,10 +4693,10 @@ export const SETTINGS_SCHEMA = {
  		default: undefined,
  		ui: {
  			tab: "tools",
@@ -6899,7 +6949,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -4663,9 +4663,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4706,9 +4706,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tools",
@@ -6912,7 +6962,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  	"tools.abortOnFabricatedResult": {
-@@ -4673,10 +4673,10 @@ export const SETTINGS_SCHEMA = {
+@@ -4716,10 +4716,10 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tools",
@@ -6926,7 +6976,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -4685,16 +4685,16 @@ export const SETTINGS_SCHEMA = {
+@@ -4728,16 +4728,16 @@ export const SETTINGS_SCHEMA = {
  		default: 0,
  		ui: {
  			tab: "tools",
@@ -6952,7 +7002,7 @@ index bd9fea2..e356de3 100644
  			],
  		},
  	},
-@@ -4705,9 +4705,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4748,9 +4748,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tools",
@@ -6965,7 +7015,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -4722,17 +4722,17 @@ export const SETTINGS_SCHEMA = {
+@@ -4765,17 +4765,17 @@ export const SETTINGS_SCHEMA = {
  		default: "smart",
  		ui: {
  			tab: "tools",
@@ -6992,7 +7042,7 @@ index bd9fea2..e356de3 100644
  			],
  		},
  	},
-@@ -4742,16 +4742,16 @@ export const SETTINGS_SCHEMA = {
+@@ -4785,16 +4785,16 @@ export const SETTINGS_SCHEMA = {
  		default: 120_000,
  		ui: {
  			tab: "tools",
@@ -7017,7 +7067,7 @@ index bd9fea2..e356de3 100644
  			],
  		},
  	},
-@@ -4766,8 +4766,8 @@ export const SETTINGS_SCHEMA = {
+@@ -4809,8 +4809,8 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tools",
@@ -7028,7 +7078,7 @@ index bd9fea2..e356de3 100644
  			description:
  				"Mount rarely-used (discoverable) tools under xd:// device URLs driven via read/write instead of shipping their schemas on every request. Sessions whose explicit tool list grants read but omits write mount devices through a device-only write transport (filesystem writes stay rejected). Disable to expose every enabled tool top-level.",
  		},
-@@ -4779,18 +4779,18 @@ export const SETTINGS_SCHEMA = {
+@@ -4822,18 +4822,18 @@ export const SETTINGS_SCHEMA = {
  		default: "builtins",
  		ui: {
  			tab: "tools",
@@ -7054,7 +7104,7 @@ index bd9fea2..e356de3 100644
  			],
  		},
  	},
-@@ -4800,10 +4800,10 @@ export const SETTINGS_SCHEMA = {
+@@ -4843,10 +4843,10 @@ export const SETTINGS_SCHEMA = {
  		default: EMPTY_STRING_ARRAY,
  		ui: {
  			tab: "tools",
@@ -7068,7 +7118,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -4813,9 +4813,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4856,9 +4856,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tools",
@@ -7081,7 +7131,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -4824,9 +4824,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4867,9 +4867,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tools",
@@ -7094,7 +7144,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -4835,9 +4835,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4878,9 +4878,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "tools",
@@ -7107,7 +7157,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -4846,10 +4846,10 @@ export const SETTINGS_SCHEMA = {
+@@ -4889,10 +4889,10 @@ export const SETTINGS_SCHEMA = {
  		default: 500,
  		ui: {
  			tab: "tools",
@@ -7121,7 +7171,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -4863,9 +4863,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4906,9 +4906,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tasks",
@@ -7134,7 +7184,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -4874,9 +4874,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4917,9 +4917,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "tasks",
@@ -7147,7 +7197,34 @@ index bd9fea2..e356de3 100644
  			condition: "planModeEnabled",
  		},
  	},
-@@ -4886,9 +4886,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4929,9 +4929,9 @@ export const SETTINGS_SCHEMA = {
+ 		default: false,
+ 		ui: {
+ 			tab: "tasks",
+-			group: "Modes",
+-			label: "Autosave Plans",
+-			description: "Automatically save approved plans to disk when plan mode completes",
++			group: "模式",
++			label: "自动保存计划",
++			description: "计划模式结束时自动把已批准的计划保存到磁盘",
+ 			condition: "planModeEnabled",
+ 		},
+ 	},
+@@ -4941,10 +4941,10 @@ export const SETTINGS_SCHEMA = {
+ 		default: undefined,
+ 		ui: {
+ 			tab: "tasks",
+-			group: "Modes",
+-			label: "Autosave Directory",
++			group: "模式",
++			label: "自动保存目录",
+ 			description:
+-				"Directory for autosaved plans. Supports ~, absolute, and cwd-relative paths. Empty uses <project>/.omp/plans/.",
++				"自动保存计划的目录。支持 ~、绝对路径和相对当前工作目录的路径。留空则使用 <project>/.omp/plans/。",
+ 			condition: "planAutosaveEnabled",
+ 		},
+ 	},
+@@ -4954,9 +4954,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tasks",
@@ -7160,7 +7237,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -4897,9 +4897,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4965,9 +4965,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tasks",
@@ -7173,7 +7250,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -4908,9 +4908,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4976,9 +4976,9 @@ export const SETTINGS_SCHEMA = {
  		default: ["interactive"],
  		ui: {
  			tab: "tasks",
@@ -7186,7 +7263,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -4919,9 +4919,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4987,9 +4987,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tasks",
@@ -7199,7 +7276,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -4931,9 +4931,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4999,9 +4999,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "tasks",
@@ -7212,7 +7289,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -4943,30 +4943,30 @@ export const SETTINGS_SCHEMA = {
+@@ -5011,30 +5011,30 @@ export const SETTINGS_SCHEMA = {
  		default: "auto",
  		ui: {
  			tab: "tasks",
@@ -7256,7 +7333,7 @@ index bd9fea2..e356de3 100644
  				},
  			],
  		},
-@@ -4977,8 +4977,8 @@ export const SETTINGS_SCHEMA = {
+@@ -5045,8 +5045,8 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tasks",
@@ -7267,7 +7344,7 @@ index bd9fea2..e356de3 100644
  			description:
  				"New worktrees from `github pr_checkout` and `git worktree add` in bash start as a copy-on-write clone of the current checkout so ignored build artifacts (node_modules, target) carry over; falls back to a plain checkout when the filesystem cannot clone",
  		},
-@@ -4989,8 +4989,8 @@ export const SETTINGS_SCHEMA = {
+@@ -5057,8 +5057,8 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "tasks",
@@ -7278,7 +7355,7 @@ index bd9fea2..e356de3 100644
  			description:
  				"When creating a worktree with `/wt`, reset tracked changes and remove untracked files from the original checkout after carrying them over",
  		},
-@@ -5001,10 +5001,10 @@ export const SETTINGS_SCHEMA = {
+@@ -5069,10 +5069,10 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tasks",
@@ -7292,7 +7369,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -5014,12 +5014,12 @@ export const SETTINGS_SCHEMA = {
+@@ -5082,12 +5082,12 @@ export const SETTINGS_SCHEMA = {
  		default: "patch",
  		ui: {
  			tab: "tasks",
@@ -7310,7 +7387,7 @@ index bd9fea2..e356de3 100644
  			],
  		},
  	},
-@@ -5030,12 +5030,12 @@ export const SETTINGS_SCHEMA = {
+@@ -5098,12 +5098,12 @@ export const SETTINGS_SCHEMA = {
  		default: "generic",
  		ui: {
  			tab: "tasks",
@@ -7328,7 +7405,7 @@ index bd9fea2..e356de3 100644
  			],
  		},
  	},
-@@ -5045,30 +5045,30 @@ export const SETTINGS_SCHEMA = {
+@@ -5113,30 +5113,30 @@ export const SETTINGS_SCHEMA = {
  		default: undefined,
  		ui: {
  			tab: "tasks",
@@ -7370,7 +7447,7 @@ index bd9fea2..e356de3 100644
  			],
  		},
  	},
-@@ -5078,10 +5078,10 @@ export const SETTINGS_SCHEMA = {
+@@ -5146,10 +5146,10 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tasks",
@@ -7384,7 +7461,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -5090,10 +5090,10 @@ export const SETTINGS_SCHEMA = {
+@@ -5158,10 +5158,10 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "tasks",
@@ -7398,7 +7475,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -5102,18 +5102,18 @@ export const SETTINGS_SCHEMA = {
+@@ -5170,18 +5170,18 @@ export const SETTINGS_SCHEMA = {
  		default: 32,
  		ui: {
  			tab: "tasks",
@@ -7428,7 +7505,7 @@ index bd9fea2..e356de3 100644
  			],
  		},
  	},
-@@ -5123,10 +5123,10 @@ export const SETTINGS_SCHEMA = {
+@@ -5191,10 +5191,10 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "tasks",
@@ -7442,7 +7519,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -5135,15 +5135,15 @@ export const SETTINGS_SCHEMA = {
+@@ -5203,15 +5203,15 @@ export const SETTINGS_SCHEMA = {
  		default: 2,
  		ui: {
  			tab: "tasks",
@@ -7466,7 +7543,7 @@ index bd9fea2..e356de3 100644
  			],
  		},
  	},
-@@ -5153,16 +5153,16 @@ export const SETTINGS_SCHEMA = {
+@@ -5221,16 +5221,16 @@ export const SETTINGS_SCHEMA = {
  		default: 0,
  		ui: {
  			tab: "tasks",
@@ -7491,7 +7568,7 @@ index bd9fea2..e356de3 100644
  			],
  		},
  	},
-@@ -5172,10 +5172,10 @@ export const SETTINGS_SCHEMA = {
+@@ -5240,10 +5240,10 @@ export const SETTINGS_SCHEMA = {
  		default: 420_000,
  		ui: {
  			tab: "tasks",
@@ -7505,7 +7582,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -5184,15 +5184,15 @@ export const SETTINGS_SCHEMA = {
+@@ -5252,15 +5252,15 @@ export const SETTINGS_SCHEMA = {
  		default: 200,
  		ui: {
  			tab: "tasks",
@@ -7528,7 +7605,7 @@ index bd9fea2..e356de3 100644
  			],
  		},
  	},
-@@ -5202,10 +5202,10 @@ export const SETTINGS_SCHEMA = {
+@@ -5270,10 +5270,10 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tasks",
@@ -7542,7 +7619,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -5215,10 +5215,10 @@ export const SETTINGS_SCHEMA = {
+@@ -5283,10 +5283,10 @@ export const SETTINGS_SCHEMA = {
  		default: "max",
  		ui: {
  			tab: "tasks",
@@ -7556,7 +7633,7 @@ index bd9fea2..e356de3 100644
  			options: THINKING_EFFORTS.map(getThinkingLevelMetadata),
  		},
  	},
-@@ -5245,8 +5245,8 @@ export const SETTINGS_SCHEMA = {
+@@ -5313,8 +5313,8 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "tasks",
@@ -7567,7 +7644,7 @@ index bd9fea2..e356de3 100644
  			description:
  				"Arm prewalk for the bundled generic `task` subagent: it starts on its resolved model, plans and begins the implementation, then hands off to the 'smol' role at its first edit/write. Per-agent overrides (task.agentPrewalk, configured from the /agents hub) and user agent `prewalk` frontmatter apply regardless of this toggle.",
  		},
-@@ -5257,17 +5257,17 @@ export const SETTINGS_SCHEMA = {
+@@ -5325,17 +5325,17 @@ export const SETTINGS_SCHEMA = {
  		default: 60,
  		ui: {
  			tab: "tools",
@@ -7595,7 +7672,7 @@ index bd9fea2..e356de3 100644
  			],
  		},
  	},
-@@ -5277,9 +5277,9 @@ export const SETTINGS_SCHEMA = {
+@@ -5345,9 +5345,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "appearance",
@@ -7608,7 +7685,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -5291,9 +5291,9 @@ export const SETTINGS_SCHEMA = {
+@@ -5359,9 +5359,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tasks",
@@ -7621,7 +7698,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -5323,9 +5323,9 @@ export const SETTINGS_SCHEMA = {
+@@ -5391,9 +5391,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "tasks",
@@ -7634,7 +7711,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -5334,9 +5334,9 @@ export const SETTINGS_SCHEMA = {
+@@ -5402,9 +5402,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tasks",
@@ -7647,7 +7724,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -5345,9 +5345,9 @@ export const SETTINGS_SCHEMA = {
+@@ -5413,9 +5413,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "tasks",
@@ -7660,7 +7737,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -5356,9 +5356,9 @@ export const SETTINGS_SCHEMA = {
+@@ -5424,9 +5424,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tasks",
@@ -7673,7 +7750,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -5372,9 +5372,9 @@ export const SETTINGS_SCHEMA = {
+@@ -5440,9 +5440,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "providers",
@@ -7686,7 +7763,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -5384,10 +5384,10 @@ export const SETTINGS_SCHEMA = {
+@@ -5452,10 +5452,10 @@ export const SETTINGS_SCHEMA = {
  		default: 3,
  		ui: {
  			tab: "providers",
@@ -7700,7 +7777,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  	"providers.webSearchOrder": {
-@@ -5395,10 +5395,10 @@ export const SETTINGS_SCHEMA = {
+@@ -5463,10 +5463,10 @@ export const SETTINGS_SCHEMA = {
  		default: [] as SearchProviderId[],
  		ui: {
  			tab: "providers",
@@ -7714,7 +7791,7 @@ index bd9fea2..e356de3 100644
  			options: SEARCH_PROVIDER_CHOICES,
  			ordered: true,
  		},
-@@ -5408,9 +5408,9 @@ export const SETTINGS_SCHEMA = {
+@@ -5476,9 +5476,9 @@ export const SETTINGS_SCHEMA = {
  		default: [] as SearchProviderId[],
  		ui: {
  			tab: "providers",
@@ -7727,7 +7804,7 @@ index bd9fea2..e356de3 100644
  			options: SEARCH_PROVIDER_CHOICES,
  		},
  	},
-@@ -5419,15 +5419,15 @@ export const SETTINGS_SCHEMA = {
+@@ -5487,15 +5487,15 @@ export const SETTINGS_SCHEMA = {
  		default: DEFAULT_WEB_SEARCH_TIMEOUT_SECONDS,
  		ui: {
  			tab: "providers",
@@ -7751,7 +7828,7 @@ index bd9fea2..e356de3 100644
  			],
  		},
  	},
-@@ -5436,9 +5436,9 @@ export const SETTINGS_SCHEMA = {
+@@ -5504,9 +5504,9 @@ export const SETTINGS_SCHEMA = {
  		default: undefined,
  		ui: {
  			tab: "providers",
@@ -7764,7 +7841,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  	"providers.antigravityEndpoint": {
-@@ -5447,24 +5447,24 @@ export const SETTINGS_SCHEMA = {
+@@ -5515,24 +5515,24 @@ export const SETTINGS_SCHEMA = {
  		default: "auto",
  		ui: {
  			tab: "providers",
@@ -7798,7 +7875,7 @@ index bd9fea2..e356de3 100644
  				},
  			],
  		},
-@@ -5474,10 +5474,10 @@ export const SETTINGS_SCHEMA = {
+@@ -5542,10 +5542,10 @@ export const SETTINGS_SCHEMA = {
  		default: [] as ImageProvider[],
  		ui: {
  			tab: "providers",
@@ -7812,7 +7889,7 @@ index bd9fea2..e356de3 100644
  			options: IMAGE_PROVIDER_CHOICES,
  			ordered: true,
  		},
-@@ -5489,15 +5489,15 @@ export const SETTINGS_SCHEMA = {
+@@ -5557,15 +5557,15 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "providers",
  			group: "Fireworks",
@@ -7833,7 +7910,7 @@ index bd9fea2..e356de3 100644
  				},
  			],
  		},
-@@ -5508,9 +5508,9 @@ export const SETTINGS_SCHEMA = {
+@@ -5576,9 +5576,9 @@ export const SETTINGS_SCHEMA = {
  		default: DEFAULT_LIVE_VOICE,
  		ui: {
  			tab: "providers",
@@ -7846,7 +7923,7 @@ index bd9fea2..e356de3 100644
  			options: LIVE_VOICE_OPTIONS,
  		},
  	},
-@@ -5520,26 +5520,26 @@ export const SETTINGS_SCHEMA = {
+@@ -5588,26 +5588,26 @@ export const SETTINGS_SCHEMA = {
  		default: "auto",
  		ui: {
  			tab: "providers",
@@ -7882,7 +7959,7 @@ index bd9fea2..e356de3 100644
  				},
  			],
  		},
-@@ -5550,9 +5550,9 @@ export const SETTINGS_SCHEMA = {
+@@ -5618,9 +5618,9 @@ export const SETTINGS_SCHEMA = {
  		default: DEFAULT_TTS_LOCAL_MODEL_KEY,
  		ui: {
  			tab: "providers",
@@ -7895,7 +7972,7 @@ index bd9fea2..e356de3 100644
  			options: TTS_LOCAL_MODEL_OPTIONS,
  		},
  	},
-@@ -5562,9 +5562,9 @@ export const SETTINGS_SCHEMA = {
+@@ -5630,9 +5630,9 @@ export const SETTINGS_SCHEMA = {
  		default: DEFAULT_TTS_VOICE,
  		ui: {
  			tab: "providers",
@@ -7908,7 +7985,7 @@ index bd9fea2..e356de3 100644
  			options: TTS_LOCAL_VOICE_OPTIONS,
  		},
  	},
-@@ -5573,9 +5573,9 @@ export const SETTINGS_SCHEMA = {
+@@ -5641,9 +5641,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "providers",
@@ -7921,7 +7998,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  	"speech.mode": {
-@@ -5584,14 +5584,14 @@ export const SETTINGS_SCHEMA = {
+@@ -5652,14 +5652,14 @@ export const SETTINGS_SCHEMA = {
  		default: "assistant",
  		ui: {
  			tab: "providers",
@@ -7942,7 +8019,7 @@ index bd9fea2..e356de3 100644
  			],
  		},
  	},
-@@ -5600,10 +5600,10 @@ export const SETTINGS_SCHEMA = {
+@@ -5668,10 +5668,10 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "providers",
@@ -7956,7 +8033,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  	"speech.voice": {
-@@ -5612,9 +5612,9 @@ export const SETTINGS_SCHEMA = {
+@@ -5680,9 +5680,9 @@ export const SETTINGS_SCHEMA = {
  		default: DEFAULT_TTS_VOICE,
  		ui: {
  			tab: "providers",
@@ -7969,7 +8046,7 @@ index bd9fea2..e356de3 100644
  			options: TTS_LOCAL_VOICE_OPTIONS,
  		},
  	},
-@@ -5624,10 +5624,10 @@ export const SETTINGS_SCHEMA = {
+@@ -5692,10 +5692,10 @@ export const SETTINGS_SCHEMA = {
  		default: ONLINE_TINY_TITLE_MODEL_KEY,
  		ui: {
  			tab: "providers",
@@ -7983,7 +8060,7 @@ index bd9fea2..e356de3 100644
  			options: TINY_TITLE_MODEL_OPTIONS,
  		},
  	},
-@@ -5637,8 +5637,8 @@ export const SETTINGS_SCHEMA = {
+@@ -5705,8 +5705,8 @@ export const SETTINGS_SCHEMA = {
  		default: TINY_MODEL_DEVICE_DEFAULT,
  		ui: {
  			tab: "providers",
@@ -7994,7 +8071,7 @@ index bd9fea2..e356de3 100644
  			description:
  				"Inference backend for local tiny models (titles + memory): an ONNX execution provider, or `mlx` to download MLX weights and run them through mlx-lm on Apple silicon. Default uses CPU-only ONNX. The PI_TINY_DEVICE env var overrides this.",
  			options: TINY_MODEL_DEVICE_SETTING_OPTIONS,
-@@ -5650,8 +5650,8 @@ export const SETTINGS_SCHEMA = {
+@@ -5718,8 +5718,8 @@ export const SETTINGS_SCHEMA = {
  		default: TINY_MODEL_DTYPE_DEFAULT,
  		ui: {
  			tab: "providers",
@@ -8005,7 +8082,7 @@ index bd9fea2..e356de3 100644
  			description:
  				"ONNX quantization/precision for local tiny models. Default uses each model's shipped dtype (q4); lower precision is faster, higher is more faithful. Ignored by the MLX backend (its repos are pre-quantized 4-bit). The PI_TINY_DTYPE env var overrides this.",
  			options: TINY_MODEL_DTYPE_SETTING_OPTIONS,
-@@ -5663,10 +5663,10 @@ export const SETTINGS_SCHEMA = {
+@@ -5731,10 +5731,10 @@ export const SETTINGS_SCHEMA = {
  		default: ONLINE_MEMORY_MODEL_KEY,
  		ui: {
  			tab: "memory",
@@ -8019,7 +8096,7 @@ index bd9fea2..e356de3 100644
  			condition: "mnemopiActive",
  			options: TINY_MEMORY_MODEL_OPTIONS,
  		},
-@@ -5678,10 +5678,10 @@ export const SETTINGS_SCHEMA = {
+@@ -5746,10 +5746,10 @@ export const SETTINGS_SCHEMA = {
  		default: ONLINE_AUTO_THINKING_MODEL_KEY,
  		ui: {
  			tab: "model",
@@ -8033,7 +8110,7 @@ index bd9fea2..e356de3 100644
  			condition: "autoThinkingActive",
  			options: AUTO_THINKING_MODEL_OPTIONS,
  		},
-@@ -5692,14 +5692,14 @@ export const SETTINGS_SCHEMA = {
+@@ -5760,14 +5760,14 @@ export const SETTINGS_SCHEMA = {
  		default: "xhigh",
  		ui: {
  			tab: "model",
@@ -8053,7 +8130,7 @@ index bd9fea2..e356de3 100644
  			],
  		},
  	},
-@@ -5709,21 +5709,21 @@ export const SETTINGS_SCHEMA = {
+@@ -5777,21 +5777,21 @@ export const SETTINGS_SCHEMA = {
  		default: "mechanical",
  		ui: {
  			tab: "interaction",
@@ -8082,7 +8159,7 @@ index bd9fea2..e356de3 100644
  				},
  			],
  		},
-@@ -5734,8 +5734,8 @@ export const SETTINGS_SCHEMA = {
+@@ -5802,8 +5802,8 @@ export const SETTINGS_SCHEMA = {
  		default: ONLINE_MEMORY_MODEL_KEY,
  		ui: {
  			tab: "providers",
@@ -8093,7 +8170,7 @@ index bd9fea2..e356de3 100644
  			description:
  				"Classifier for Smart unexpected-stop detection: online (the TINY role from /models, else smol) by default, or a local on-device model.",
  			condition: "unexpectedStopSmart",
-@@ -5749,11 +5749,11 @@ export const SETTINGS_SCHEMA = {
+@@ -5817,11 +5817,11 @@ export const SETTINGS_SCHEMA = {
  		default: "auto",
  		ui: {
  			tab: "providers",
@@ -8109,7 +8186,7 @@ index bd9fea2..e356de3 100644
  				{ value: "openai", label: "OpenAI", description: "api.kimi.com" },
  				{ value: "anthropic", label: "Anthropic", description: "api.moonshot.ai" },
  			],
-@@ -5766,13 +5766,13 @@ export const SETTINGS_SCHEMA = {
+@@ -5834,13 +5834,13 @@ export const SETTINGS_SCHEMA = {
  		default: "auto",
  		ui: {
  			tab: "providers",
@@ -8128,7 +8205,7 @@ index bd9fea2..e356de3 100644
  			],
  		},
  	},
-@@ -5783,29 +5783,29 @@ export const SETTINGS_SCHEMA = {
+@@ -5851,29 +5851,29 @@ export const SETTINGS_SCHEMA = {
  		default: "auto",
  		ui: {
  			tab: "providers",
@@ -8165,7 +8242,7 @@ index bd9fea2..e356de3 100644
  			],
  		},
  	},
-@@ -5815,16 +5815,16 @@ export const SETTINGS_SCHEMA = {
+@@ -5883,16 +5883,16 @@ export const SETTINGS_SCHEMA = {
  		default: -1,
  		ui: {
  			tab: "providers",
@@ -8190,7 +8267,7 @@ index bd9fea2..e356de3 100644
  			],
  		},
  	},
-@@ -5834,16 +5834,16 @@ export const SETTINGS_SCHEMA = {
+@@ -5902,16 +5902,16 @@ export const SETTINGS_SCHEMA = {
  		default: -1,
  		ui: {
  			tab: "providers",
@@ -8215,7 +8292,7 @@ index bd9fea2..e356de3 100644
  			],
  		},
  	},
-@@ -5854,19 +5854,19 @@ export const SETTINGS_SCHEMA = {
+@@ -5922,19 +5922,19 @@ export const SETTINGS_SCHEMA = {
  		default: "default",
  		ui: {
  			tab: "providers",
@@ -8243,7 +8320,7 @@ index bd9fea2..e356de3 100644
  				},
  			],
  		},
-@@ -5877,21 +5877,21 @@ export const SETTINGS_SCHEMA = {
+@@ -5945,21 +5945,21 @@ export const SETTINGS_SCHEMA = {
  		default: "auto",
  		ui: {
  			tab: "providers",
@@ -8276,7 +8353,7 @@ index bd9fea2..e356de3 100644
  			],
  		},
  	},
-@@ -5902,18 +5902,18 @@ export const SETTINGS_SCHEMA = {
+@@ -5970,18 +5970,18 @@ export const SETTINGS_SCHEMA = {
  		default: "unset" as const,
  		ui: {
  			tab: "providers",
@@ -8302,7 +8379,7 @@ index bd9fea2..e356de3 100644
  			],
  		},
  	},
-@@ -5922,10 +5922,10 @@ export const SETTINGS_SCHEMA = {
+@@ -5990,10 +5990,10 @@ export const SETTINGS_SCHEMA = {
  		default: 60,
  		ui: {
  			tab: "providers",
@@ -8316,7 +8393,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  	"codexResets.keepCredits": {
-@@ -5933,10 +5933,10 @@ export const SETTINGS_SCHEMA = {
+@@ -6001,10 +6001,10 @@ export const SETTINGS_SCHEMA = {
  		default: 0,
  		ui: {
  			tab: "providers",
@@ -8330,7 +8407,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  	"codexResets.salvageHorizonHours": {
-@@ -5944,10 +5944,10 @@ export const SETTINGS_SCHEMA = {
+@@ -6012,10 +6012,10 @@ export const SETTINGS_SCHEMA = {
  		default: 12,
  		ui: {
  			tab: "providers",
@@ -8344,7 +8421,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  	"provider.appendOnlyContext": {
-@@ -5956,14 +5956,14 @@ export const SETTINGS_SCHEMA = {
+@@ -6024,14 +6024,14 @@ export const SETTINGS_SCHEMA = {
  		default: "auto",
  		ui: {
  			tab: "providers",
@@ -8365,7 +8442,7 @@ index bd9fea2..e356de3 100644
  			],
  		},
  	},
-@@ -5974,9 +5974,9 @@ export const SETTINGS_SCHEMA = {
+@@ -6042,9 +6042,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "providers",
@@ -8377,7 +8454,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -5985,9 +5985,9 @@ export const SETTINGS_SCHEMA = {
+@@ -6053,9 +6053,9 @@ export const SETTINGS_SCHEMA = {
  		default: 1_000,
  		ui: {
  			tab: "providers",
@@ -8390,7 +8467,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -5997,9 +5997,9 @@ export const SETTINGS_SCHEMA = {
+@@ -6065,9 +6065,9 @@ export const SETTINGS_SCHEMA = {
  		default: undefined,
  		ui: {
  			tab: "providers",
@@ -8403,7 +8480,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -6057,10 +6057,10 @@ export const SETTINGS_SCHEMA = {
+@@ -6125,10 +6125,10 @@ export const SETTINGS_SCHEMA = {
  		default: 30_000,
  		ui: {
  			tab: "tools",
@@ -8417,7 +8494,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -6069,10 +6069,10 @@ export const SETTINGS_SCHEMA = {
+@@ -6137,10 +6137,10 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tools",
@@ -8431,7 +8508,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -6081,9 +6081,9 @@ export const SETTINGS_SCHEMA = {
+@@ -6149,9 +6149,9 @@ export const SETTINGS_SCHEMA = {
  		default: "https://qa.omp.sh/v1/grievances" as const,
  		ui: {
  			tab: "tools",
@@ -8444,7 +8521,7 @@ index bd9fea2..e356de3 100644
  		},
  	},
  
-@@ -6345,7 +6345,7 @@ export interface CommitSettings {
+@@ -6413,7 +6413,7 @@ export interface CommitSettings {
  export interface TtsrSettings {
  	enabled: boolean;
  	contextMode: "discard" | "keep";
@@ -8454,10 +8531,10 @@ index bd9fea2..e356de3 100644
  	repeatGap: number;
  	/** Bucketing-only (read by bucketRules, not the TtsrManager). */
 diff --git a/pi-coding-agent/src/modes/acp/acp-agent.ts b/pi-coding-agent-zh/src/modes/acp/acp-agent.ts
-index a7f0f2e..4d1fbdc 100644
+index 52f4594..95c7fa1 100644
 --- a/pi-coding-agent/src/modes/acp/acp-agent.ts
 +++ b/pi-coding-agent-zh/src/modes/acp/acp-agent.ts
-@@ -94,8 +94,8 @@ import { ACP_TERMINAL_AUTH_FLAG } from "./terminal-auth";
+@@ -95,8 +95,8 @@ import { ACP_TERMINAL_AUTH_FLAG } from "./terminal-auth";
  const ACP_DEFAULT_MODE_ID = "default";
  const ACP_PLAN_MODE_ID = "plan";
  const DEFAULT_PLAN_FILE_URL = "local://PLAN.md";
@@ -8468,7 +8545,7 @@ index a7f0f2e..4d1fbdc 100644
  const MODE_CONFIG_ID = "mode";
  const MODEL_CONFIG_ID = "model";
  const THINKING_CONFIG_ID = "thinking";
-@@ -634,7 +634,7 @@ export class AcpAgent implements Agent {
+@@ -635,7 +635,7 @@ export class AcpAgent implements Agent {
  			{
  				id: "agent",
  				name: "Use existing local credentials",
@@ -8477,7 +8554,7 @@ index a7f0f2e..4d1fbdc 100644
  			},
  		];
  		if (params.clientCapabilities?.auth?.terminal === true) {
-@@ -642,7 +642,7 @@ export class AcpAgent implements Agent {
+@@ -643,7 +643,7 @@ export class AcpAgent implements Agent {
  				type: "terminal",
  				id: "terminal",
  				name: "Set up Oh My Pi in terminal",
@@ -8486,7 +8563,7 @@ index a7f0f2e..4d1fbdc 100644
  				args: [ACP_TERMINAL_AUTH_FLAG],
  			});
  		}
-@@ -1788,7 +1788,7 @@ export class AcpAgent implements Agent {
+@@ -1789,7 +1789,7 @@ export class AcpAgent implements Agent {
  	#buildThinkingOptions(session: AgentSession): Array<{ value: string; name: string; description?: string }> {
  		return [
  			{ value: THINKING_OFF, name: "Off" },
@@ -8495,7 +8572,7 @@ index a7f0f2e..4d1fbdc 100644
  			...session.getAvailableThinkingLevels().map(level => ({
  				value: level,
  				name: level,
-@@ -1828,12 +1828,12 @@ export class AcpAgent implements Agent {
+@@ -1829,12 +1829,12 @@ export class AcpAgent implements Agent {
  	}
  
  	#getAvailableModes(session: AgentSession): Array<{ id: string; name: string; description: string }> {
@@ -8510,16 +8587,16 @@ index a7f0f2e..4d1fbdc 100644
  			});
  		}
  		void session;
-@@ -1942,7 +1942,7 @@ export class AcpAgent implements Agent {
- 			content: [
- 				{
+@@ -1959,7 +1959,7 @@ export class AcpAgent implements Agent {
  					type: "text" as const,
--					text: `Plan approved at ${planFilePath}. Plan mode exited; proceed with the implementation.`,
-+					text: `计划已在 ${planFilePath} 批准。已退出计划模式；请继续实施。`,
+ 					text: autosaveFailed
+ 						? `Plan approved at ${planFilePath}. Plan mode exited; proceed with the implementation. (Plan autosave failed; continuing.)`
+-						: `Plan approved at ${planFilePath}. Plan mode exited; proceed with the implementation.`,
++						: `计划已在 ${planFilePath} 批准。已退出计划模式；请继续实施。`,
  				},
  			],
  			details,
-@@ -2009,7 +2009,7 @@ export class AcpAgent implements Agent {
+@@ -2026,7 +2026,7 @@ export class AcpAgent implements Agent {
  		// inline and a multi-thousand-line plan blows out the dialog.
  		const previewLines = planContent.split("\n").slice(0, 12).join("\n");
  		const ellipsis = planContent.split("\n").length > 12 ? "\n…" : "";
@@ -8726,10 +8803,10 @@ index 5de0c7d..d529ff2 100644
  			]
  				.filter(Boolean)
 diff --git a/pi-coding-agent/src/modes/components/ask-dialog.ts b/pi-coding-agent-zh/src/modes/components/ask-dialog.ts
-index 3c70ce9..314d5bc 100644
+index 37f0501..5503da7 100644
 --- a/pi-coding-agent/src/modes/components/ask-dialog.ts
 +++ b/pi-coding-agent-zh/src/modes/components/ask-dialog.ts
-@@ -659,7 +659,7 @@ export class AskDialogComponent implements Component {
+@@ -697,7 +697,7 @@ export class AskDialogComponent implements Component {
  		const question = this.#questions[this.#currentQuestionIndex()];
  		// Enter advances in multi-question dialogs and submits single-question ones.
  		const enterAction = this.#questions.length > 1 ? "next" : "submit";
@@ -9901,10 +9978,10 @@ index c70f2a4..5f0ac04 100644
  	if (status === "ok") return "success";
  	return "dim";
 diff --git a/pi-coding-agent/src/modes/controllers/selector-controller.ts b/pi-coding-agent-zh/src/modes/controllers/selector-controller.ts
-index dba267a..6a095c8 100644
+index 74060a8..01b4a29 100644
 --- a/pi-coding-agent/src/modes/controllers/selector-controller.ts
 +++ b/pi-coding-agent-zh/src/modes/controllers/selector-controller.ts
-@@ -1290,7 +1290,7 @@ export class SelectorController {
+@@ -1295,7 +1295,7 @@ export class SelectorController {
  			.getBranch()
  			.filter((entry): entry is SessionMessageEntry => entry.type === "message");
  		if (entries.length === 0) {
@@ -9913,7 +9990,7 @@ index dba267a..6a095c8 100644
  			return;
  		}
  
-@@ -1316,7 +1316,7 @@ export class SelectorController {
+@@ -1321,7 +1321,7 @@ export class SelectorController {
  		});
  		if (selector.targetCount === 0) {
  			selector.dispose();
@@ -9922,7 +9999,7 @@ index dba267a..6a095c8 100644
  			return;
  		}
  		// Fullscreen alternate-screen overlay: the transcript replica draws over
-@@ -1422,7 +1422,7 @@ export class SelectorController {
+@@ -1427,7 +1427,7 @@ export class SelectorController {
  			.getBranch()
  			.filter((entry): entry is SessionMessageEntry => entry.type === "message");
  		if (entries.length === 0) {
@@ -9931,7 +10008,7 @@ index dba267a..6a095c8 100644
  			return;
  		}
  
-@@ -1460,7 +1460,7 @@ export class SelectorController {
+@@ -1465,7 +1465,7 @@ export class SelectorController {
  		});
  		if (selector.targetCount === 0) {
  			selector.dispose();
@@ -9940,7 +10017,7 @@ index dba267a..6a095c8 100644
  			return;
  		}
  		const overlayHandle = this.ctx.ui.showOverlay(selector, {
-@@ -1479,7 +1479,7 @@ export class SelectorController {
+@@ -1484,7 +1484,7 @@ export class SelectorController {
  		const realLeafId = this.ctx.sessionManager.getLeafId();
  
  		if (tree.length === 0) {
@@ -9949,7 +10026,7 @@ index dba267a..6a095c8 100644
  			return;
  		}
  
-@@ -1524,10 +1524,10 @@ export class SelectorController {
+@@ -1529,10 +1529,10 @@ export class SelectorController {
  					const branchSummariesEnabled = settings.get("branchSummary.enabled");
  
  					while (!wantsSummary && branchSummariesEnabled) {
@@ -9964,7 +10041,7 @@ index dba267a..6a095c8 100644
  						]);
  
  						if (summaryChoice === undefined) {
-@@ -1536,10 +1536,10 @@ export class SelectorController {
+@@ -1541,10 +1541,10 @@ export class SelectorController {
  							return;
  						}
  
@@ -9978,7 +10055,7 @@ index dba267a..6a095c8 100644
  							if (customInstructions === undefined) {
  								// User cancelled - loop back to summary selector
  								continue;
-@@ -1945,7 +1945,7 @@ export class SelectorController {
+@@ -1950,7 +1950,7 @@ export class SelectorController {
  	async handleSessionDeleteCommand(): Promise<void> {
  		const sessionFile = this.ctx.sessionManager.getSessionFile();
  		if (!sessionFile) {
@@ -9987,7 +10064,7 @@ index dba267a..6a095c8 100644
  			return;
  		}
  
-@@ -2276,14 +2276,14 @@ export class SelectorController {
+@@ -2281,14 +2281,14 @@ export class SelectorController {
  		}
  		const accounts = toResetUsageAccounts(statuses);
  		if (accounts.length === 0) {
@@ -10006,7 +10083,7 @@ index dba267a..6a095c8 100644
  			return;
  		}
 diff --git a/pi-coding-agent/src/modes/interactive-mode.ts b/pi-coding-agent-zh/src/modes/interactive-mode.ts
-index bd4a7d1..bc7b5cb 100644
+index e2e0bf0..13a0784 100644
 --- a/pi-coding-agent/src/modes/interactive-mode.ts
 +++ b/pi-coding-agent-zh/src/modes/interactive-mode.ts
 @@ -3759,11 +3759,11 @@ export class InteractiveMode implements InteractiveModeContext {
@@ -10023,7 +10100,7 @@ index bd4a7d1..bc7b5cb 100644
  	}
  
  	#isKeepContextDisabled(contextUsage: ContextUsage | undefined): boolean {
-@@ -4787,7 +4787,7 @@ export class InteractiveMode implements InteractiveModeContext {
+@@ -4870,7 +4870,7 @@ export class InteractiveMode implements InteractiveModeContext {
  		const slider: HookSelectorSlider | undefined =
  			cycle && cycle.models.length > 1
  				? {
@@ -10032,7 +10109,7 @@ index bd4a7d1..bc7b5cb 100644
  						index: startTierIndex,
  						segments: cycle.models.map(entry => ({
  							label: entry.role,
-@@ -4800,7 +4800,7 @@ export class InteractiveMode implements InteractiveModeContext {
+@@ -4883,7 +4883,7 @@ export class InteractiveMode implements InteractiveModeContext {
  				: undefined;
  		// The overlay now owns the dynamic, focus-aware help line; the caller only
  		// supplies the trailing cancel hint.
@@ -10041,7 +10118,7 @@ index bd4a7d1..bc7b5cb 100644
  		// In-overlay edits (section deletes/undo) and section annotations. Deletes
  		// update `editedContent` (and mirror to disk); annotations build `feedback`
  		// that the Refine branch re-prompts the model with.
-@@ -4810,12 +4810,12 @@ export class InteractiveMode implements InteractiveModeContext {
+@@ -4893,12 +4893,12 @@ export class InteractiveMode implements InteractiveModeContext {
  
  		const choice = await this.showPlanReview(
  			planContent,
@@ -10058,7 +10135,7 @@ index bd4a7d1..bc7b5cb 100644
  				PLAN_SAVE_AND_QUIT_OPTION,
  			],
  			{
-@@ -4857,7 +4857,7 @@ export class InteractiveMode implements InteractiveModeContext {
+@@ -4940,7 +4940,7 @@ export class InteractiveMode implements InteractiveModeContext {
  			return;
  		}
  
@@ -10067,7 +10144,7 @@ index bd4a7d1..bc7b5cb 100644
  			try {
  				// Prefer in-overlay edits (already in memory) over a disk re-read. The
  				// overlay mirrors edits as they happen, and approval awaits one final
-@@ -4902,8 +4902,8 @@ export class InteractiveMode implements InteractiveModeContext {
+@@ -4985,8 +4985,8 @@ export class InteractiveMode implements InteractiveModeContext {
  				const executionDispatched = await this.#approvePlan(latestPlanContent, {
  					planFilePath,
  					title: details.title,
@@ -10078,7 +10155,7 @@ index bd4a7d1..bc7b5cb 100644
  					executionModel,
  				});
  				if (executionDispatched) this.#planReviewAnnotationState.delete(annotationStateKey);
-@@ -4916,7 +4916,7 @@ export class InteractiveMode implements InteractiveModeContext {
+@@ -4999,7 +4999,7 @@ export class InteractiveMode implements InteractiveModeContext {
  			return;
  		}
  
@@ -10087,7 +10164,7 @@ index bd4a7d1..bc7b5cb 100644
  			const refinement = feedback.trim();
  			try {
  				if (refinement) {
-@@ -4929,10 +4929,10 @@ export class InteractiveMode implements InteractiveModeContext {
+@@ -5012,10 +5012,10 @@ export class InteractiveMode implements InteractiveModeContext {
  						this.#planReviewAnnotationState.delete(annotationStateKey);
  					}
  				} else {
@@ -10631,10 +10708,10 @@ index 3c98c22..985e341 100644
  
  	const details = tool.formatApprovalDetails?.(args);
 diff --git a/pi-coding-agent/src/tools/ask.ts b/pi-coding-agent-zh/src/tools/ask.ts
-index cf5c705..5ea0827 100644
+index 1189e9d..c53776a 100644
 --- a/pi-coding-agent/src/tools/ask.ts
 +++ b/pi-coding-agent-zh/src/tools/ask.ts
-@@ -45,7 +45,7 @@ import { ToolAbortError } from "./tool-errors";
+@@ -52,7 +52,7 @@ import { ToolAbortError } from "./tool-errors";
  // Types
  // =============================================================================
  
@@ -10643,7 +10720,7 @@ index cf5c705..5ea0827 100644
  const CHAT_ABOUT_THIS_OPTION = "Chat about this";
  const NEXT_OPTION = "Next →";
  const RESERVED_OPTION_LABELS: Record<string, true> = {
-@@ -149,14 +149,14 @@ function toSelectOption(option: AskOption, label = option.label): ExtensionUISel
+@@ -156,14 +156,14 @@ function toSelectOption(option: AskOption, label = option.label): ExtensionUISel
  // Constants
  // =============================================================================
  
@@ -10660,7 +10737,7 @@ index cf5c705..5ea0827 100644
  }
  
  /** Add "(Recommended)" suffix to the option at the given index if not already present */
-@@ -319,10 +319,10 @@ function buildCustomInputRows(
+@@ -326,10 +326,10 @@ function buildCustomInputRows(
  	rows.push({ text: "", priority: -1 });
  
  	const emitGap = (gap: CustomInputOptionGap) => {
@@ -10673,7 +10750,7 @@ index cf5c705..5ea0827 100644
  				contentWidth,
  			),
  			priority: 2,
-@@ -362,7 +362,7 @@ function buildCustomInputRows(
+@@ -369,7 +369,7 @@ function buildCustomInputRows(
  	const trailingGap = window.gapBefore.get(options.length);
  	if (trailingGap !== undefined) emitGap(trailingGap);
  	rows.push({ text: "", priority: -1 });
@@ -10682,7 +10759,7 @@ index cf5c705..5ea0827 100644
  	return rows;
  }
  
-@@ -475,8 +475,8 @@ async function askSingleQuestion(
+@@ -482,8 +482,8 @@ async function askSingleQuestion(
  		};
  		let navigationAction: "back" | "forward" | undefined;
  		const helpText = navigation
@@ -10693,7 +10770,7 @@ index cf5c705..5ea0827 100644
  		const timeoutMs = typeof timeout === "number" && timeout > 0 ? timeout : undefined;
  		const timeoutController = timeoutMs === undefined ? undefined : new AbortController();
  		const dialogSignal =
-@@ -577,7 +577,7 @@ async function askSingleQuestion(
+@@ -584,7 +584,7 @@ async function askSingleQuestion(
  			for (let i = 0; i < questionOptions.length; i++) {
  				if (selected.has(questionOptions[i]!.label)) checkedIndices.push(i);
  			}
@@ -10702,7 +10779,7 @@ index cf5c705..5ea0827 100644
  			const {
  				choice,
  				timedOut: selectTimedOut,
-@@ -772,7 +772,7 @@ type AskParams = AskToolInput;
+@@ -791,7 +791,7 @@ type AskParams = AskToolInput;
  export class AskTool implements AgentTool<typeof askSchema, AskToolDetails> {
  	readonly name = "ask";
  	readonly approval = "read" as const;
@@ -10711,7 +10788,7 @@ index cf5c705..5ea0827 100644
  	readonly summary = "Ask the user a clarifying question";
  	readonly description: string;
  	readonly parameters = askSchema;
-@@ -840,7 +840,7 @@ export class AskTool implements AgentTool<typeof askSchema, AskToolDetails> {
+@@ -859,7 +859,7 @@ export class AskTool implements AgentTool<typeof askSchema, AskToolDetails> {
  		if (method === "off") return;
  		TERMINAL.sendNotification({
  			title: "Oh My Pi",
@@ -10720,7 +10797,7 @@ index cf5c705..5ea0827 100644
  			type: "ask",
  			urgency: "normal",
  			actions: "focus",
-@@ -1259,7 +1259,7 @@ function renderAnswerOptionLines(
+@@ -1447,7 +1447,7 @@ function renderAnswerOptionLines(
  
  	// Nothing was chosen (and no custom answer) → a lone cancelled marker.
  	if (selected.size === 0 && customInput === undefined && note === undefined) {
@@ -10729,7 +10806,7 @@ index cf5c705..5ea0827 100644
  	}
  
  	const out: string[] = [];
-@@ -1280,7 +1280,7 @@ function renderAnswerOptionLines(
+@@ -1468,7 +1468,7 @@ function renderAnswerOptionLines(
  export const askToolRenderer = {
  	mergeCallAndResult: true,
  	renderCall(args: AskRenderArgs, _options: RenderResultOptions, uiTheme: Theme): Component {
@@ -10738,7 +10815,7 @@ index cf5c705..5ea0827 100644
  		const mdTheme = getMarkdownTheme();
  		const accentStyle = { color: (t: string) => uiTheme.fg("accent", t) };
  		const md = (text: string, width: number) =>
-@@ -1291,12 +1291,12 @@ export const askToolRenderer = {
+@@ -1479,12 +1479,12 @@ export const askToolRenderer = {
  		// throw here takes down the whole TUI render loop — normalize first.
  		const questions = normalizeRenderQuestions(args.questions);
  		if (questions && questions.length > 0) {
@@ -10754,7 +10831,7 @@ index cf5c705..5ea0827 100644
  					const metaStr = meta.length > 0 ? uiTheme.fg("dim", ` · ${meta.join(" · ")}`) : "";
  					// md() returns a shared cached array (module-level Markdown LRU) — copy before appending.
  					const mdLines = md(q.question, width);
-@@ -1311,7 +1311,7 @@ export const askToolRenderer = {
+@@ -1499,7 +1499,7 @@ export const askToolRenderer = {
  
  		// Single question
  		if (typeof args.question !== "string" || !args.question) {
@@ -10763,9 +10840,9 @@ index cf5c705..5ea0827 100644
  			return framedBlock(uiTheme, width => ({
  				header: errorLine,
  				sections: [],
-@@ -1323,9 +1323,9 @@ export const askToolRenderer = {
+@@ -1511,9 +1511,9 @@ export const askToolRenderer = {
  
- 		const question = args.question;
+ 		const question = sanitizeCarriageReturns(args.question);
  		const meta: string[] = [];
 -		if (args.multi) meta.push("multi");
 +		if (args.multi) meta.push("多选");
@@ -10775,15 +10852,16 @@ index cf5c705..5ea0827 100644
  		const header = `${label}${formatMeta(meta, uiTheme)}`;
  		const multi = args.multi;
  		return framedBlock(uiTheme, width => {
-@@ -1358,14 +1358,14 @@ export const askToolRenderer = {
- 		if (!details) {
+@@ -1546,7 +1546,7 @@ export const askToolRenderer = {
+ 		if (!rawDetails) {
  			const txt = result.content[0];
- 			const fallback = txt?.type === "text" && txt.text ? txt.text : "";
+ 			const fallback = txt?.type === "text" && txt.text ? sanitizeCarriageReturns(txt.text) : "";
 -			const header = renderStatusLine({ icon: "warning", title: "Ask" }, uiTheme);
 +			const header = renderStatusLine({ icon: "warning", title: "提问" }, uiTheme);
  			const body = fallback ? `\n${uiTheme.fg("dim", fallback)}` : "";
  			return new Text(`${header}${body}`, 0, 0);
  		}
+@@ -1554,7 +1554,7 @@ export const askToolRenderer = {
  
  		// Chat redirect: user chose "Chat about this" instead of answering.
  		if (details.chatRedirect) {
@@ -10792,7 +10870,7 @@ index cf5c705..5ea0827 100644
  			const questions = details.questions ?? [];
  			return framedBlock(uiTheme, width => ({
  				header,
-@@ -1388,8 +1388,8 @@ export const askToolRenderer = {
+@@ -1577,8 +1577,8 @@ export const askToolRenderer = {
  			const header = renderStatusLine(
  				{
  					icon: hasAnySelection ? "success" : "warning",
@@ -10803,7 +10881,7 @@ index cf5c705..5ea0827 100644
  				},
  				uiTheme,
  			);
-@@ -1435,8 +1435,8 @@ export const askToolRenderer = {
+@@ -1628,8 +1628,8 @@ export const askToolRenderer = {
  			(details.selectedOptions && details.selectedOptions.length > 0);
  		const header = renderStatusLine(
  			hasSelection
@@ -10814,7 +10892,7 @@ index cf5c705..5ea0827 100644
  			uiTheme,
  		);
  		const dOptions = details.options;
-@@ -1453,7 +1453,7 @@ export const askToolRenderer = {
+@@ -1656,7 +1656,7 @@ export const askToolRenderer = {
  			];
  			if (dTimedOut) {
  				// Distinguish auto-selection from a real user choice in the transcript.
@@ -12826,10 +12904,10 @@ index 3d32304..ac632c8 100644
  				readPath: localReadPath,
  				absolutePath,
 diff --git a/pi-coding-agent/src/tools/render-utils.ts b/pi-coding-agent-zh/src/tools/render-utils.ts
-index d1d58a9..040ca87 100644
+index d66ac5f..9774647 100644
 --- a/pi-coding-agent/src/tools/render-utils.ts
 +++ b/pi-coding-agent-zh/src/tools/render-utils.ts
-@@ -200,7 +200,35 @@ export function getDomain(url: string): string {
+@@ -234,7 +234,35 @@ export function getDomain(url: string): string {
  // Formatting Utilities
  // =============================================================================
  
@@ -12866,7 +12944,7 @@ index d1d58a9..040ca87 100644
  
  // =============================================================================
  // Theme Helper Utilities
-@@ -242,7 +270,7 @@ export function formatStatusIcon(status: ToolUIStatus, theme: Theme, spinnerFram
+@@ -276,7 +304,7 @@ export function formatStatusIcon(status: ToolUIStatus, theme: Theme, spinnerFram
  export function formatExpandHint(theme: Theme, expanded?: boolean, hasMore?: boolean): string {
  	if (expanded) return "";
  	if (hasMore === false) return "";
@@ -12875,7 +12953,7 @@ index d1d58a9..040ca87 100644
  }
  
  /**
-@@ -260,7 +288,7 @@ export function formatBadge(label: string, color: ToolUIColor, theme: Theme): st
+@@ -294,7 +322,7 @@ export function formatBadge(label: string, color: ToolUIColor, theme: Theme): st
   */
  export function formatMoreItems(remaining: number, itemType: string): string {
  	const safeRemaining = Number.isFinite(remaining) ? remaining : 0;
@@ -12884,7 +12962,7 @@ index d1d58a9..040ca87 100644
  }
  
  /**
-@@ -305,7 +333,7 @@ export function capPreviewLines(
+@@ -339,7 +367,7 @@ export function capPreviewLines(
  	const visible = max <= 1 ? [] : lines.slice(lines.length - (max - 1));
  	const hidden = lines.length - visible.length;
  	const hint = options.expandHint === false ? "" : formatExpandHint(theme, false, true);
@@ -12893,7 +12971,7 @@ index d1d58a9..040ca87 100644
  	return [`${options.prefix ?? ""}${theme.fg("dim", marker)}`, ...visible];
  }
  
-@@ -315,7 +343,7 @@ export function formatMeta(meta: string[], theme: Theme): string {
+@@ -349,7 +377,7 @@ export function formatMeta(meta: string[], theme: Theme): string {
  
  function sanitizeErrorText(message: string | undefined): string {
  	const clean = (message ?? "").replace(/^Error:\s*/, "").trim();
@@ -12902,7 +12980,7 @@ index d1d58a9..040ca87 100644
  }
  
  /**
-@@ -334,7 +362,7 @@ export function sanitizeDisplayLines(text: string): string[] {
+@@ -368,7 +396,7 @@ export function sanitizeDisplayLines(text: string): string[] {
  }
  
  export function formatErrorMessage(message: string | undefined, theme: Theme): string {
@@ -12911,7 +12989,7 @@ index d1d58a9..040ca87 100644
  }
  
  /**
-@@ -469,7 +497,7 @@ export function formatDiagnostics(
+@@ -503,7 +531,7 @@ export function formatDiagnostics(
  		: theme.styledSymbol("status.warning", "warning");
  	const summary = sanitizeDiagnosticDisplayText(diag.summary);
  	const summaryTag = summary ? ` ${theme.fg("dim", `(${summary})`)}` : "";
@@ -12920,7 +12998,7 @@ index d1d58a9..040ca87 100644
  
  	const maxDiags = expanded ? diag.messages.length : 5;
  	let diagsShown = 0;
-@@ -553,7 +581,7 @@ export function formatDiagnostics(
+@@ -587,7 +615,7 @@ export function formatDiagnostics(
  		const remaining = totalDiags - diagsShown;
  		output += `\n ${theme.fg("dim", theme.tree.last)} ${theme.fg(
  			"muted",
@@ -12929,7 +13007,7 @@ index d1d58a9..040ca87 100644
  		)} ${formatExpandHint(theme)}`;
  	}
  
-@@ -601,7 +629,7 @@ export function formatDiffStats(added: number, removed: number, hunks: number, t
+@@ -635,7 +663,7 @@ export function formatDiffStats(added: number, removed: number, hunks: number, t
  	const parts: string[] = [];
  	if (added > 0) parts.push(theme.fg("toolDiffAdded", `+${added}`));
  	if (removed > 0) parts.push(theme.fg("toolDiffRemoved", `-${removed}`));
@@ -12938,7 +13016,7 @@ index d1d58a9..040ca87 100644
  	return parts.join(theme.fg("dim", " / "));
  }
  
-@@ -823,20 +851,20 @@ export function formatScreenshot(opts: {
+@@ -872,20 +900,20 @@ export function formatScreenshot(opts: {
  	dest: string;
  	resized: ResizedImage;
  }): string[] {
@@ -12965,7 +13043,7 @@ index d1d58a9..040ca87 100644
  	}
  	const dimensionNote = formatDimensionNote(opts.resized);
  	if (dimensionNote) {
-@@ -868,7 +896,7 @@ export function formatParseErrors(errors: string[], total?: number): string[] {
+@@ -917,7 +945,7 @@ export function formatParseErrors(errors: string[], total?: number): string[] {
  	if (deduped.length === 0) return [];
  	const fullCount = total ?? deduped.length;
  	const capped = deduped.slice(0, PARSE_ERRORS_LIMIT);
@@ -12974,7 +13052,7 @@ index d1d58a9..040ca87 100644
  	return [header, ...capped.map(err => `- ${err}`)];
  }
  
-@@ -994,7 +1022,7 @@ export function appendParseErrorsBulletList(
+@@ -1043,7 +1071,7 @@ export function appendParseErrorsBulletList(
  		lines.push(theme.fg("warning", `  - ${err}`));
  	}
  	if (fullCount > capped.length) {
@@ -12983,7 +13061,7 @@ index d1d58a9..040ca87 100644
  	}
  }
  
-@@ -1005,8 +1033,8 @@ export function appendParseErrorsBulletList(
+@@ -1054,8 +1082,8 @@ export function appendParseErrorsBulletList(
  export function formatParseErrorsCountLabel(parseErrors: readonly string[], total?: number): string {
  	const fullCount = total ?? parseErrors.length;
  	return fullCount > PARSE_ERRORS_LIMIT
@@ -13292,10 +13370,10 @@ index 7b3d058..6a0d072 100644
  					{
  						icon: details.wait?.timedOut ? "warning" : running > 0 ? "info" : "done",
 diff --git a/pi-coding-agent/src/tools/write.ts b/pi-coding-agent-zh/src/tools/write.ts
-index 46cb5b9..f7fcb3d 100644
+index 10c6ccd..56f2161 100644
 --- a/pi-coding-agent/src/tools/write.ts
 +++ b/pi-coding-agent-zh/src/tools/write.ts
-@@ -567,7 +567,7 @@ export class WriteTool implements AgentTool<typeof writeSchema, WriteToolDetails
+@@ -568,7 +568,7 @@ export class WriteTool implements AgentTool<typeof writeSchema, WriteToolDetails
  		const content = typeof params.content === "string" ? params.content : "";
  		return [`Path: ${truncateForPrompt(targetPath)}`, `Content:\n${truncateForPrompt(content)}`];
  	};
@@ -13304,7 +13382,7 @@ index 46cb5b9..f7fcb3d 100644
  	get description(): string {
  		const deviceOnly = this.session.deviceOnlyWrite === true && this.session.pendingFullWriteDescription !== true;
  		return prompt.render(deviceOnly ? writeDeviceOnlyDescription : writeDescription);
-@@ -1404,7 +1404,7 @@ function writeContentOf(args: unknown): string {
+@@ -1405,7 +1405,7 @@ function writeContentOf(args: unknown): string {
  
  function formatLineCountSuffix(lineCount: number, uiTheme: Theme): string {
  	if (lineCount <= 0) return "";
@@ -13313,16 +13391,16 @@ index 46cb5b9..f7fcb3d 100644
  }
  
  function normalizeDisplayText(text: unknown): string {
-@@ -1540,7 +1540,7 @@ function formatStreamingContent(
+@@ -1581,7 +1581,7 @@ function formatStreamingContent(
  
  		let text = "\n\n";
  		if (hidden > 0) {
 -			text += `${uiTheme.fg("dim", `… (${hidden} earlier line${hidden === 1 ? "" : "s"})`)}\n`;
 +			text += `${uiTheme.fg("dim", `… (之前还有 ${hidden} 行)`)}\n`;
  		}
- 		for (let i = 0; i < highlighted.length; i++) {
+ 		for (let i = 0; i < visibleLines.length; i++) {
  			const lineNum = startIndex + i + 1;
-@@ -1556,7 +1556,7 @@ function formatStreamingContent(
+@@ -1597,7 +1597,7 @@ function formatStreamingContent(
  	// the native-scrollback commit boundary at the top of the block, so a long
  	// expanded preview could never scroll-append mid-stream.
  	const spinner = spinnerFrame !== undefined ? `${formatStatusIcon("running", uiTheme, spinnerFrame)} ` : "";
@@ -13331,7 +13409,7 @@ index 46cb5b9..f7fcb3d 100644
  }
  
  function renderContentPreview(
-@@ -1607,13 +1607,13 @@ export const writeToolRenderer = {
+@@ -1648,13 +1648,13 @@ export const writeToolRenderer = {
  				: typeof writeArgs.path === "string"
  					? writeArgs.path
  					: "";
@@ -13347,7 +13425,7 @@ index 46cb5b9..f7fcb3d 100644
  	},
  
  	renderCall(
-@@ -1648,7 +1648,7 @@ export const writeToolRenderer = {
+@@ -1689,7 +1689,7 @@ export const writeToolRenderer = {
  		// noise. The liveness cue rides the trailing "(streaming)" line instead.
  		const header = renderStatusLine(
  			{
@@ -13356,7 +13434,7 @@ index 46cb5b9..f7fcb3d 100644
  				description: `${langIcon} ${pathDisplay}`,
  			},
  			uiTheme,
-@@ -1717,7 +1717,7 @@ export const writeToolRenderer = {
+@@ -1760,7 +1760,7 @@ export const writeToolRenderer = {
  		if (result.isError) {
  			const errorText = result.content?.find(c => c.type === "text")?.text ?? "";
  			const header = renderStatusLine(
@@ -13365,7 +13443,7 @@ index 46cb5b9..f7fcb3d 100644
  				uiTheme,
  			);
  			return framedBlock(uiTheme, width => ({
-@@ -1735,14 +1735,14 @@ export const writeToolRenderer = {
+@@ -1778,14 +1778,14 @@ export const writeToolRenderer = {
  		const lineSuffix = formatLineCountSuffix(lineCount, uiTheme);
  		const execSuffix =
  			!isPartial && result.details?.madeExecutable
