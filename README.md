@@ -184,7 +184,14 @@ cd .tmp/npm-pkg/omp-zh && npm pack
 # 3. 发布
 cd .tmp/npm-pkg/omp-zh
 npm publish --registry https://registry.npmjs.org --access public
+# 账号开了 2FA 的话，需要补一次验证码（30 秒有效）：
+# npm publish --registry https://registry.npmjs.org --access public --otp=<6位码>
 ```
+
+> **关于 2FA**：npm 从 2025-11 起已移除 Classic token，只能用 Granular token。
+> 开了 2FA 的账号要么改命令行补 `--otp`，要么建一个勾了 **Bypass 2FA** 的 Granular token
+> （`npm config set //registry.npmjs.org/:_authToken=<token> --location=user`）。
+> 注意 npm 计划 2027-01 起废弃「Bypass 2FA 直接发包」，所以 CI 请用下面的 Trusted Publishing。
 
 - `--strict-baseline`：当 `translations/meta.jsonc` 的 `baseVersion` 与目标版本不一致时**拒绝构建**，
   避免把「大面积仍是英文」的包发出去。发布前请先按上面的步骤跟进翻译。
@@ -192,8 +199,27 @@ npm publish --registry https://registry.npmjs.org --access public
 - 发布包的 `bin` 指向 `bin/omp.mjs`（用 bun 直跑汉化后的 `src/cli.ts`）；包内 `dist/cli.js` 是上游原版，仅为兼容保留。
 - 构建脚本会改写 `package.json`（包名/版本/bin/描述/仓库）并**删除上游的 `scripts`**——其中的 `prepack` 会在 `npm publish` 时触发构建且必然失败。
 
-**CI 自动发布**：`.github/workflows/publish-npm.yml`，支持手动触发（Actions → publish-npm → Run workflow，可指定版本）
-或推送 `v*` tag 触发。需在仓库 `Settings → Secrets → Actions` 配置 `NPM_TOKEN`（npm 的 Automation token）。
+**CI 自动发布（Trusted Publishing，不需要任何 token）**：`.github/workflows/publish-npm.yml`，
+支持手动触发（Actions → publish-npm → Run workflow，可指定版本）或推送 `v*` tag 触发。
+
+认证走 GitHub OIDC，需先在这个包的 npm 页面配置一次 Trusted Publisher
+（npmjs.com → 包 `omp-zh` → Settings → Trusted Publisher → GitHub Actions）：
+
+| 字段 | 值 |
+|---|---|
+| Organization or user | `tt1bt` |
+| Repository | `oh-my-pi-zh` |
+| Workflow filename | `publish-npm.yml` |
+| Environment name | 留空 |
+| Allowed actions | **必须勾上 `npm publish`** |
+
+> ⚠️ **`Allowed actions` 这一项要特别注意**：npm 从 2026-09-03 起，新建的 Trusted Publisher 配置
+> **默认只允许 `npm stage publish`（暂存待审）**。若不勾上直接 `npm publish`，CI 会在发布那一步失败。
+
+其它要求：npm CLI ≥ 11.5.1、Node ≥ 22.14.0（工作流里用 Node 24 + 最新 npm）；
+`package.json` 的 `repository.url` 必须与 GitHub 仓库完全一致（构建脚本已保证）。
+仓库公开 + 包公开时 npm 会自动生成 provenance 证明，不需要 `--provenance`。
+
 工作流带安全阀：只有 `baseVersion` 等于要发布的版本时才真正发布——上游发新版后必须先跟进翻译并更新基线，才会发出新包。
 
 ### translations/ 数据格式

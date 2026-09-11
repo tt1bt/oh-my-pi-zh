@@ -4,7 +4,14 @@
 #   1. 手动：Actions → publish-npm → Run workflow（可指定上游版本，留空取 npm latest）
 #   2. 打 tag：git tag v18.1.17 && git push origin v18.1.17
 #
-# 前置条件：仓库 Settings → Secrets → Actions 里配置 NPM_TOKEN（npm 的 Automation token）。
+# 认证：**Trusted Publishing（GitHub OIDC）**，不需要配置 NPM_TOKEN secret。
+#   前置：npmjs.com → 包 omp-zh → Settings → Trusted Publisher → GitHub Actions，填
+#     Organization or user : tt1bt
+#     Repository            : oh-my-pi-zh
+#     Workflow filename     : publish-npm.yml
+#     Allowed actions       : 必须勾上「npm publish」（2026-09-03 后新建的配置默认只允许 npm stage publish）
+#   要求 npm CLI ≥ 11.5.1、Node ≥ 22.14.0（下面用的是 Node 24 + 最新 npm）。
+#   本仓库是公开仓库 + 公开包，npm 会自动生成 provenance，无需 --provenance。
 #
 # 安全阀：只有当 translations/meta.jsonc 的 baseVersion **等于**要发布的版本时才会发布，
 # 避免上游刚发新版就自动发出一个"大面积还是英文"的包。跟进翻译后 baseVersion 才会被更新。
@@ -28,22 +35,29 @@ on:
       - "v*"
 
 permissions:
+  id-token: write # Trusted Publishing（OIDC）必需
   contents: read
 
 jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
-          node-version: 22
-          registry-url: https://registry.npmjs.org
+          node-version: "24"
+          registry-url: "https://registry.npmjs.org"
+          package-manager-cache: false # 发布流程不用缓存
+
+      - name: 确保 npm CLI 支持 Trusted Publishing（需 ≥ 11.5.1）
+        run: |
+          npm install -g npm@latest
+          npm --version
 
       - name: 决定目标版本
         id: v
@@ -80,16 +94,10 @@ jobs:
         run: |
           cd ".tmp/npm-pkg/omp-zh"
           npm pack --dry-run 2>&1 | tail -20
-          node -e 'const p=require("./package.json");if(p.name!=="omp-zh")throw new Error("包名不对: "+p.name);if(!p.bin||!p.bin.omp)throw new Error("bin 未设置");console.log("✓ package.json 自检通过:",p.name,p.version,p.bin.omp)'
+          node -e 'const p=require("./package.json");if(p.name!=="omp-zh")throw new Error("包名不对: "+p.name);if(!p.bin||!p.bin.omp)throw new Error("bin 未设置");if(p.scripts)throw new Error("scripts 未清空，prepack 会触发构建");console.log("✓ package.json 自检通过:",p.name,p.version,p.bin.omp)'
+          node -e 'const p=require("./package.json");if(p.repository.url!=="git+https://github.com/tt1bt/oh-my-pi-zh.git")throw new Error("repository.url 必须与 GitHub 仓库一致，否则 Trusted Publishing 会失败: "+p.repository.url);console.log("✓ repository.url 与仓库匹配")'
 
-      - name: 发布到 npm
+      - name: 发布到 npm（Trusted Publishing，无需 token）
         if: steps.base.outputs.same == '1' && inputs.dry_run != true
         working-directory: .tmp/npm-pkg/omp-zh
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: |
-          if [ -z "$NODE_AUTH_TOKEN" ]; then
-            echo "::error::缺少 NPM_TOKEN secret，无法发布。请在仓库 Settings → Secrets → Actions 中添加。"
-            exit 1
-          fi
-          npm publish --access public
+        run: npm publish --access public
