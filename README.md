@@ -41,7 +41,19 @@ graph LR
 
 ## 安装
 
-### 方式一：一行命令（推荐）
+### 方式一：npm 安装（推荐，一条命令）
+
+```bash
+bun install -g omp-zh
+```
+
+装完直接敲 `omp` 就是中文界面。不需要 clone 仓库、不需要 git、不需要任何配置。
+升级 `bun install -g omp-zh@latest`，卸载 `bun remove -g omp-zh`。
+
+包由本项目构建发布（见下方「发布到 npm」），版本号与上游 omp 对齐（如 `18.2.1`）。
+本包用 bun 直跑汉化后的源码，启动约 4–5 秒。
+
+### 方式二：一行脚本（不用 npm，也不用 git）
 
 **Windows（PowerShell）**
 
@@ -64,15 +76,6 @@ curl -fsSL https://raw.githubusercontent.com/tt1bt/oh-my-pi-zh/main/install.sh |
 
 重复执行同一条命令即为**更新**。可选参数：`--dir <路径>`（安装目录）、`--ref <分支/标签>`、`--no-apply`（只下载）。
 管道执行时要传参写成 `curl ... | sh -s -- --dir ~/oh-my-pi-zh`。
-
-### 方式二：npm 安装
-
-```bash
-bun install -g omp-zh
-```
-
-装完直接敲 `omp` 就是中文界面，不需要 clone 仓库、不需要任何配置。
-（包由本项目构建发布，见下方「发布到 npm」；本包用 bun 直跑汉化源码，启动约 4–5 秒。）
 
 ### 方式三：手动（改翻译 / 开发时用）
 
