@@ -225,7 +225,6 @@
 		{"kind":"string","file":"src/tools/hub/launch.ts","en":"Readiness timed out; the process is still running.","zh":"就绪检测超时;进程仍在运行。"},
 		{"kind":"string","file":"src/tools/hub/launch.ts","en":"Process exited before readiness was observed.","zh":"进程在就绪检测前已退出。"},
 		{"kind":"template","file":"src/tools/hub/launch.ts","en":"matched: ${replaceTabs(details.matched)}","zh":"匹配: ${replaceTabs(details.matched)}"},
-		{"kind":"template","file":"src/tools/hub/launch.ts","en":"Wait timed out — still waiting on ${pending.join(\"; \")}.","zh":"等待超时 — 仍在等待 ${pending.join(\"; \")}。"},
 		{"kind":"string","file":"src/tools/hub/launch.ts","en":"Wait timed out.","zh":"等待超时。"},
 		{"kind":"string","file":"src/tools/hub/launch.ts","en":"follow timed out","zh":"跟随超时"},
 		{"kind":"template","file":"src/tools/hub/launch.ts","en":"Launch ${op ?? \"\"}","zh":"启动 ${op ?? \"\"}"},
@@ -238,7 +237,6 @@
 		{"kind":"string","file":"src/tools/hub/messaging.ts","en":"broadcast","zh":"广播"},
 		{"kind":"string","file":"src/tools/hub/messaging.ts","en":"await reply","zh":"等待回复"},
 		{"kind":"string","file":"src/tools/hub/messaging.ts","en":"reply","zh":"回复"},
-		{"kind":"template","file":"src/tools/hub/messaging.ts","en":"timeout ${formatDuration(args.timeoutMs)}","zh":"超时 ${formatDuration(args.timeoutMs)}"},
 		{"kind":"string","file":"src/tools/hub/messaging.ts","en":"peek","zh":"预览"},
 		{"kind":"string","file":"src/tools/hub/messaging.ts","en":"IRC call failed.","zh":"IRC 调用失败。"},
 		{"kind":"string","file":"src/tools/hub/messaging.ts","en":"auto","zh":"自动"},
@@ -319,6 +317,14 @@
 		{"kind":"string","file":"src/tools/vibe.ts","en":"vibe wait — watching the wall","zh":"vibe wait — 正在观看电视墙"},
 		{"kind":"template","file":"src/tools/vibe.ts","en":"vibe sessions (${screens.length})","zh":"vibe 会话 (${screens.length})"},
 		{"kind":"string","file":"src/tools/write.ts","en":"Write","zh":"写入"},
-		{"kind":"string","file":"src/tools/yield.ts","en":"Submit Result","zh":"提交结果"}
+		{"kind":"string","file":"src/tools/yield.ts","en":"Submit Result","zh":"提交结果"},
+		{"kind":"string","file":"src/tools/computer/supervisor.ts","en":"Timed out fetching computer capabilities","zh":"获取 computer 能力超时"},
+		{"kind":"template","file":"src/tools/hub/jobs.ts","en":" — final result accepted ${formatDuration(Math.max(0, Date.now() - agent.acceptedAt))} ago but still running; clear it with \\`hub\\` cancel","zh":" —— 最终结果已于 ${formatDuration(Math.max(0, Date.now() - agent.acceptedAt))} 前接受，但仍在执行；可用 \\`hub\\` cancel 清除"},
+		{"kind":"template","file":"src/tools/hub/launch.ts","en":"Wait timed out (still waiting on: ${waitPendingSummary(result.daemon, params).join(\"; \")}).","zh":"等待超时（仍在等待：${waitPendingSummary(result.daemon, params).join(\"; \")}）。"},
+		{"kind":"template","file":"src/tools/hub/launch.ts","en":"Wait timed out — still waiting on ${waitPendingSummary(daemon, params).join(\"; \")}.","zh":"等待超时 —— 仍在等待 ${waitPendingSummary(daemon, params).join(\"; \")}。"},
+		{"kind":"template","file":"src/tools/hub/launch.ts","en":"output pattern /${params.pattern}/ never matched","zh":"输出模式 /${params.pattern}/ 从未匹配"},
+		{"kind":"template","file":"src/tools/hub/launch.ts","en":"process exit (still ${daemon.state})","zh":"进程退出（仍为 ${daemon.state}）"},
+		{"kind":"template","file":"src/tools/hub/launch.ts","en":"readiness (still ${daemon.state})","zh":"就绪检查（仍为 ${daemon.state}）"},
+		{"kind":"template","file":"src/tools/render-utils.ts","en":"… ${hidden} more ${pluralize(\"warning\", hidden)}","zh":"… 还有 ${hidden} 条警告"}
 	]
 }

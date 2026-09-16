@@ -248,6 +248,22 @@
 		{"kind":"string","file":"src/cli/command-help.ts","en":"List and control daemon-supervised background processes (logs, stop, kill, restart)","zh":"列出并控制守护进程托管的后台进程（logs、stop、kill、restart）"},
 		{"kind":"line","file":"src/cli/help-extra.ts","en":"  ABLITERATION_API_KEY       - Abliteration uncensored GLM models","zh":"  ABLITERATION_API_KEY       - Abliteration 无审查 GLM 模型"},
 		{"kind":"line","file":"src/cli/help-extra.ts","en":"  CLINE_API_KEY              - ClinePass subscription models","zh":"  CLINE_API_KEY              - ClinePass 订阅模型"},
-		{"kind":"line","file":"src/cli/help-extra.ts","en":"  YOLO_AUTO_API_KEY          - Yolo-Auto flat-rate Qwen models","zh":"  YOLO_AUTO_API_KEY          - Yolo-Auto 包量 Qwen 模型"}
+		{"kind":"line","file":"src/cli/help-extra.ts","en":"  YOLO_AUTO_API_KEY          - Yolo-Auto flat-rate Qwen models","zh":"  YOLO_AUTO_API_KEY          - Yolo-Auto 包量 Qwen 模型"},
+		{"kind":"template","file":"src/cli/collab-cli.ts","en":"${hosts.length} active Collab ${hosts.length === 1 ? \"host\" : \"hosts\"}","zh":"${hosts.length} 个活跃 Collab 宿主"},
+		{"kind":"string","file":"src/cli/collab-cli.ts","en":"Get a link: omp collab link <instanceId|pid> [--view]","zh":"获取链接：omp collab link <instanceId|pid> [--view]"},
+		{"kind":"string","file":"src/cli/collab-cli.ts","en":"No active Collab hosts.","zh":"没有活跃的 Collab 宿主。"},
+		{"kind":"template","file":"src/cli/collab-cli.ts","en":"gen ${host.generation}","zh":"第 ${host.generation} 代"},
+		{"kind":"string","file":"src/cli/collab-cli.ts","en":"input required","zh":"需要输入"},
+		{"kind":"string","file":"src/cli/collab-cli.ts","en":"just now","zh":"刚刚"},
+		{"kind":"string","file":"src/cli/collab-cli.ts","en":"no model","zh":"无模型"},
+		{"kind":"template","file":"src/cli/collab-cli.ts","en":"relay ${host.relayConnected ? \"connected\" : \"reconnecting\"}","zh":"中继 ${host.relayConnected ? \"connected\" : \"reconnecting\"}"},
+		{"kind":"template","file":"src/cli/collab-cli.ts","en":"started ${formatAge(Math.round((Date.now() - host.startedAt) / 1000)) || \"just now\"}","zh":"已启动 ${formatAge(Math.round((Date.now() - host.startedAt) / 1000)) || \"just now\"}"},
+		{"kind":"string","file":"src/cli/command-help.ts","en":"List active local Collab host metadata without URLs; use collab link <instanceId|pid> to retrieve a control link (--view for view-only)","zh":"列出本地活跃 Collab 宿主的元数据（不含 URL）；用 collab link <instanceId|pid> 获取控制链接（--view 为只读）"},
+		{"kind":"template","file":"src/cli/git-tui/index.ts","en":"Discard changes to ${action.selection.label}? Press delete again to confirm","zh":"丢弃对 ${action.selection.label} 的更改？再次按 delete 确认"},
+		{"kind":"template","file":"src/cli/git-tui/index.ts","en":"Discarded ${action.selection.label}","zh":"已丢弃 ${action.selection.label}"},
+		{"kind":"string","file":"src/cli/git-tui/index.ts","en":"alt+↓/↑ hunk · ]/[ file · shift+↑/↓ select · s/u stage · x/del discard · v view · c commit · q quit","zh":"alt+↓/↑ 块 · ]/[ 文件 · shift+↑/↓ 选择 · s/u 暂存 · x/del 丢弃 · v 查看 · c 提交 · q 退出"},
+		{"kind":"string","file":"src/cli/git-tui/index.ts","en":"↑/↓ move · ←/→ fold · space stage · del discard · enter open · alt+↓/↑ hunk · c commit · t tree · q quit","zh":"↑/↓ 移动 · ←/→ 折叠 · space 暂存 · del 丢弃 · enter 打开 · alt+↓/↑ 块 · c 提交 · t 树 · q 退出"},
+		{"kind":"template","file":"src/cli/plugin-cli.ts","en":"For an npm-installed plugin, upgrade with: ${APP_NAME} plugin install ${pluginId} --force","zh":"对于通过 npm 安装的插件，升级命令为：${APP_NAME} plugin install ${pluginId} --force"},
+		{"kind":"template","file":"src/cli/plugin-cli.ts","en":"Invalid plugin ID: \"${pluginId}\". Marketplace plugins upgrade as \"name@marketplace\".","zh":"插件 ID 无效：\"${pluginId}\"。市场插件的升级写法为 \"name@marketplace\"。"}
 	]
 }

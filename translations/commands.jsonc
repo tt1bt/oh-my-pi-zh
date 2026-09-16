@@ -302,6 +302,12 @@
 		{"kind":"string","file":"src/commands/ps.ts","en":"Number of log lines, max 1000 (logs)","zh":"日志行数，最多 1000（logs）"},
 		{"kind":"string","file":"src/commands/ps.ts","en":"Regex filter applied to log lines (logs)","zh":"应用于日志行的正则过滤（logs）"},
 		{"kind":"string","file":"src/commands/ps.ts","en":"Grace period in seconds before hard kill (stop)","zh":"强制终止前的宽限期秒数（stop）"},
-		{"kind":"string","file":"src/commands/stats.ts","en":"Host to bind","zh":"要绑定的主机"}
+		{"kind":"string","file":"src/commands/stats.ts","en":"Host to bind","zh":"要绑定的主机"},
+		{"kind":"string","file":"src/commands/collab.ts","en":"Emit deterministic machine-readable JSON","zh":"输出确定性的机器可读 JSON"},
+		{"kind":"string","file":"src/commands/collab.ts","en":"Host instance ID or PID (link only)","zh":"宿主实例 ID 或 PID（仅 link 用）"},
+		{"kind":"string","file":"src/commands/collab.ts","en":"Request a view-only link instead of control access (link only)","zh":"请求只读链接而非控制权限（仅 link 用）"},
+		{"kind":"string","file":"src/commands/collab.ts","en":"collab link requires exactly one selector (usage: collab link <instanceId|pid> [--view] [--json])","zh":"collab link 需要且仅需一个选择器（用法：collab link <instanceId|pid> [--view] [--json]）"},
+		{"kind":"string","file":"src/commands/collab.ts","en":"collab list accepts no selector or --view (usage: collab list [--json])","zh":"collab list 不接受选择器或 --view（用法：collab list [--json]）"},
+		{"kind":"string","file":"src/commands/collab.ts","en":"list (default) or link","zh":"list（默认）或 link"}
 	]
 }

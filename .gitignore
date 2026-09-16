@@ -11,3 +11,6 @@ Thumbs.db
 
 # WorkBuddy 会话数据
 .workbuddy/
+
+# gh CLI 在仓库内生成的 state（HOME/XDG 解析异常时会出现）
+.local/
