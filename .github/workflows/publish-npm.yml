@@ -41,6 +41,8 @@ permissions:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    env:
+      PKG_NAME: omp-zh
     steps:
       - uses: actions/checkout@v6
 
@@ -85,6 +87,17 @@ jobs:
             echo "::warning::翻译库基线为 $BASE，目标为 ${{ steps.v.outputs.version }}；跳过发布。请先跟进翻译并更新 meta.jsonc。"
           fi
 
+      - name: 检查包是否已在 npm 上存在
+        id: exists
+        run: |
+          if npm view "${{ env.PKG_NAME }}" version >/dev/null 2>&1; then
+            echo "ok=1" >> "$GITHUB_OUTPUT"
+            echo "✓ 包已存在，可使用 Trusted Publishing 发布"
+          else
+            echo "ok=0" >> "$GITHUB_OUTPUT"
+            echo "::notice::包 ${{ env.PKG_NAME }} 在 npm 上还不存在。Trusted Publishing 只能发布已存在的包，首发必须手动执行 npm publish。本次跳过发布。"
+          fi
+
       - name: 构建
         if: steps.base.outputs.same == '1'
         run: bun scripts/build-npm-pkg.ts --version "${{ steps.v.outputs.version }}" --strict-baseline
@@ -98,6 +111,6 @@ jobs:
           node -e 'const p=require("./package.json");if(p.repository.url!=="git+https://github.com/tt1bt/oh-my-pi-zh.git")throw new Error("repository.url 必须与 GitHub 仓库一致，否则 Trusted Publishing 会失败: "+p.repository.url);console.log("✓ repository.url 与仓库匹配")'
 
       - name: 发布到 npm（Trusted Publishing，无需 token）
-        if: steps.base.outputs.same == '1' && inputs.dry_run != true
+        if: steps.base.outputs.same == '1' && steps.exists.outputs.ok == '1' && inputs.dry_run != true
         working-directory: .tmp/npm-pkg/omp-zh
         run: npm publish --access public
