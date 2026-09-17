@@ -166,8 +166,25 @@ export function applyEntriesToText(text: string, set: FileEntrySet): FileApplyRe
 			list.push(a);
 			byLine.set(a.li, list);
 		}
+		// 同一行内的字面量只会互不相交或完全嵌套（模板字面量与其 ${} 槽位内的字面量）。
+		// 嵌套时只保留最外层：外层译文已把内层原文留在槽位里，若内外都替换，
+		// 内层先应用会改变行长度，外层再按原始列坐标切片就会吃掉行尾
+		// （曾导致 collab-cli.ts 的 `started ${…}` 行丢失闭合反引号与逗号，整文件语法崩坏）。
+		const nestedInner = new Set<Action>();
+		for (const list of byLine.values()) {
+			for (const outer of list) {
+				for (const inner of list) {
+					if (outer === inner) continue;
+					const envelops =
+						outer.startCol <= inner.startCol &&
+						inner.endCol <= outer.endCol &&
+						(outer.startCol < inner.startCol || inner.endCol < outer.endCol);
+					if (envelops) nestedInner.add(inner);
+				}
+			}
+		}
 		for (const [li, list] of byLine) {
-			const sorted = [...list].sort((a, b) => b.startCol - a.startCol);
+			const sorted = [...list].filter((a) => !nestedInner.has(a)).sort((a, b) => b.startCol - a.startCol);
 			let lineText = lines[li];
 			for (const a of sorted) {
 				// 替换 [startCol+1, endCol-1) 的内容（去掉两侧引号）

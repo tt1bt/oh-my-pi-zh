@@ -50,7 +50,7 @@ bun install -g omp-zh
 装完直接敲 `omp` 就是中文界面。不需要 clone 仓库、不需要 git、不需要任何配置。
 升级 `bun install -g omp-zh@latest`，卸载 `bun remove -g omp-zh`。
 
-包由本项目构建发布（见下方「发布到 npm」），版本号与上游 omp 对齐（如 `18.2.1`）。
+包由本项目构建发布（见下方「发布到 npm」），版本号与上游 omp 对齐（如 `18.2.4`）。
 本包用 bun 直跑汉化后的源码，启动约 4–5 秒。
 
 ### 方式二：一行脚本（不用 npm，也不用 git）
@@ -252,7 +252,7 @@ npm publish --registry https://registry.npmjs.org --access public
 
 ## 兼容性与已知限制
 
-- 翻译库当前基线为 **omp 18.2.1**（`translations/meta.jsonc`），该版本下翻译条目零未命中。新版本发布后运行 `bun scripts/apply.ts`（或直接启动 omp 触发自愈）即可：命中的照常生效，未命中的局部保持英文并可在 `apply` 输出与 `extract` 报告中看到明细。
+- 翻译库当前基线为 **omp 18.2.4**（`translations/meta.jsonc`），该版本下翻译条目零未命中。新版本发布后运行 `bun scripts/apply.ts`（或直接启动 omp 触发自愈）即可：命中的照常生效，未命中的局部保持英文并可在 `apply` 输出与 `extract` 报告中看到明细。
 - 模型侧提示词（如 `src/prompts/system/plan-mode-active.md`）与工具返回给模型的内容（如 `src/tools/context-notes.ts` 的 `text`）完全保留英文，与"模型侧保留"原则保持一致。
 - 汉化版每次启动约 4–5 秒（bun 直跑 TS 源码，未打包）。
 

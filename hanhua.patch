@@ -16,7 +16,7 @@ index 412e782..6265985 100644
  	);
  }
 diff --git a/pi-coding-agent/src/cli/collab-cli.ts b/pi-coding-agent-zh/src/cli/collab-cli.ts
-index 3cd31ae..17cf314 100644
+index 3cd31ae..c111510 100644
 --- a/pi-coding-agent/src/cli/collab-cli.ts
 +++ b/pi-coding-agent-zh/src/cli/collab-cli.ts
 @@ -55,11 +55,11 @@ export async function runCollabListCommand(
@@ -42,11 +42,11 @@ index 3cd31ae..17cf314 100644
 -			`started ${formatAge(Math.round((Date.now() - host.startedAt) / 1000)) || "just now"}`,
 +			`第 ${host.generation} 代`,
 +			host.model ? sanitizeDisplayLine(`${host.model.provider}/${host.model.id}`) : "无模型",
-+			`已启动 ${formatAge(Math.round((Date.now() - host.startedAt) / 1000)) || "just now"}
++			`已启动 ${formatAge(Math.round((Date.now() - host.startedAt) / 1000)) || "刚刚"}`,
  			`${guests} ${guests === 1 ? "guest" : "guests"}`,
  			host.access,
 -			`relay ${host.relayConnected ? "connected" : "reconnecting"}`,
-+			`中继 ${host.relayConnected ? "connected" : "reconnecting"}`,
++			`中继 ${host.relayConnected ? "已连接" : "重连中"}`,
  		];
 -		if (host.inputRequired) details.push("input required");
 +		if (host.inputRequired) details.push("需要输入");
@@ -359,10 +359,10 @@ index c56f7f2..1d063e3 100644
    ${APP_NAME} grep "TODO" . --glob "*.ts"
    ${APP_NAME} grep "function" --files
 diff --git a/pi-coding-agent/src/cli/help-extra.ts b/pi-coding-agent-zh/src/cli/help-extra.ts
-index cd40c58..0d823bb 100644
+index 196e45e..fba3d1e 100644
 --- a/pi-coding-agent/src/cli/help-extra.ts
 +++ b/pi-coding-agent-zh/src/cli/help-extra.ts
-@@ -3,91 +3,91 @@ import chalk from "@oh-my-pi/pi-utils/chalk";
+@@ -3,92 +3,92 @@ import chalk from "@oh-my-pi/pi-utils/chalk";
  import { APP_NAME, CONFIG_DIR_NAME } from "@oh-my-pi/pi-utils/dirs";
  
  export function getExtraHelpText(): string {
@@ -462,6 +462,7 @@ index cd40c58..0d823bb 100644
 -  ANTHROPIC_SEARCH_BASE_URL  - Anthropic web search base URL (override; pairs with ANTHROPIC_SEARCH_API_KEY)
 +  ANTHROPIC_SEARCH_API_KEY   - Anthropic web 搜索(覆盖;将搜索与主 ANTHROPIC_API_KEY 隔离)
 +  ANTHROPIC_SEARCH_BASE_URL  - Anthropic web 搜索基础 URL(覆盖;与 ANTHROPIC_SEARCH_API_KEY 配套)
+   TYPESAFE_API_KEY           - TypeSafe System One judgments (auto thinking, unexpected-stop, AI staging, eval judge())
  
 -  ${chalk.dim("# Configuration")}
 -  OMP_PROFILE                 - Named profile for isolated agent state (same as --profile)
@@ -2270,10 +2271,10 @@ index 1796529..d32be6d 100644
  
  	static examples = [
 diff --git a/pi-coding-agent/src/config/settings-schema.ts b/pi-coding-agent-zh/src/config/settings-schema.ts
-index 5e551f3..2ef535e 100644
+index 7f47b74..cd03cea 100644
 --- a/pi-coding-agent/src/config/settings-schema.ts
 +++ b/pi-coding-agent-zh/src/config/settings-schema.ts
-@@ -108,43 +108,43 @@ export type ComposerShape = string;
+@@ -109,43 +109,43 @@ export type ComposerShape = string;
  export const BUILTIN_COMPOSER_SHAPES = [
  	{
  		value: "band",
@@ -2331,10 +2332,10 @@ index 5e551f3..2ef535e 100644
  	},
  ] as const;
  
-@@ -185,16 +185,16 @@ export const SETTING_TABS: SettingTab[] = [
+@@ -186,16 +186,16 @@ export const SETTING_TABS: SettingTab[] = [
  
  /** Tab display metadata - icon is a symbol key from theme.ts (tab.*) */
- export const TAB_METADATA: Record<SettingTab, { label: string; icon: `tab.${string}` }> = {
+ export const TAB_METADATA: Record<SettingTab, TabMetadata> = {
 -	appearance: { label: "Appearance", icon: "tab.appearance" },
 -	model: { label: "Model", icon: "tab.model" },
 -	interaction: { label: "Interaction", icon: "tab.interaction" },
@@ -2357,7 +2358,7 @@ index 5e551f3..2ef535e 100644
  };
  
  /**
-@@ -203,38 +203,38 @@ export const TAB_METADATA: Record<SettingTab, { label: string; icon: `tab.${stri
+@@ -204,38 +204,38 @@ export const TAB_METADATA: Record<SettingTab, TabMetadata> = {
   * Ungrouped settings render first, before any section heading.
   */
  export const TAB_GROUPS: Record<SettingTab, readonly string[]> = {
@@ -2422,7 +2423,7 @@ index 5e551f3..2ef535e 100644
  };
  
  /** Status line segment identifiers accepted by custom status-line settings. */
-@@ -426,32 +426,32 @@ export const DEFAULT_BASH_INTERCEPTOR_RULES: BashInterceptorRule[] = [
+@@ -427,32 +427,32 @@ export const DEFAULT_BASH_INTERCEPTOR_RULES: BashInterceptorRule[] = [
  	{
  		pattern: "^\\s*(cat|head|tail|less|more)\\s+",
  		tool: "read",
@@ -2461,7 +2462,7 @@ index 5e551f3..2ef535e 100644
  	},
  	{
  		// `>` must sit outside quoted regions (so `echo "a -> b"` passes) and be
-@@ -463,7 +463,7 @@ export const DEFAULT_BASH_INTERCEPTOR_RULES: BashInterceptorRule[] = [
+@@ -464,7 +464,7 @@ export const DEFAULT_BASH_INTERCEPTOR_RULES: BashInterceptorRule[] = [
  		pattern:
  			"^\\s*(echo|printf|cat\\s*<<)\\s+(?:(?:[^\"'>]|\"[^\"]*\"|'[^']*')|(?<!\\|)>{1,2}\\|?\\s*(?:\"/dev/(?:null|tty|stdout|stderr)\"|'/dev/(?:null|tty|stdout|stderr)'|/dev/(?:null|tty|stdout|stderr))(?:[\\s;&|]|$))*(?<!\\|)>{1,2}\\|?\\s*(?!(?:\"/dev/(?:null|tty|stdout|stderr)\"|'/dev/(?:null|tty|stdout|stderr)'|/dev/(?:null|tty|stdout|stderr))(?:[\\s;&|]|$))[$\\w./~\"'-]",
  		tool: "write",
@@ -2470,7 +2471,7 @@ index 5e551f3..2ef535e 100644
  	},
  	{
  		pattern: "^\\s*nohup\\s+|(?<!&)\\&\\s*$",
-@@ -482,7 +482,7 @@ export const DEFAULT_BASH_INTERCEPTOR_RULES: BashInterceptorRule[] = [
+@@ -483,7 +483,7 @@ export const DEFAULT_BASH_INTERCEPTOR_RULES: BashInterceptorRule[] = [
  		pattern:
  			"^\\s*(?:(?:bun|npm|pnpm|yarn)\\s+(?:run\\s+)?\\S+|cargo\\s+watch|watchexec|pytest|vitest|jest|tsc)(?:.|\\n)*(?:--watch|-w)(?:\\s|$)",
  		tool: "hub",
@@ -2479,7 +2480,7 @@ index 5e551f3..2ef535e 100644
  	},
  ];
  
-@@ -506,9 +506,9 @@ export const SETTINGS_SCHEMA = {
+@@ -507,9 +507,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "interaction",
@@ -2492,7 +2493,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -519,29 +519,29 @@ export const SETTINGS_SCHEMA = {
+@@ -520,29 +520,29 @@ export const SETTINGS_SCHEMA = {
  		default: "idle",
  		ui: {
  			tab: "interaction",
@@ -2531,7 +2532,7 @@ index 5e551f3..2ef535e 100644
  					description:
  						"Also block all system sleep on AC and declare the user active (macOS `caffeinate -i -d -s -u`)",
  				},
-@@ -553,10 +553,10 @@ export const SETTINGS_SCHEMA = {
+@@ -554,10 +554,10 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "model",
@@ -2545,7 +2546,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  	"prewalk.enabled": {
-@@ -565,9 +565,9 @@ export const SETTINGS_SCHEMA = {
+@@ -566,9 +566,9 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "model",
  			group: "Prewalk",
@@ -2557,7 +2558,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  	"advisor.syncBacklog": {
-@@ -576,10 +576,10 @@ export const SETTINGS_SCHEMA = {
+@@ -577,10 +577,10 @@ export const SETTINGS_SCHEMA = {
  		default: "off",
  		ui: {
  			tab: "model",
@@ -2571,7 +2572,7 @@ index 5e551f3..2ef535e 100644
  			condition: "advisorEnabled",
  		},
  	},
-@@ -588,17 +588,17 @@ export const SETTINGS_SCHEMA = {
+@@ -589,17 +589,17 @@ export const SETTINGS_SCHEMA = {
  		default: 3,
  		ui: {
  			tab: "model",
@@ -2598,7 +2599,7 @@ index 5e551f3..2ef535e 100644
  			],
  			condition: "advisorEnabled",
  		},
-@@ -608,16 +608,16 @@ export const SETTINGS_SCHEMA = {
+@@ -609,16 +609,16 @@ export const SETTINGS_SCHEMA = {
  		default: ADVISOR_DEFAULT_BUDGET_PER_UPDATE,
  		ui: {
  			tab: "model",
@@ -2623,7 +2624,7 @@ index 5e551f3..2ef535e 100644
  			],
  			condition: "advisorEnabled",
  		},
-@@ -629,8 +629,8 @@ export const SETTINGS_SCHEMA = {
+@@ -630,8 +630,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "interaction",
  			group: "Git",
@@ -2634,7 +2635,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -647,10 +647,10 @@ export const SETTINGS_SCHEMA = {
+@@ -648,10 +648,10 @@ export const SETTINGS_SCHEMA = {
  		default: EMPTY_NUMBER_RECORD,
  		ui: {
  			tab: "providers",
@@ -2648,7 +2649,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -660,8 +660,8 @@ export const SETTINGS_SCHEMA = {
+@@ -661,8 +661,8 @@ export const SETTINGS_SCHEMA = {
  		default: "off",
  		ui: {
  			tab: "providers",
@@ -2659,7 +2660,7 @@ index 5e551f3..2ef535e 100644
  			description:
  				"Route Codex code_mode_only models (GPT-5.6) through eval. The direct tools are eval, ask, todo, yield, think, checkpoint, and rewind. Use eval cells for other session tools. Mirrors codex-rs Code Mode. 'auto' follows the model catalog flag.",
  		},
-@@ -672,8 +672,8 @@ export const SETTINGS_SCHEMA = {
+@@ -673,8 +673,8 @@ export const SETTINGS_SCHEMA = {
  		default: EMPTY_STRING_ARRAY,
  		ui: {
  			tab: "providers",
@@ -2670,7 +2671,7 @@ index 5e551f3..2ef535e 100644
  			description:
  				"Extra direct tools for Codex Code Mode. The standard direct tools are eval, ask, todo, yield, think, checkpoint, and rewind.",
  		},
-@@ -687,19 +687,19 @@ export const SETTINGS_SCHEMA = {
+@@ -688,19 +688,19 @@ export const SETTINGS_SCHEMA = {
  		default: "global",
  		ui: {
  			tab: "model",
@@ -2697,7 +2698,7 @@ index 5e551f3..2ef535e 100644
  				},
  			],
  		},
-@@ -723,9 +723,9 @@ export const SETTINGS_SCHEMA = {
+@@ -724,9 +724,9 @@ export const SETTINGS_SCHEMA = {
  		default: "titanium",
  		ui: {
  			tab: "appearance",
@@ -2710,7 +2711,7 @@ index 5e551f3..2ef535e 100644
  			options: "runtime",
  		},
  	},
-@@ -735,9 +735,9 @@ export const SETTINGS_SCHEMA = {
+@@ -736,9 +736,9 @@ export const SETTINGS_SCHEMA = {
  		default: "light",
  		ui: {
  			tab: "appearance",
@@ -2723,7 +2724,7 @@ index 5e551f3..2ef535e 100644
  			options: "runtime",
  		},
  	},
-@@ -748,13 +748,13 @@ export const SETTINGS_SCHEMA = {
+@@ -749,13 +749,13 @@ export const SETTINGS_SCHEMA = {
  		default: "unicode",
  		ui: {
  			tab: "appearance",
@@ -2743,7 +2744,7 @@ index 5e551f3..2ef535e 100644
  			],
  		},
  	},
-@@ -764,9 +764,9 @@ export const SETTINGS_SCHEMA = {
+@@ -765,9 +765,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "appearance",
@@ -2756,7 +2757,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  	// Composer
-@@ -775,9 +775,9 @@ export const SETTINGS_SCHEMA = {
+@@ -776,9 +776,9 @@ export const SETTINGS_SCHEMA = {
  		default: "band",
  		ui: {
  			tab: "appearance",
@@ -2769,7 +2770,21 @@ index 5e551f3..2ef535e 100644
  			options: "runtime",
  		},
  	},
-@@ -789,17 +789,17 @@ export const SETTINGS_SCHEMA = {
+@@ -787,10 +787,10 @@ export const SETTINGS_SCHEMA = {
+ 		default: false,
+ 		ui: {
+ 			tab: "appearance",
+-			group: "Composer",
+-			label: "Generation Rate",
++			group: "输入框",
++			label: "生成速率",
+ 			description:
+-				"Show a live generation tok/s readout on the working row, docked right next to the session title. Estimated from streamed deltas and corrected by the provider's billed output count as each message completes.",
++				"在工作行上紧挨会话标题处显示实时的生成 tok/s 读数。根据流式增量估算，并在每条消息完成时用提供商计费的输出计数校正。",
+ 		},
+ 	},
+ 
+@@ -801,17 +801,17 @@ export const SETTINGS_SCHEMA = {
  		default: "default",
  		ui: {
  			tab: "appearance",
@@ -2797,7 +2812,7 @@ index 5e551f3..2ef535e 100644
  			],
  		},
  	},
-@@ -810,17 +810,17 @@ export const SETTINGS_SCHEMA = {
+@@ -822,17 +822,17 @@ export const SETTINGS_SCHEMA = {
  		default: "powerline-thin",
  		ui: {
  			tab: "appearance",
@@ -2825,7 +2840,7 @@ index 5e551f3..2ef535e 100644
  			],
  		},
  	},
-@@ -831,25 +831,25 @@ export const SETTINGS_SCHEMA = {
+@@ -843,25 +843,25 @@ export const SETTINGS_SCHEMA = {
  		default: "embedded",
  		ui: {
  			tab: "appearance",
@@ -2861,7 +2876,7 @@ index 5e551f3..2ef535e 100644
  				},
  			],
  		},
-@@ -860,9 +860,9 @@ export const SETTINGS_SCHEMA = {
+@@ -872,9 +872,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "appearance",
@@ -2874,7 +2889,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -871,10 +871,10 @@ export const SETTINGS_SCHEMA = {
+@@ -883,10 +883,10 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "appearance",
@@ -2888,7 +2903,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  	"statusLine.compactThinkingLevel": {
-@@ -882,10 +882,10 @@ export const SETTINGS_SCHEMA = {
+@@ -894,10 +894,10 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "appearance",
@@ -2902,7 +2917,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  	"tools.artifactSpillThreshold": {
-@@ -893,22 +893,22 @@ export const SETTINGS_SCHEMA = {
+@@ -905,22 +905,22 @@ export const SETTINGS_SCHEMA = {
  		default: 50,
  		ui: {
  			tab: "tools",
@@ -2940,7 +2955,7 @@ index 5e551f3..2ef535e 100644
  			],
  		},
  	},
-@@ -917,18 +917,18 @@ export const SETTINGS_SCHEMA = {
+@@ -929,18 +929,18 @@ export const SETTINGS_SCHEMA = {
  		default: 20,
  		ui: {
  			tab: "tools",
@@ -2970,7 +2985,7 @@ index 5e551f3..2ef535e 100644
  			],
  		},
  	},
-@@ -937,20 +937,20 @@ export const SETTINGS_SCHEMA = {
+@@ -949,20 +949,20 @@ export const SETTINGS_SCHEMA = {
  		default: 20,
  		ui: {
  			tab: "tools",
@@ -3003,7 +3018,7 @@ index 5e551f3..2ef535e 100644
  			],
  		},
  	},
-@@ -959,18 +959,18 @@ export const SETTINGS_SCHEMA = {
+@@ -971,18 +971,18 @@ export const SETTINGS_SCHEMA = {
  		default: 768,
  		ui: {
  			tab: "tools",
@@ -3029,7 +3044,7 @@ index 5e551f3..2ef535e 100644
  			],
  		},
  	},
-@@ -979,17 +979,17 @@ export const SETTINGS_SCHEMA = {
+@@ -991,17 +991,17 @@ export const SETTINGS_SCHEMA = {
  		default: 500,
  		ui: {
  			tab: "tools",
@@ -3057,7 +3072,7 @@ index 5e551f3..2ef535e 100644
  			],
  		},
  	},
-@@ -999,9 +999,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1011,9 +1011,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "appearance",
@@ -3070,7 +3085,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -1017,9 +1017,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1029,9 +1029,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "appearance",
@@ -3083,7 +3098,7 @@ index 5e551f3..2ef535e 100644
  			condition: "hasImageProtocol",
  		},
  	},
-@@ -1029,9 +1029,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1041,9 +1041,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "appearance",
@@ -3096,7 +3111,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -1040,9 +1040,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1052,9 +1052,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "appearance",
@@ -3109,7 +3124,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -1051,10 +1051,10 @@ export const SETTINGS_SCHEMA = {
+@@ -1063,10 +1063,10 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "model",
@@ -3123,7 +3138,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -1063,8 +1063,8 @@ export const SETTINGS_SCHEMA = {
+@@ -1075,8 +1075,8 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "model",
@@ -3134,7 +3149,7 @@ index 5e551f3..2ef535e 100644
  			description:
  				"Publish outgoing images through the configured backend chain and send URL-fetching providers short URLs instead of inline base64. Falls back to inline automatically when every backend or a provider fetch fails",
  		},
-@@ -1075,9 +1075,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1087,9 +1087,9 @@ export const SETTINGS_SCHEMA = {
  		default: ["provider-files", "tailscale", "cloudflared", "litterbox"] as BlobDestinationId[],
  		ui: {
  			tab: "model",
@@ -3147,7 +3162,7 @@ index 5e551f3..2ef535e 100644
  			options: BLOB_BACKEND_CHOICES,
  			ordered: true,
  		},
-@@ -1099,8 +1099,8 @@ export const SETTINGS_SCHEMA = {
+@@ -1111,8 +1111,8 @@ export const SETTINGS_SCHEMA = {
  		default: undefined,
  		ui: {
  			tab: "model",
@@ -3158,7 +3173,7 @@ index 5e551f3..2ef535e 100644
  			description:
  				"Argv template for the command backend; {file} is the image path, {mime}/{ext} optional. The last URL printed on stdout is used (e.g. pasta -b -f {file})",
  		},
-@@ -1111,9 +1111,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1123,9 +1123,9 @@ export const SETTINGS_SCHEMA = {
  		default: undefined,
  		ui: {
  			tab: "model",
@@ -3171,7 +3186,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -1122,8 +1122,8 @@ export const SETTINGS_SCHEMA = {
+@@ -1134,8 +1134,8 @@ export const SETTINGS_SCHEMA = {
  		default: 72,
  		ui: {
  			tab: "model",
@@ -3182,7 +3197,7 @@ index 5e551f3..2ef535e 100644
  			description:
  				"Serving window for locally hosted image URLs, measured from the last time a conversation sent them; resuming a conversation re-arms the window at the same link. 0 keeps links alive while the broker runs",
  		},
-@@ -1134,9 +1134,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1146,9 +1146,9 @@ export const SETTINGS_SCHEMA = {
  		default: "127.0.0.1",
  		ui: {
  			tab: "model",
@@ -3195,7 +3210,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -1145,9 +1145,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1157,9 +1157,9 @@ export const SETTINGS_SCHEMA = {
  		default: undefined,
  		ui: {
  			tab: "model",
@@ -3208,7 +3223,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -1156,9 +1156,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1168,9 +1168,9 @@ export const SETTINGS_SCHEMA = {
  		default: 8787,
  		ui: {
  			tab: "model",
@@ -3221,7 +3236,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -1166,21 +1166,21 @@ export const SETTINGS_SCHEMA = {
+@@ -1178,21 +1178,21 @@ export const SETTINGS_SCHEMA = {
  		type: "number",
  		default: 100,
  		description:
@@ -3246,7 +3261,7 @@ index 5e551f3..2ef535e 100644
  	},
  	"tui.resizeScrollback": {
  		type: "enum",
-@@ -1188,24 +1188,24 @@ export const SETTINGS_SCHEMA = {
+@@ -1200,24 +1200,24 @@ export const SETTINGS_SCHEMA = {
  		default: "rebuild",
  		ui: {
  			tab: "appearance",
@@ -3280,7 +3295,7 @@ index 5e551f3..2ef535e 100644
  				},
  			],
  		},
-@@ -1216,9 +1216,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1228,9 +1228,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "appearance",
@@ -3293,7 +3308,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -1227,10 +1227,10 @@ export const SETTINGS_SCHEMA = {
+@@ -1239,10 +1239,10 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "appearance",
@@ -3307,7 +3322,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -1239,9 +1239,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1251,9 +1251,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "appearance",
@@ -3320,7 +3335,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -1250,9 +1250,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1262,9 +1262,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "appearance",
@@ -3333,7 +3348,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -1261,10 +1261,10 @@ export const SETTINGS_SCHEMA = {
+@@ -1273,10 +1273,10 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "appearance",
@@ -3347,7 +3362,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -1273,10 +1273,10 @@ export const SETTINGS_SCHEMA = {
+@@ -1285,10 +1285,10 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "appearance",
@@ -3356,12 +3371,12 @@ index 5e551f3..2ef535e 100644
 +			group: "显示",
 +			label: "终端标题运行状态",
  			description:
--				"Show the agent run state in the terminal title's separator — an animated spinner while working (a static ':' on Windows), '>' when it's your turn, '!' when the agent is waiting on you",
-+				"在终端标题的分隔符中显示代理运行状态——工作时为动画旋转指示器(Windows 上是静态 ':' ),轮到你时显示 '>',代理等待你时显示 '!'",
+-				"Show the agent run state in the terminal title's separator — an animated spinner while working (a static ':' under WSL), '>' when it's your turn, '!' when the agent is waiting on you",
++				"在终端标题的分隔符中显示代理运行状态——工作时为动画旋转指示器(WSL 下是静态 ':'),轮到你时显示 '>',代理等待你时显示 '!'",
  		},
  	},
  	"tui.titleSpinner": {
-@@ -1285,28 +1285,28 @@ export const SETTINGS_SCHEMA = {
+@@ -1297,29 +1297,29 @@ export const SETTINGS_SCHEMA = {
  		default: "braille",
  		ui: {
  			tab: "appearance",
@@ -3370,13 +3385,15 @@ index 5e551f3..2ef535e 100644
 +			group: "显示",
 +			label: "终端标题指示器",
  			description:
--				"Glyph set for the working-state spinner in the terminal title — braille sweep, single-dot cycle, or ASCII-safe line",
-+				"终端标题中工作状态指示器使用的字形集 —— 盲文扫动、单点循环或 ASCII 线条",
+-				"Glyph set for the working-state spinner in the terminal title — braille sweep, filling moon, single-dot cycle, or ASCII-safe line",
++				"终端标题中工作状态指示器使用的字形集 —— 盲文扫动、月相填充、单点循环或 ASCII 线条",
  			options: [
 -				{ value: "braille", label: "Braille", description: "Classic ⠋⠙⠹ sweep (default)" },
+-				{ value: "pulse", label: "Pulse", description: "Moon filling ○◑● then emptying" },
 -				{ value: "dots", label: "Dots", description: "Single braille dots cycling" },
 -				{ value: "line", label: "Line", description: "ASCII - \\ | / for fonts without braille coverage" },
 +				{ value: "braille", label: "盲文", description: "经典 ⠋⠙⠹ 扫动（默认）" },
++				{ value: "pulse", label: "脉动", description: "月相由亏转盈 ○◑● 再回到空" },
 +				{ value: "dots", label: "点阵", description: "单点盲文循环" },
 +				{ value: "line", label: "线条", description: "ASCII 的 \\ | /（适用于不支持盲文点阵的字体）" },
  			],
@@ -3400,7 +3417,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  	"tui.mouse": {
-@@ -1314,10 +1314,10 @@ export const SETTINGS_SCHEMA = {
+@@ -1327,10 +1327,10 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "appearance",
@@ -3414,7 +3431,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  	"tui.tight": {
-@@ -1325,9 +1325,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1338,9 +1338,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "appearance",
@@ -3427,7 +3444,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -1337,13 +1337,13 @@ export const SETTINGS_SCHEMA = {
+@@ -1350,13 +1350,13 @@ export const SETTINGS_SCHEMA = {
  		default: "classic",
  		ui: {
  			tab: "appearance",
@@ -3447,7 +3464,7 @@ index 5e551f3..2ef535e 100644
  			],
  		},
  	},
-@@ -1353,14 +1353,14 @@ export const SETTINGS_SCHEMA = {
+@@ -1366,14 +1366,14 @@ export const SETTINGS_SCHEMA = {
  		default: "collapsed",
  		ui: {
  			tab: "appearance",
@@ -3468,7 +3485,7 @@ index 5e551f3..2ef535e 100644
  			],
  		},
  	},
-@@ -1370,9 +1370,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1383,9 +1383,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "appearance",
@@ -3481,7 +3498,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -1381,9 +1381,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1394,9 +1394,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "appearance",
@@ -3494,7 +3511,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -1392,9 +1392,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1405,9 +1405,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "appearance",
@@ -3507,7 +3524,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -1403,9 +1403,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1416,9 +1416,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "appearance",
@@ -3520,7 +3537,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  	"display.cacheMissMarker": {
-@@ -1413,9 +1413,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1426,9 +1426,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "appearance",
@@ -3533,7 +3550,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -1424,10 +1424,10 @@ export const SETTINGS_SCHEMA = {
+@@ -1437,10 +1437,10 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "appearance",
@@ -3547,7 +3564,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -1436,9 +1436,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1449,9 +1449,9 @@ export const SETTINGS_SCHEMA = {
  		default: true, // will be computed based on platform if undefined
  		ui: {
  			tab: "appearance",
@@ -3560,7 +3577,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -1447,9 +1447,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1460,9 +1460,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "appearance",
@@ -3573,7 +3590,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -1464,9 +1464,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1477,9 +1477,9 @@ export const SETTINGS_SCHEMA = {
  		default: "high",
  		ui: {
  			tab: "model",
@@ -3586,7 +3603,7 @@ index 5e551f3..2ef535e 100644
  			options: [
  				getConfiguredThinkingLevelMetadata(AUTO_THINKING),
  				...THINKING_EFFORTS.map(getThinkingLevelMetadata),
-@@ -1479,9 +1479,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1492,9 +1492,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "model",
@@ -3599,7 +3616,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  	proseOnlyThinking: {
-@@ -1489,9 +1489,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1502,9 +1502,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "model",
@@ -3612,7 +3629,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -1500,10 +1500,10 @@ export const SETTINGS_SCHEMA = {
+@@ -1513,10 +1513,10 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "model",
@@ -3626,7 +3643,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -1512,9 +1512,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1525,9 +1525,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "model",
@@ -3639,7 +3656,7 @@ index 5e551f3..2ef535e 100644
  			warning:
  				"At your own risk: providers have flagged this request shape as abuse, up to account-level enforcement",
  		},
-@@ -1525,9 +1525,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1538,9 +1538,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "model",
@@ -3652,7 +3669,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -1536,9 +1536,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1549,9 +1549,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "model",
@@ -3665,7 +3682,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -1547,10 +1547,10 @@ export const SETTINGS_SCHEMA = {
+@@ -1560,10 +1560,10 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "model",
@@ -3679,7 +3696,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -1559,9 +1559,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1572,9 +1572,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "model",
@@ -3692,7 +3709,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -1570,9 +1570,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1583,9 +1583,9 @@ export const SETTINGS_SCHEMA = {
  		default: 5,
  		ui: {
  			tab: "model",
@@ -3705,7 +3722,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -1581,9 +1581,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1594,9 +1594,9 @@ export const SETTINGS_SCHEMA = {
  		default: DEFAULT_TOOL_CALL_LOOP_EXEMPT_TOOLS,
  		ui: {
  			tab: "model",
@@ -3718,7 +3735,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -1593,18 +1593,18 @@ export const SETTINGS_SCHEMA = {
+@@ -1606,18 +1606,18 @@ export const SETTINGS_SCHEMA = {
  		default: "auto",
  		ui: {
  			tab: "model",
@@ -3744,7 +3761,7 @@ index 5e551f3..2ef535e 100644
  			],
  		},
  	},
-@@ -1614,9 +1614,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1627,9 +1627,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "model",
@@ -3757,7 +3774,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -1625,10 +1625,10 @@ export const SETTINGS_SCHEMA = {
+@@ -1638,10 +1638,10 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "model",
@@ -3771,7 +3788,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -1637,8 +1637,8 @@ export const SETTINGS_SCHEMA = {
+@@ -1650,8 +1650,8 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "model",
@@ -3782,7 +3799,7 @@ index 5e551f3..2ef535e 100644
  			description:
  				"List available skills in the system prompt; disable to save context and toggle per-session with /skillful",
  		},
-@@ -1649,10 +1649,10 @@ export const SETTINGS_SCHEMA = {
+@@ -1662,10 +1662,10 @@ export const SETTINGS_SCHEMA = {
  		default: [] as string[],
  		ui: {
  			tab: "context",
@@ -3796,7 +3813,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -1662,26 +1662,26 @@ export const SETTINGS_SCHEMA = {
+@@ -1675,26 +1675,26 @@ export const SETTINGS_SCHEMA = {
  		default: "default",
  		ui: {
  			tab: "model",
@@ -3833,7 +3850,7 @@ index 5e551f3..2ef535e 100644
  			],
  		},
  	},
-@@ -1692,16 +1692,16 @@ export const SETTINGS_SCHEMA = {
+@@ -1705,16 +1705,16 @@ export const SETTINGS_SCHEMA = {
  		default: -1,
  		ui: {
  			tab: "model",
@@ -3859,7 +3876,7 @@ index 5e551f3..2ef535e 100644
  			],
  		},
  	},
-@@ -1711,16 +1711,16 @@ export const SETTINGS_SCHEMA = {
+@@ -1724,16 +1724,16 @@ export const SETTINGS_SCHEMA = {
  		default: -1,
  		ui: {
  			tab: "model",
@@ -3884,7 +3901,7 @@ index 5e551f3..2ef535e 100644
  			],
  		},
  	},
-@@ -1730,15 +1730,15 @@ export const SETTINGS_SCHEMA = {
+@@ -1743,15 +1743,15 @@ export const SETTINGS_SCHEMA = {
  		default: -1,
  		ui: {
  			tab: "model",
@@ -3907,7 +3924,7 @@ index 5e551f3..2ef535e 100644
  			],
  		},
  	},
-@@ -1748,14 +1748,14 @@ export const SETTINGS_SCHEMA = {
+@@ -1761,14 +1761,14 @@ export const SETTINGS_SCHEMA = {
  		default: -1,
  		ui: {
  			tab: "model",
@@ -3928,7 +3945,7 @@ index 5e551f3..2ef535e 100644
  			],
  		},
  	},
-@@ -1765,15 +1765,15 @@ export const SETTINGS_SCHEMA = {
+@@ -1778,15 +1778,15 @@ export const SETTINGS_SCHEMA = {
  		default: -1,
  		ui: {
  			tab: "model",
@@ -3952,7 +3969,7 @@ index 5e551f3..2ef535e 100644
  			],
  		},
  	},
-@@ -1783,16 +1783,16 @@ export const SETTINGS_SCHEMA = {
+@@ -1796,16 +1796,16 @@ export const SETTINGS_SCHEMA = {
  		default: -1,
  		ui: {
  			tab: "model",
@@ -3978,7 +3995,7 @@ index 5e551f3..2ef535e 100644
  			],
  		},
  	},
-@@ -1803,13 +1803,13 @@ export const SETTINGS_SCHEMA = {
+@@ -1816,13 +1816,13 @@ export const SETTINGS_SCHEMA = {
  		default: "medium",
  		ui: {
  			tab: "model",
@@ -3998,7 +4015,7 @@ index 5e551f3..2ef535e 100644
  			],
  		},
  	},
-@@ -1820,10 +1820,10 @@ export const SETTINGS_SCHEMA = {
+@@ -1833,10 +1833,10 @@ export const SETTINGS_SCHEMA = {
  		default: "none",
  		ui: {
  			tab: "model",
@@ -4012,7 +4029,7 @@ index 5e551f3..2ef535e 100644
  			options: SERVICE_TIER_OPENAI_OPTIONS,
  		},
  	},
-@@ -1834,10 +1834,10 @@ export const SETTINGS_SCHEMA = {
+@@ -1847,10 +1847,10 @@ export const SETTINGS_SCHEMA = {
  		default: "none",
  		ui: {
  			tab: "model",
@@ -4026,7 +4043,7 @@ index 5e551f3..2ef535e 100644
  			options: SERVICE_TIER_ANTHROPIC_OPTIONS,
  		},
  	},
-@@ -1848,10 +1848,10 @@ export const SETTINGS_SCHEMA = {
+@@ -1861,10 +1861,10 @@ export const SETTINGS_SCHEMA = {
  		default: "none",
  		ui: {
  			tab: "model",
@@ -4040,7 +4057,7 @@ index 5e551f3..2ef535e 100644
  			options: SERVICE_TIER_GOOGLE_OPTIONS,
  		},
  	},
-@@ -1862,10 +1862,10 @@ export const SETTINGS_SCHEMA = {
+@@ -1875,10 +1875,10 @@ export const SETTINGS_SCHEMA = {
  		default: "inherit",
  		ui: {
  			tab: "model",
@@ -4054,7 +4071,7 @@ index 5e551f3..2ef535e 100644
  			options: SERVICE_TIER_INHERIT_OPTIONS,
  		},
  	},
-@@ -1876,10 +1876,10 @@ export const SETTINGS_SCHEMA = {
+@@ -1889,10 +1889,10 @@ export const SETTINGS_SCHEMA = {
  		default: "none",
  		ui: {
  			tab: "model",
@@ -4068,7 +4085,7 @@ index 5e551f3..2ef535e 100644
  			options: SERVICE_TIER_INHERIT_OPTIONS,
  			condition: "advisorEnabled",
  		},
-@@ -1893,15 +1893,15 @@ export const SETTINGS_SCHEMA = {
+@@ -1906,15 +1906,15 @@ export const SETTINGS_SCHEMA = {
  		default: 10,
  		ui: {
  			tab: "model",
@@ -4092,7 +4109,7 @@ index 5e551f3..2ef535e 100644
  			],
  		},
  	},
-@@ -1912,10 +1912,10 @@ export const SETTINGS_SCHEMA = {
+@@ -1925,10 +1925,10 @@ export const SETTINGS_SCHEMA = {
  		default: 5 * 60 * 1000,
  		ui: {
  			tab: "model",
@@ -4106,7 +4123,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  	"retry.waitForUsageReset": {
-@@ -1923,8 +1923,8 @@ export const SETTINGS_SCHEMA = {
+@@ -1936,8 +1936,8 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "model",
@@ -4117,7 +4134,7 @@ index 5e551f3..2ef535e 100644
  			description:
  				"When a provider reports usage-limit exhaustion with a reset time (5-hour or weekly quota windows on any provider), sleep until the reset instead of failing fast past retry.maxDelayMs. Waits are abortable (Esc) but also hold subagents, so leave off for unattended runs.",
  		},
-@@ -1934,9 +1934,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1947,9 +1947,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "model",
@@ -4130,7 +4147,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  	"retry.usageAwareFallback": {
-@@ -1944,10 +1944,10 @@ export const SETTINGS_SCHEMA = {
+@@ -1957,10 +1957,10 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "model",
@@ -4144,7 +4161,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  	"retry.usageReservePct": {
-@@ -1955,17 +1955,17 @@ export const SETTINGS_SCHEMA = {
+@@ -1968,17 +1968,17 @@ export const SETTINGS_SCHEMA = {
  		default: 10,
  		ui: {
  			tab: "model",
@@ -4170,7 +4187,7 @@ index 5e551f3..2ef535e 100644
  			],
  		},
  	},
-@@ -1975,25 +1975,25 @@ export const SETTINGS_SCHEMA = {
+@@ -1988,25 +1988,25 @@ export const SETTINGS_SCHEMA = {
  		default: "confirm",
  		ui: {
  			tab: "model",
@@ -4205,7 +4222,7 @@ index 5e551f3..2ef535e 100644
  				},
  			],
  		},
-@@ -2003,28 +2003,28 @@ export const SETTINGS_SCHEMA = {
+@@ -2016,28 +2016,28 @@ export const SETTINGS_SCHEMA = {
  		default: {} as Record<string, string[]>,
  		ui: {
  			tab: "model",
@@ -4244,7 +4261,7 @@ index 5e551f3..2ef535e 100644
  			],
  		},
  	},
-@@ -2034,10 +2034,10 @@ export const SETTINGS_SCHEMA = {
+@@ -2047,10 +2047,10 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "model",
@@ -4258,7 +4275,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -2052,9 +2052,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2065,9 +2065,9 @@ export const SETTINGS_SCHEMA = {
  		default: "one-at-a-time",
  		ui: {
  			tab: "interaction",
@@ -4271,7 +4288,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -2064,9 +2064,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2077,9 +2077,9 @@ export const SETTINGS_SCHEMA = {
  		default: "one-at-a-time",
  		ui: {
  			tab: "interaction",
@@ -4284,7 +4301,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -2076,9 +2076,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2089,9 +2089,9 @@ export const SETTINGS_SCHEMA = {
  		default: "immediate",
  		ui: {
  			tab: "interaction",
@@ -4297,7 +4314,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -2087,10 +2087,10 @@ export const SETTINGS_SCHEMA = {
+@@ -2100,10 +2100,10 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "interaction",
@@ -4311,7 +4328,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -2100,14 +2100,14 @@ export const SETTINGS_SCHEMA = {
+@@ -2113,14 +2113,14 @@ export const SETTINGS_SCHEMA = {
  		default: "text",
  		ui: {
  			tab: "interaction",
@@ -4332,7 +4349,7 @@ index 5e551f3..2ef535e 100644
  			],
  		},
  	},
-@@ -2118,21 +2118,21 @@ export const SETTINGS_SCHEMA = {
+@@ -2131,21 +2131,21 @@ export const SETTINGS_SCHEMA = {
  		default: "prompt",
  		ui: {
  			tab: "interaction",
@@ -4362,7 +4379,7 @@ index 5e551f3..2ef535e 100644
  			],
  		},
  	},
-@@ -2142,15 +2142,15 @@ export const SETTINGS_SCHEMA = {
+@@ -2155,15 +2155,15 @@ export const SETTINGS_SCHEMA = {
  		default: 30_000,
  		ui: {
  			tab: "interaction",
@@ -4385,7 +4402,7 @@ index 5e551f3..2ef535e 100644
  			],
  		},
  	},
-@@ -2161,10 +2161,10 @@ export const SETTINGS_SCHEMA = {
+@@ -2174,10 +2174,10 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "interaction",
@@ -4399,7 +4416,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -2174,8 +2174,8 @@ export const SETTINGS_SCHEMA = {
+@@ -2187,8 +2187,8 @@ export const SETTINGS_SCHEMA = {
  		default: "rewind",
  		ui: {
  			tab: "interaction",
@@ -4410,7 +4427,7 @@ index 5e551f3..2ef535e 100644
  			description:
  				"What pressing Escape twice with an empty editor does: open the transcript rewind selector, open the session tree, or nothing",
  		},
-@@ -2187,9 +2187,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2200,9 +2200,9 @@ export const SETTINGS_SCHEMA = {
  		default: "default",
  		ui: {
  			tab: "interaction",
@@ -4423,7 +4440,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -2198,16 +2198,16 @@ export const SETTINGS_SCHEMA = {
+@@ -2211,16 +2211,16 @@ export const SETTINGS_SCHEMA = {
  		default: 10,
  		ui: {
  			tab: "interaction",
@@ -4449,7 +4466,7 @@ index 5e551f3..2ef535e 100644
  			],
  		},
  	},
-@@ -2217,9 +2217,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2230,9 +2230,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "interaction",
@@ -4462,7 +4479,7 @@ index 5e551f3..2ef535e 100644
  			condition: "macOS",
  		},
  	},
-@@ -2229,9 +2229,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2242,9 +2242,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "interaction",
@@ -4475,7 +4492,7 @@ index 5e551f3..2ef535e 100644
  			condition: "macOS",
  		},
  	},
-@@ -2241,9 +2241,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2254,9 +2254,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "interaction",
@@ -4488,7 +4505,7 @@ index 5e551f3..2ef535e 100644
  			condition: "macOS",
  		},
  	},
-@@ -2253,9 +2253,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2266,9 +2266,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "interaction",
@@ -4501,7 +4518,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -2264,16 +2264,16 @@ export const SETTINGS_SCHEMA = {
+@@ -2277,16 +2277,16 @@ export const SETTINGS_SCHEMA = {
  		default: 100,
  		ui: {
  			tab: "interaction",
@@ -4526,7 +4543,7 @@ index 5e551f3..2ef535e 100644
  			],
  		},
  	},
-@@ -2283,9 +2283,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2296,9 +2296,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "interaction",
@@ -4539,7 +4556,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -2294,10 +2294,10 @@ export const SETTINGS_SCHEMA = {
+@@ -2307,10 +2307,10 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "interaction",
@@ -4553,7 +4570,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -2306,9 +2306,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2319,9 +2319,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "interaction",
@@ -4566,7 +4583,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -2317,9 +2317,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2330,9 +2330,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "interaction",
@@ -4579,7 +4596,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  	"update.channel": {
-@@ -2328,12 +2328,12 @@ export const SETTINGS_SCHEMA = {
+@@ -2341,12 +2341,12 @@ export const SETTINGS_SCHEMA = {
  		default: "stable",
  		ui: {
  			tab: "interaction",
@@ -4597,7 +4614,7 @@ index 5e551f3..2ef535e 100644
  			],
  		},
  	},
-@@ -2344,13 +2344,13 @@ export const SETTINGS_SCHEMA = {
+@@ -2357,13 +2357,13 @@ export const SETTINGS_SCHEMA = {
  		default: "notify",
  		ui: {
  			tab: "interaction",
@@ -4617,7 +4634,7 @@ index 5e551f3..2ef535e 100644
  			],
  		},
  	},
-@@ -2361,24 +2361,24 @@ export const SETTINGS_SCHEMA = {
+@@ -2374,24 +2374,24 @@ export const SETTINGS_SCHEMA = {
  		default: "summary",
  		ui: {
  			tab: "interaction",
@@ -4651,7 +4668,7 @@ index 5e551f3..2ef535e 100644
  				},
  			],
  		},
-@@ -2389,9 +2389,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2402,9 +2402,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "interaction",
@@ -4664,7 +4681,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -2400,9 +2400,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2413,9 +2413,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "interaction",
@@ -4677,7 +4694,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -2411,9 +2411,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2424,9 +2424,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "interaction",
@@ -4690,7 +4707,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -2422,9 +2422,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2435,9 +2435,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "interaction",
@@ -4703,7 +4720,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -2435,9 +2435,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2448,9 +2448,9 @@ export const SETTINGS_SCHEMA = {
  		default: "on",
  		ui: {
  			tab: "interaction",
@@ -4716,7 +4733,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -2447,9 +2447,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2460,9 +2460,9 @@ export const SETTINGS_SCHEMA = {
  		default: "off",
  		ui: {
  			tab: "interaction",
@@ -4729,7 +4746,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -2458,15 +2458,15 @@ export const SETTINGS_SCHEMA = {
+@@ -2471,15 +2471,15 @@ export const SETTINGS_SCHEMA = {
  		default: 0,
  		ui: {
  			tab: "interaction",
@@ -4753,7 +4770,7 @@ index 5e551f3..2ef535e 100644
  			],
  		},
  	},
-@@ -2477,9 +2477,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2490,9 +2490,9 @@ export const SETTINGS_SCHEMA = {
  		default: "on",
  		ui: {
  			tab: "interaction",
@@ -4766,7 +4783,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -2488,9 +2488,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2501,9 +2501,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "interaction",
@@ -4779,7 +4796,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -2499,15 +2499,15 @@ export const SETTINGS_SCHEMA = {
+@@ -2512,15 +2512,15 @@ export const SETTINGS_SCHEMA = {
  		default: 240,
  		ui: {
  			tab: "interaction",
@@ -4803,7 +4820,7 @@ index 5e551f3..2ef535e 100644
  			],
  		},
  	},
-@@ -2518,9 +2518,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2531,9 +2531,9 @@ export const SETTINGS_SCHEMA = {
  		default: DEFAULT_RELAY_URL,
  		ui: {
  			tab: "interaction",
@@ -4816,7 +4833,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -2529,10 +2529,10 @@ export const SETTINGS_SCHEMA = {
+@@ -2542,10 +2542,10 @@ export const SETTINGS_SCHEMA = {
  		default: "",
  		ui: {
  			tab: "interaction",
@@ -4829,7 +4846,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -2541,9 +2541,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2554,9 +2554,9 @@ export const SETTINGS_SCHEMA = {
  		default: "",
  		ui: {
  			tab: "interaction",
@@ -4842,7 +4859,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -2553,21 +2553,21 @@ export const SETTINGS_SCHEMA = {
+@@ -2566,21 +2566,21 @@ export const SETTINGS_SCHEMA = {
  		default: "off",
  		ui: {
  			tab: "interaction",
@@ -4872,7 +4889,7 @@ index 5e551f3..2ef535e 100644
  				},
  			],
  		},
-@@ -2578,10 +2578,10 @@ export const SETTINGS_SCHEMA = {
+@@ -2591,10 +2591,10 @@ export const SETTINGS_SCHEMA = {
  		default: DEFAULT_SHARE_URL,
  		ui: {
  			tab: "interaction",
@@ -4886,7 +4903,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -2591,19 +2591,19 @@ export const SETTINGS_SCHEMA = {
+@@ -2604,19 +2604,19 @@ export const SETTINGS_SCHEMA = {
  		default: "blob",
  		ui: {
  			tab: "interaction",
@@ -4912,7 +4929,7 @@ index 5e551f3..2ef535e 100644
  				},
  			],
  		},
-@@ -2614,9 +2614,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2627,9 +2627,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "interaction",
@@ -4925,7 +4942,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -2626,9 +2626,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2639,9 +2639,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "interaction",
@@ -4938,7 +4955,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -2643,23 +2643,23 @@ export const SETTINGS_SCHEMA = {
+@@ -2656,23 +2656,23 @@ export const SETTINGS_SCHEMA = {
  		default: DEFAULT_STT_MODEL_KEY,
  		ui: {
  			tab: "interaction",
@@ -4969,7 +4986,7 @@ index 5e551f3..2ef535e 100644
  			options: STT_SUBMIT_TRIGGER_OPTIONS,
  		},
  	},
-@@ -2674,9 +2674,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2687,9 +2687,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "context",
@@ -4982,7 +4999,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -2688,10 +2688,10 @@ export const SETTINGS_SCHEMA = {
+@@ -2701,10 +2701,10 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "context",
@@ -4996,7 +5013,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -2701,9 +2701,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2714,9 +2714,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "context",
@@ -5009,7 +5026,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  	"compaction.experimentalContextManagement": {
-@@ -2711,10 +2711,10 @@ export const SETTINGS_SCHEMA = {
+@@ -2724,10 +2724,10 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "context",
@@ -5023,7 +5040,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -2723,9 +2723,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2736,9 +2736,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "context",
@@ -5036,7 +5053,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -2734,8 +2734,8 @@ export const SETTINGS_SCHEMA = {
+@@ -2747,8 +2747,8 @@ export const SETTINGS_SCHEMA = {
  		default: [...DEFAULT_COMPACTION_METHOD_ORDER],
  		ui: {
  			tab: "context",
@@ -5047,7 +5064,7 @@ index 5e551f3..2ef535e 100644
  			description:
  				"Preferred fallback order for automatic context maintenance; unavailable or failed methods advance to the next choice",
  			options: COMPACTION_METHOD_CHOICES,
-@@ -2748,23 +2748,23 @@ export const SETTINGS_SCHEMA = {
+@@ -2761,23 +2761,23 @@ export const SETTINGS_SCHEMA = {
  		default: -1,
  		ui: {
  			tab: "context",
@@ -5087,7 +5104,7 @@ index 5e551f3..2ef535e 100644
  			],
  		},
  	},
-@@ -2773,18 +2773,18 @@ export const SETTINGS_SCHEMA = {
+@@ -2786,18 +2786,18 @@ export const SETTINGS_SCHEMA = {
  		default: -1,
  		ui: {
  			tab: "context",
@@ -5117,7 +5134,7 @@ index 5e551f3..2ef535e 100644
  			],
  		},
  	},
-@@ -2794,9 +2794,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2807,9 +2807,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "context",
@@ -5130,7 +5147,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -2805,9 +2805,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2818,9 +2818,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "context",
@@ -5143,7 +5160,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -2816,8 +2816,8 @@ export const SETTINGS_SCHEMA = {
+@@ -2829,8 +2829,8 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "context",
@@ -5154,7 +5171,7 @@ index 5e551f3..2ef535e 100644
  			description:
  				"Speculatively summarize in the background as context nears the compaction threshold, then splice the ready result in when the threshold is crossed",
  		},
-@@ -2843,9 +2843,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2856,9 +2856,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "context",
@@ -5167,7 +5184,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -2854,9 +2854,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2867,9 +2867,9 @@ export const SETTINGS_SCHEMA = {
  		default: 200000,
  		ui: {
  			tab: "context",
@@ -5180,7 +5197,7 @@ index 5e551f3..2ef535e 100644
  			options: [
  				{ value: "100000", label: "100K tokens" },
  				{ value: "200000", label: "200K tokens" },
-@@ -2876,16 +2876,16 @@ export const SETTINGS_SCHEMA = {
+@@ -2889,16 +2889,16 @@ export const SETTINGS_SCHEMA = {
  		default: 300,
  		ui: {
  			tab: "context",
@@ -5206,7 +5223,7 @@ index 5e551f3..2ef535e 100644
  			],
  		},
  	},
-@@ -2895,9 +2895,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2908,9 +2908,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "context",
@@ -5219,7 +5236,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -2906,10 +2906,10 @@ export const SETTINGS_SCHEMA = {
+@@ -2919,10 +2919,10 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "context",
@@ -5233,7 +5250,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -2920,21 +2920,21 @@ export const SETTINGS_SCHEMA = {
+@@ -2933,21 +2933,21 @@ export const SETTINGS_SCHEMA = {
  		default: "none",
  		ui: {
  			tab: "context",
@@ -5262,7 +5279,7 @@ index 5e551f3..2ef535e 100644
  				},
  			],
  		},
-@@ -2945,10 +2945,10 @@ export const SETTINGS_SCHEMA = {
+@@ -2958,10 +2958,10 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "context",
@@ -5276,7 +5293,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -2972,28 +2972,28 @@ export const SETTINGS_SCHEMA = {
+@@ -2985,28 +2985,28 @@ export const SETTINGS_SCHEMA = {
  		default: "auto",
  		ui: {
  			tab: "context",
@@ -5322,7 +5339,7 @@ index 5e551f3..2ef535e 100644
  			],
  		},
  	},
-@@ -3004,103 +3004,103 @@ export const SETTINGS_SCHEMA = {
+@@ -3017,103 +3017,103 @@ export const SETTINGS_SCHEMA = {
  		default: "auto",
  		ui: {
  			tab: "context",
@@ -5465,7 +5482,7 @@ index 5e551f3..2ef535e 100644
  				},
  			],
  		},
-@@ -3112,9 +3112,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3125,9 +3125,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "context",
@@ -5478,7 +5495,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -3168,17 +3168,17 @@ export const SETTINGS_SCHEMA = {
+@@ -3181,17 +3181,17 @@ export const SETTINGS_SCHEMA = {
  		default: "off",
  		ui: {
  			tab: "memory",
@@ -5503,7 +5520,7 @@ index 5e551f3..2ef535e 100644
  				},
  				{
  					value: "sharpshooter",
-@@ -3195,8 +3195,8 @@ export const SETTINGS_SCHEMA = {
+@@ -3208,8 +3208,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Sharpshooter",
@@ -5514,7 +5531,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  	"sharpshooter.intervalMinutes": { type: "number", default: 5 },
-@@ -3210,10 +3210,10 @@ export const SETTINGS_SCHEMA = {
+@@ -3223,10 +3223,10 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "memory",
@@ -5528,7 +5545,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  	"autolearn.autoContinue": {
-@@ -3221,10 +3221,10 @@ export const SETTINGS_SCHEMA = {
+@@ -3234,10 +3234,10 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "memory",
@@ -5542,7 +5559,7 @@ index 5e551f3..2ef535e 100644
  			condition: "autolearnActive",
  		},
  	},
-@@ -3238,8 +3238,8 @@ export const SETTINGS_SCHEMA = {
+@@ -3251,8 +3251,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Mnemopi",
@@ -5553,7 +5570,7 @@ index 5e551f3..2ef535e 100644
  			condition: "mnemopiActive",
  		},
  	},
-@@ -3249,8 +3249,8 @@ export const SETTINGS_SCHEMA = {
+@@ -3262,8 +3262,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Mnemopi",
@@ -5564,7 +5581,7 @@ index 5e551f3..2ef535e 100644
  			condition: "mnemopiActive",
  		},
  	},
-@@ -3261,24 +3261,24 @@ export const SETTINGS_SCHEMA = {
+@@ -3274,24 +3274,24 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Mnemopi",
@@ -5597,7 +5614,7 @@ index 5e551f3..2ef535e 100644
  				},
  			],
  			condition: "mnemopiActive",
-@@ -3291,19 +3291,19 @@ export const SETTINGS_SCHEMA = {
+@@ -3304,19 +3304,19 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Mnemopi",
@@ -5623,7 +5640,7 @@ index 5e551f3..2ef535e 100644
  				},
  			],
  			condition: "mnemopiActive",
-@@ -3315,8 +3315,8 @@ export const SETTINGS_SCHEMA = {
+@@ -3328,8 +3328,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Mnemopi",
@@ -5634,7 +5651,7 @@ index 5e551f3..2ef535e 100644
  			condition: "mnemopiActive",
  		},
  	},
-@@ -3326,8 +3326,8 @@ export const SETTINGS_SCHEMA = {
+@@ -3339,8 +3339,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Mnemopi",
@@ -5645,7 +5662,7 @@ index 5e551f3..2ef535e 100644
  			condition: "mnemopiActive",
  		},
  	},
-@@ -3337,8 +3337,8 @@ export const SETTINGS_SCHEMA = {
+@@ -3350,8 +3350,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Mnemopi",
@@ -5656,7 +5673,7 @@ index 5e551f3..2ef535e 100644
  			condition: "mnemopiActive",
  		},
  	},
-@@ -3348,8 +3348,8 @@ export const SETTINGS_SCHEMA = {
+@@ -3361,8 +3361,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Mnemopi",
@@ -5667,7 +5684,7 @@ index 5e551f3..2ef535e 100644
  			condition: "mnemopiActive",
  		},
  	},
-@@ -3359,9 +3359,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3372,9 +3372,9 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Mnemopi",
@@ -5679,7 +5696,7 @@ index 5e551f3..2ef535e 100644
  			condition: "mnemopiActive",
  		},
  	},
-@@ -3371,8 +3371,8 @@ export const SETTINGS_SCHEMA = {
+@@ -3384,8 +3384,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Mnemopi",
@@ -5690,7 +5707,7 @@ index 5e551f3..2ef535e 100644
  			condition: "mnemopiActive",
  		},
  	},
-@@ -3382,9 +3382,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3395,9 +3395,9 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Mnemopi",
@@ -5702,7 +5719,7 @@ index 5e551f3..2ef535e 100644
  			condition: "mnemopiActive",
  		},
  	},
-@@ -3394,8 +3394,8 @@ export const SETTINGS_SCHEMA = {
+@@ -3407,8 +3407,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Mnemopi",
@@ -5713,7 +5730,7 @@ index 5e551f3..2ef535e 100644
  			condition: "mnemopiActive",
  		},
  	},
-@@ -3406,8 +3406,8 @@ export const SETTINGS_SCHEMA = {
+@@ -3419,8 +3419,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Mnemopi",
@@ -5724,7 +5741,7 @@ index 5e551f3..2ef535e 100644
  			condition: "mnemopiActive",
  		},
  	},
-@@ -3418,18 +3418,18 @@ export const SETTINGS_SCHEMA = {
+@@ -3431,18 +3431,18 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Mnemopi",
@@ -5749,7 +5766,7 @@ index 5e551f3..2ef535e 100644
  			],
  		},
  	},
-@@ -3439,8 +3439,8 @@ export const SETTINGS_SCHEMA = {
+@@ -3452,8 +3452,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Mnemopi",
@@ -5760,7 +5777,7 @@ index 5e551f3..2ef535e 100644
  			condition: "mnemopiActive",
  		},
  	},
-@@ -3451,8 +3451,8 @@ export const SETTINGS_SCHEMA = {
+@@ -3464,8 +3464,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Mnemopi",
@@ -5771,7 +5788,7 @@ index 5e551f3..2ef535e 100644
  			condition: "mnemopiActive",
  		},
  	},
-@@ -3462,8 +3462,8 @@ export const SETTINGS_SCHEMA = {
+@@ -3475,8 +3475,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Mnemopi",
@@ -5782,7 +5799,7 @@ index 5e551f3..2ef535e 100644
  			condition: "mnemopiActive",
  		},
  	},
-@@ -3482,7 +3482,7 @@ export const SETTINGS_SCHEMA = {
+@@ -3495,7 +3495,7 @@ export const SETTINGS_SCHEMA = {
  			tab: "memory",
  			group: "Hindsight",
  			label: "Hindsight API URL",
@@ -5791,7 +5808,7 @@ index 5e551f3..2ef535e 100644
  			condition: "hindsightActive",
  		},
  	},
-@@ -3494,8 +3494,8 @@ export const SETTINGS_SCHEMA = {
+@@ -3507,8 +3507,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Hindsight",
@@ -5802,7 +5819,7 @@ index 5e551f3..2ef535e 100644
  			condition: "hindsightActive",
  		},
  	},
-@@ -3506,8 +3506,8 @@ export const SETTINGS_SCHEMA = {
+@@ -3519,8 +3519,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Hindsight",
@@ -5813,7 +5830,7 @@ index 5e551f3..2ef535e 100644
  			condition: "hindsightActive",
  		},
  	},
-@@ -3520,25 +3520,25 @@ export const SETTINGS_SCHEMA = {
+@@ -3533,25 +3533,25 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Hindsight",
@@ -5847,7 +5864,7 @@ index 5e551f3..2ef535e 100644
  				},
  			],
  			condition: "hindsightActive",
-@@ -3553,8 +3553,8 @@ export const SETTINGS_SCHEMA = {
+@@ -3566,8 +3566,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Hindsight",
@@ -5858,7 +5875,7 @@ index 5e551f3..2ef535e 100644
  			condition: "hindsightActive",
  		},
  	},
-@@ -3564,8 +3564,8 @@ export const SETTINGS_SCHEMA = {
+@@ -3577,8 +3577,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Hindsight",
@@ -5869,7 +5886,7 @@ index 5e551f3..2ef535e 100644
  			condition: "hindsightActive",
  		},
  	},
-@@ -3577,15 +3577,15 @@ export const SETTINGS_SCHEMA = {
+@@ -3590,15 +3590,15 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Hindsight",
@@ -5890,7 +5907,7 @@ index 5e551f3..2ef535e 100644
  			],
  			condition: "hindsightActive",
  		},
-@@ -3617,9 +3617,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3630,9 +3630,9 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Hindsight",
@@ -5902,7 +5919,7 @@ index 5e551f3..2ef535e 100644
  			condition: "hindsightActive",
  		},
  	},
-@@ -3629,9 +3629,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3642,9 +3642,9 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Hindsight",
@@ -5914,7 +5931,7 @@ index 5e551f3..2ef535e 100644
  			condition: "hindsightActive",
  		},
  	},
-@@ -3643,9 +3643,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3656,9 +3656,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "context",
@@ -5926,7 +5943,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -3655,26 +3655,26 @@ export const SETTINGS_SCHEMA = {
+@@ -3668,26 +3668,26 @@ export const SETTINGS_SCHEMA = {
  		default: "discard",
  		ui: {
  			tab: "context",
@@ -5965,7 +5982,7 @@ index 5e551f3..2ef535e 100644
  			],
  		},
  	},
-@@ -3685,9 +3685,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3698,9 +3698,9 @@ export const SETTINGS_SCHEMA = {
  		default: "once",
  		ui: {
  			tab: "context",
@@ -5978,7 +5995,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -3696,15 +3696,15 @@ export const SETTINGS_SCHEMA = {
+@@ -3709,15 +3709,15 @@ export const SETTINGS_SCHEMA = {
  		default: 10,
  		ui: {
  			tab: "context",
@@ -6002,7 +6019,7 @@ index 5e551f3..2ef535e 100644
  			],
  		},
  	},
-@@ -3714,9 +3714,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3727,9 +3727,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "context",
@@ -6015,7 +6032,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -3725,9 +3725,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3738,9 +3738,9 @@ export const SETTINGS_SCHEMA = {
  		default: [] as string[],
  		ui: {
  			tab: "context",
@@ -6028,7 +6045,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -3742,9 +3742,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3755,9 +3755,9 @@ export const SETTINGS_SCHEMA = {
  		default: "hashline",
  		ui: {
  			tab: "files",
@@ -6041,7 +6058,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -3753,9 +3753,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3766,9 +3766,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "files",
@@ -6054,7 +6071,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -3764,14 +3764,14 @@ export const SETTINGS_SCHEMA = {
+@@ -3777,14 +3777,14 @@ export const SETTINGS_SCHEMA = {
  		default: 0.95,
  		ui: {
  			tab: "files",
@@ -6076,7 +6093,7 @@ index 5e551f3..2ef535e 100644
  			],
  		},
  	},
-@@ -3781,9 +3781,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3794,9 +3794,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "files",
@@ -6089,7 +6106,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -3792,9 +3792,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3805,9 +3805,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "files",
@@ -6102,7 +6119,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -3803,9 +3803,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3816,9 +3816,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "files",
@@ -6115,7 +6132,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -3814,9 +3814,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3827,9 +3827,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "files",
@@ -6128,7 +6145,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  	"edit.blackbox.enabled": {
-@@ -3824,9 +3824,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3837,9 +3837,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "files",
@@ -6141,7 +6158,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  	"edit.autoRepair.enabled": {
-@@ -3834,8 +3834,8 @@ export const SETTINGS_SCHEMA = {
+@@ -3847,8 +3847,8 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "files",
@@ -6152,7 +6169,7 @@ index 5e551f3..2ef535e 100644
  			description:
  				"When an edit breaks a file's AST parse, ask the smol model to fix the broken region (validated by re-parse; falls back to a warning)",
  		},
-@@ -3846,9 +3846,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3859,9 +3859,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "files",
@@ -6165,7 +6182,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -3857,15 +3857,15 @@ export const SETTINGS_SCHEMA = {
+@@ -3870,15 +3870,15 @@ export const SETTINGS_SCHEMA = {
  		default: 300,
  		ui: {
  			tab: "files",
@@ -6189,7 +6206,7 @@ index 5e551f3..2ef535e 100644
  			],
  		},
  	},
-@@ -3875,9 +3875,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3888,9 +3888,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "files",
@@ -6202,7 +6219,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -3886,9 +3886,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3899,9 +3899,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "files",
@@ -6215,7 +6232,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -3897,9 +3897,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3910,9 +3910,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "files",
@@ -6228,7 +6245,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -3908,9 +3908,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3921,9 +3921,9 @@ export const SETTINGS_SCHEMA = {
  		default: 4,
  		ui: {
  			tab: "files",
@@ -6241,7 +6258,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -3919,9 +3919,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3932,9 +3932,9 @@ export const SETTINGS_SCHEMA = {
  		default: 6,
  		ui: {
  			tab: "files",
@@ -6254,7 +6271,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -3930,9 +3930,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3943,9 +3943,9 @@ export const SETTINGS_SCHEMA = {
  		default: 100,
  		ui: {
  			tab: "files",
@@ -6267,7 +6284,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -3941,10 +3941,10 @@ export const SETTINGS_SCHEMA = {
+@@ -3954,10 +3954,10 @@ export const SETTINGS_SCHEMA = {
  		default: 50,
  		ui: {
  			tab: "files",
@@ -6281,7 +6298,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -3953,10 +3953,10 @@ export const SETTINGS_SCHEMA = {
+@@ -3966,10 +3966,10 @@ export const SETTINGS_SCHEMA = {
  		default: 100,
  		ui: {
  			tab: "files",
@@ -6295,7 +6312,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -3965,9 +3965,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3978,9 +3978,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "files",
@@ -6308,7 +6325,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -3979,7 +3979,7 @@ export const SETTINGS_SCHEMA = {
+@@ -3992,7 +3992,7 @@ export const SETTINGS_SCHEMA = {
  			tab: "files",
  			group: "LSP",
  			label: "LSP",
@@ -6317,7 +6334,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -3989,9 +3989,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4002,9 +4002,9 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "files",
  			group: "LSP",
@@ -6329,7 +6346,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -4001,9 +4001,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4014,9 +4014,9 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "files",
  			group: "LSP",
@@ -6341,7 +6358,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -4013,8 +4013,8 @@ export const SETTINGS_SCHEMA = {
+@@ -4026,8 +4026,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "files",
  			group: "LSP",
@@ -6352,7 +6369,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -4024,8 +4024,8 @@ export const SETTINGS_SCHEMA = {
+@@ -4037,8 +4037,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "files",
  			group: "LSP",
@@ -6363,7 +6380,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -4035,8 +4035,8 @@ export const SETTINGS_SCHEMA = {
+@@ -4048,8 +4048,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "files",
  			group: "LSP",
@@ -6374,7 +6391,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -4046,8 +4046,8 @@ export const SETTINGS_SCHEMA = {
+@@ -4059,8 +4059,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "files",
  			group: "LSP",
@@ -6385,7 +6402,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -4058,7 +4058,7 @@ export const SETTINGS_SCHEMA = {
+@@ -4071,7 +4071,7 @@ export const SETTINGS_SCHEMA = {
  			tab: "shell",
  			group: "Bash",
  			label: "Bash",
@@ -6394,7 +6411,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -4068,7 +4068,7 @@ export const SETTINGS_SCHEMA = {
+@@ -4081,7 +4081,7 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "shell",
  			group: "Bash",
@@ -6403,7 +6420,7 @@ index 5e551f3..2ef535e 100644
  			description:
  				"Evaluate literal && chains per command; unmatched commands use normal bash approval policy and mode",
  		},
-@@ -4080,8 +4080,8 @@ export const SETTINGS_SCHEMA = {
+@@ -4093,8 +4093,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "shell",
  			group: "Bash",
@@ -6414,7 +6431,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  	"bash.patterns": {
-@@ -4090,9 +4090,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4103,9 +4103,9 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "shell",
  			group: "Bash",
@@ -6426,7 +6443,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -4103,8 +4103,8 @@ export const SETTINGS_SCHEMA = {
+@@ -4116,8 +4116,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "shell",
  			group: "Bash",
@@ -6437,7 +6454,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  	"bashInterceptor.patterns": { type: "array", default: DEFAULT_BASH_INTERCEPTOR_RULES },
-@@ -4116,9 +4116,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4129,9 +4129,9 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "shell",
  			group: "Bash",
@@ -6449,7 +6466,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  	"bash.direnvLoadTimeoutMs": {
-@@ -4127,9 +4127,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4140,9 +4140,9 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "shell",
  			group: "Bash",
@@ -6461,7 +6478,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  	// Shell output minimizer
-@@ -4139,8 +4139,8 @@ export const SETTINGS_SCHEMA = {
+@@ -4152,8 +4152,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "shell",
  			group: "Bash",
@@ -6472,7 +6489,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  	"shellMinimizer.settingsPath": {
-@@ -4160,8 +4160,8 @@ export const SETTINGS_SCHEMA = {
+@@ -4173,8 +4173,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "shell",
  			group: "Bash",
@@ -6483,7 +6500,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  	"shellMinimizer.legacyFilters": {
-@@ -4175,9 +4175,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4188,9 +4188,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "shell",
@@ -6496,7 +6513,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -4186,9 +4186,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4199,9 +4199,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "shell",
@@ -6509,7 +6526,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -4197,8 +4197,8 @@ export const SETTINGS_SCHEMA = {
+@@ -4210,8 +4210,8 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "shell",
@@ -6520,7 +6537,7 @@ index 5e551f3..2ef535e 100644
  			description:
  				"Let eval cells define tools (@tool in Python, tool(fn) in JS) that task, agent(), and workpool() subagents can call",
  		},
-@@ -4209,8 +4209,8 @@ export const SETTINGS_SCHEMA = {
+@@ -4222,8 +4222,8 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "shell",
@@ -6531,7 +6548,7 @@ index 5e551f3..2ef535e 100644
  			description:
  				"Spawn a new subagent for every workpool item instead of reusing workers or batching queued items",
  		},
-@@ -4221,9 +4221,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4234,9 +4234,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "shell",
@@ -6544,7 +6561,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -4239,9 +4239,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4252,9 +4252,9 @@ export const SETTINGS_SCHEMA = {
  		default: "session",
  		ui: {
  			tab: "shell",
@@ -6557,7 +6574,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  	"python.interpreter": {
-@@ -4249,10 +4249,10 @@ export const SETTINGS_SCHEMA = {
+@@ -4262,10 +4262,10 @@ export const SETTINGS_SCHEMA = {
  		default: "",
  		ui: {
  			tab: "shell",
@@ -6571,7 +6588,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -4266,10 +4266,10 @@ export const SETTINGS_SCHEMA = {
+@@ -4279,10 +4279,10 @@ export const SETTINGS_SCHEMA = {
  		default: {},
  		ui: {
  			tab: "interaction",
@@ -6585,7 +6602,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -4283,27 +4283,27 @@ export const SETTINGS_SCHEMA = {
+@@ -4296,27 +4296,27 @@ export const SETTINGS_SCHEMA = {
  		default: "yolo",
  		ui: {
  			tab: "interaction",
@@ -6621,7 +6638,7 @@ index 5e551f3..2ef535e 100644
  				},
  			],
  		},
-@@ -4315,9 +4315,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4328,9 +4328,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tools",
@@ -6634,7 +6651,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -4326,9 +4326,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4339,9 +4339,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tools",
@@ -6647,7 +6664,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -4337,35 +4337,35 @@ export const SETTINGS_SCHEMA = {
+@@ -4350,35 +4350,35 @@ export const SETTINGS_SCHEMA = {
  		default: 3,
  		ui: {
  			tab: "tools",
@@ -6698,7 +6715,7 @@ index 5e551f3..2ef535e 100644
  			],
  		},
  	},
-@@ -4376,9 +4376,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4389,9 +4389,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tools",
@@ -6710,7 +6727,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -4387,9 +4387,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4400,9 +4400,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tools",
@@ -6722,7 +6739,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -4398,15 +4398,15 @@ export const SETTINGS_SCHEMA = {
+@@ -4411,15 +4411,15 @@ export const SETTINGS_SCHEMA = {
  		default: 1,
  		ui: {
  			tab: "tools",
@@ -6746,7 +6763,7 @@ index 5e551f3..2ef535e 100644
  			],
  		},
  	},
-@@ -4416,16 +4416,16 @@ export const SETTINGS_SCHEMA = {
+@@ -4429,16 +4429,16 @@ export const SETTINGS_SCHEMA = {
  		default: 3,
  		ui: {
  			tab: "tools",
@@ -6772,7 +6789,7 @@ index 5e551f3..2ef535e 100644
  			],
  		},
  	},
-@@ -4435,9 +4435,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4448,9 +4448,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "tools",
@@ -6784,7 +6801,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -4446,9 +4446,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4459,9 +4459,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tools",
@@ -6796,7 +6813,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -4459,9 +4459,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4472,9 +4472,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tools",
@@ -6808,7 +6825,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -4470,9 +4470,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4483,9 +4483,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tools",
@@ -6820,7 +6837,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -4481,9 +4481,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4494,9 +4494,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "tools",
@@ -6833,7 +6850,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  	"generate_image.enabled": {
-@@ -4491,10 +4491,10 @@ export const SETTINGS_SCHEMA = {
+@@ -4504,10 +4504,10 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "tools",
@@ -6847,7 +6864,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -4503,9 +4503,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4516,9 +4516,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "tools",
@@ -6860,7 +6877,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -4514,9 +4514,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4527,9 +4527,9 @@ export const SETTINGS_SCHEMA = {
  		default: "all",
  		ui: {
  			tab: "tools",
@@ -6873,7 +6890,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -4525,9 +4525,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4538,9 +4538,9 @@ export const SETTINGS_SCHEMA = {
  		default: 3840,
  		ui: {
  			tab: "tools",
@@ -6886,7 +6903,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -4536,9 +4536,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4549,9 +4549,9 @@ export const SETTINGS_SCHEMA = {
  		default: 2400,
  		ui: {
  			tab: "tools",
@@ -6899,7 +6916,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -4547,16 +4547,16 @@ export const SETTINGS_SCHEMA = {
+@@ -4560,16 +4560,16 @@ export const SETTINGS_SCHEMA = {
  		default: 300_000,
  		ui: {
  			tab: "tools",
@@ -6923,7 +6940,7 @@ index 5e551f3..2ef535e 100644
  			],
  		},
  	},
-@@ -4566,9 +4566,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4579,9 +4579,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "tools",
@@ -6936,7 +6953,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -4578,9 +4578,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4591,9 +4591,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tools",
@@ -6949,7 +6966,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -4589,10 +4589,10 @@ export const SETTINGS_SCHEMA = {
+@@ -4602,10 +4602,10 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "tools",
@@ -6962,7 +6979,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -4601,10 +4601,10 @@ export const SETTINGS_SCHEMA = {
+@@ -4614,10 +4614,10 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "tools",
@@ -6975,7 +6992,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -4614,8 +4614,8 @@ export const SETTINGS_SCHEMA = {
+@@ -4627,8 +4627,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "tools",
  			group: "GitHub",
@@ -6986,7 +7003,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -4625,9 +4625,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4638,9 +4638,9 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "tools",
  			group: "GitHub",
@@ -6998,7 +7015,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -4637,9 +4637,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4650,9 +4650,9 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "tools",
  			group: "GitHub",
@@ -7010,7 +7027,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -4648,9 +4648,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4661,9 +4661,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tools",
@@ -7023,7 +7040,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -4659,10 +4659,10 @@ export const SETTINGS_SCHEMA = {
+@@ -4672,10 +4672,10 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "tools",
@@ -7037,7 +7054,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -4671,9 +4671,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4684,9 +4684,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tools",
@@ -7050,7 +7067,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -4682,9 +4682,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4695,9 +4695,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tools",
@@ -7062,7 +7079,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -4693,10 +4693,10 @@ export const SETTINGS_SCHEMA = {
+@@ -4706,10 +4706,10 @@ export const SETTINGS_SCHEMA = {
  		default: undefined,
  		ui: {
  			tab: "tools",
@@ -7076,7 +7093,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -4705,8 +4705,8 @@ export const SETTINGS_SCHEMA = {
+@@ -4718,8 +4718,8 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "tools",
@@ -7087,7 +7104,7 @@ index 5e551f3..2ef535e 100644
  			description:
  				"Drive your own Chrome tabs through the omp browser relay. Install the extension once (`omp browser-relay install`); the relay server auto-starts when the browser prelude needs it. Takes precedence over Browser CDP URL; set PI_BROWSER_RELAY=0 or PI_BROWSER_RELAY=1 to override.",
  		},
-@@ -4717,9 +4717,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4730,9 +4730,9 @@ export const SETTINGS_SCHEMA = {
  		default: undefined,
  		ui: {
  			tab: "tools",
@@ -7100,7 +7117,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -4728,9 +4728,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4741,9 +4741,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tools",
@@ -7113,7 +7130,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -4739,10 +4739,10 @@ export const SETTINGS_SCHEMA = {
+@@ -4752,10 +4752,10 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tools",
@@ -7127,7 +7144,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  	"browser.freezeOnTurnEnd": {
-@@ -4750,10 +4750,10 @@ export const SETTINGS_SCHEMA = {
+@@ -4763,10 +4763,10 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tools",
@@ -7141,7 +7158,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  	"browser.idleCloseSec": {
-@@ -4761,15 +4761,15 @@ export const SETTINGS_SCHEMA = {
+@@ -4774,15 +4774,15 @@ export const SETTINGS_SCHEMA = {
  		default: 1800,
  		ui: {
  			tab: "tools",
@@ -7164,7 +7181,7 @@ index 5e551f3..2ef535e 100644
  			],
  		},
  	},
-@@ -4778,10 +4778,10 @@ export const SETTINGS_SCHEMA = {
+@@ -4791,10 +4791,10 @@ export const SETTINGS_SCHEMA = {
  		default: undefined,
  		ui: {
  			tab: "tools",
@@ -7178,7 +7195,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -4791,9 +4791,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4804,9 +4804,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tools",
@@ -7191,7 +7208,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  	"tools.abortOnFabricatedResult": {
-@@ -4801,10 +4801,10 @@ export const SETTINGS_SCHEMA = {
+@@ -4814,10 +4814,10 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tools",
@@ -7205,7 +7222,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -4813,10 +4813,10 @@ export const SETTINGS_SCHEMA = {
+@@ -4826,10 +4826,10 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "tools",
@@ -7219,7 +7236,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -4825,14 +4825,14 @@ export const SETTINGS_SCHEMA = {
+@@ -4838,14 +4838,14 @@ export const SETTINGS_SCHEMA = {
  		default: 2,
  		ui: {
  			tab: "tools",
@@ -7241,7 +7258,7 @@ index 5e551f3..2ef535e 100644
  			],
  		},
  	},
-@@ -4842,16 +4842,16 @@ export const SETTINGS_SCHEMA = {
+@@ -4855,16 +4855,16 @@ export const SETTINGS_SCHEMA = {
  		default: 0,
  		ui: {
  			tab: "tools",
@@ -7267,7 +7284,7 @@ index 5e551f3..2ef535e 100644
  			],
  		},
  	},
-@@ -4862,9 +4862,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4875,9 +4875,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tools",
@@ -7280,7 +7297,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -4878,15 +4878,15 @@ export const SETTINGS_SCHEMA = {
+@@ -4891,15 +4891,15 @@ export const SETTINGS_SCHEMA = {
  		default: 120_000,
  		ui: {
  			tab: "tools",
@@ -7304,7 +7321,7 @@ index 5e551f3..2ef535e 100644
  			],
  		},
  	},
-@@ -4901,8 +4901,8 @@ export const SETTINGS_SCHEMA = {
+@@ -4914,8 +4914,8 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tools",
@@ -7315,7 +7332,7 @@ index 5e551f3..2ef535e 100644
  			description:
  				"Mount rarely-used (discoverable) tools under xd:// device URLs driven via read/write instead of shipping their schemas on every request. Sessions whose explicit tool list grants read but omits write mount devices through a device-only write transport (filesystem writes stay rejected). Disable to expose every enabled tool top-level.",
  		},
-@@ -4914,18 +4914,18 @@ export const SETTINGS_SCHEMA = {
+@@ -4927,18 +4927,18 @@ export const SETTINGS_SCHEMA = {
  		default: "builtins",
  		ui: {
  			tab: "tools",
@@ -7341,7 +7358,7 @@ index 5e551f3..2ef535e 100644
  			],
  		},
  	},
-@@ -4935,10 +4935,10 @@ export const SETTINGS_SCHEMA = {
+@@ -4948,10 +4948,10 @@ export const SETTINGS_SCHEMA = {
  		default: EMPTY_STRING_ARRAY,
  		ui: {
  			tab: "tools",
@@ -7355,7 +7372,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -4948,9 +4948,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4961,9 +4961,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tools",
@@ -7368,7 +7385,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -4959,9 +4959,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4972,9 +4972,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tools",
@@ -7381,7 +7398,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -4970,9 +4970,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4983,9 +4983,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "tools",
@@ -7394,7 +7411,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -4981,10 +4981,10 @@ export const SETTINGS_SCHEMA = {
+@@ -4994,10 +4994,10 @@ export const SETTINGS_SCHEMA = {
  		default: 500,
  		ui: {
  			tab: "tools",
@@ -7408,7 +7425,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -4998,9 +4998,9 @@ export const SETTINGS_SCHEMA = {
+@@ -5011,9 +5011,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tasks",
@@ -7421,7 +7438,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -5009,9 +5009,9 @@ export const SETTINGS_SCHEMA = {
+@@ -5022,9 +5022,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "tasks",
@@ -7434,7 +7451,7 @@ index 5e551f3..2ef535e 100644
  			condition: "planModeEnabled",
  		},
  	},
-@@ -5021,9 +5021,9 @@ export const SETTINGS_SCHEMA = {
+@@ -5034,9 +5034,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "tasks",
@@ -7447,7 +7464,7 @@ index 5e551f3..2ef535e 100644
  			condition: "planModeEnabled",
  		},
  	},
-@@ -5033,10 +5033,10 @@ export const SETTINGS_SCHEMA = {
+@@ -5046,10 +5046,10 @@ export const SETTINGS_SCHEMA = {
  		default: undefined,
  		ui: {
  			tab: "tasks",
@@ -7461,7 +7478,7 @@ index 5e551f3..2ef535e 100644
  			condition: "planAutosaveEnabled",
  		},
  	},
-@@ -5046,9 +5046,9 @@ export const SETTINGS_SCHEMA = {
+@@ -5059,9 +5059,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tasks",
@@ -7474,7 +7491,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -5057,9 +5057,9 @@ export const SETTINGS_SCHEMA = {
+@@ -5070,9 +5070,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tasks",
@@ -7487,7 +7504,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -5068,9 +5068,9 @@ export const SETTINGS_SCHEMA = {
+@@ -5081,9 +5081,9 @@ export const SETTINGS_SCHEMA = {
  		default: ["interactive"],
  		ui: {
  			tab: "tasks",
@@ -7500,7 +7517,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -5079,9 +5079,9 @@ export const SETTINGS_SCHEMA = {
+@@ -5092,9 +5092,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tasks",
@@ -7513,7 +7530,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -5091,9 +5091,9 @@ export const SETTINGS_SCHEMA = {
+@@ -5104,9 +5104,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "tasks",
@@ -7526,7 +7543,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -5103,30 +5103,30 @@ export const SETTINGS_SCHEMA = {
+@@ -5116,30 +5116,30 @@ export const SETTINGS_SCHEMA = {
  		default: "auto",
  		ui: {
  			tab: "tasks",
@@ -7570,7 +7587,7 @@ index 5e551f3..2ef535e 100644
  				},
  			],
  		},
-@@ -5137,8 +5137,8 @@ export const SETTINGS_SCHEMA = {
+@@ -5150,8 +5150,8 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tasks",
@@ -7581,7 +7598,7 @@ index 5e551f3..2ef535e 100644
  			description:
  				"New worktrees from `github pr_checkout` and `git worktree add` in bash start as a copy-on-write clone of the current checkout so ignored build artifacts (node_modules, target) carry over; falls back to a plain checkout when the filesystem cannot clone",
  		},
-@@ -5149,8 +5149,8 @@ export const SETTINGS_SCHEMA = {
+@@ -5162,8 +5162,8 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "tasks",
@@ -7592,7 +7609,7 @@ index 5e551f3..2ef535e 100644
  			description:
  				"When creating a worktree with `/wt`, reset tracked changes and remove untracked files from the original checkout after carrying them over",
  		},
-@@ -5161,10 +5161,10 @@ export const SETTINGS_SCHEMA = {
+@@ -5174,10 +5174,10 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tasks",
@@ -7606,7 +7623,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -5174,12 +5174,12 @@ export const SETTINGS_SCHEMA = {
+@@ -5187,12 +5187,12 @@ export const SETTINGS_SCHEMA = {
  		default: "patch",
  		ui: {
  			tab: "tasks",
@@ -7624,7 +7641,7 @@ index 5e551f3..2ef535e 100644
  			],
  		},
  	},
-@@ -5190,12 +5190,12 @@ export const SETTINGS_SCHEMA = {
+@@ -5203,12 +5203,12 @@ export const SETTINGS_SCHEMA = {
  		default: "generic",
  		ui: {
  			tab: "tasks",
@@ -7642,7 +7659,7 @@ index 5e551f3..2ef535e 100644
  			],
  		},
  	},
-@@ -5205,30 +5205,30 @@ export const SETTINGS_SCHEMA = {
+@@ -5218,30 +5218,30 @@ export const SETTINGS_SCHEMA = {
  		default: undefined,
  		ui: {
  			tab: "tasks",
@@ -7684,7 +7701,7 @@ index 5e551f3..2ef535e 100644
  			],
  		},
  	},
-@@ -5238,10 +5238,10 @@ export const SETTINGS_SCHEMA = {
+@@ -5251,10 +5251,10 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tasks",
@@ -7698,7 +7715,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -5250,10 +5250,10 @@ export const SETTINGS_SCHEMA = {
+@@ -5263,10 +5263,10 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "tasks",
@@ -7712,7 +7729,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -5262,18 +5262,18 @@ export const SETTINGS_SCHEMA = {
+@@ -5275,18 +5275,18 @@ export const SETTINGS_SCHEMA = {
  		default: 32,
  		ui: {
  			tab: "tasks",
@@ -7742,7 +7759,7 @@ index 5e551f3..2ef535e 100644
  			],
  		},
  	},
-@@ -5283,10 +5283,10 @@ export const SETTINGS_SCHEMA = {
+@@ -5296,10 +5296,10 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "tasks",
@@ -7756,7 +7773,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -5295,15 +5295,15 @@ export const SETTINGS_SCHEMA = {
+@@ -5308,15 +5308,15 @@ export const SETTINGS_SCHEMA = {
  		default: 2,
  		ui: {
  			tab: "tasks",
@@ -7780,7 +7797,7 @@ index 5e551f3..2ef535e 100644
  			],
  		},
  	},
-@@ -5313,16 +5313,16 @@ export const SETTINGS_SCHEMA = {
+@@ -5326,16 +5326,16 @@ export const SETTINGS_SCHEMA = {
  		default: 0,
  		ui: {
  			tab: "tasks",
@@ -7805,7 +7822,7 @@ index 5e551f3..2ef535e 100644
  			],
  		},
  	},
-@@ -5332,10 +5332,10 @@ export const SETTINGS_SCHEMA = {
+@@ -5345,10 +5345,10 @@ export const SETTINGS_SCHEMA = {
  		default: 420_000,
  		ui: {
  			tab: "tasks",
@@ -7819,7 +7836,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -5344,15 +5344,15 @@ export const SETTINGS_SCHEMA = {
+@@ -5357,15 +5357,15 @@ export const SETTINGS_SCHEMA = {
  		default: 200,
  		ui: {
  			tab: "tasks",
@@ -7842,7 +7859,7 @@ index 5e551f3..2ef535e 100644
  			],
  		},
  	},
-@@ -5362,10 +5362,10 @@ export const SETTINGS_SCHEMA = {
+@@ -5375,10 +5375,10 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tasks",
@@ -7856,7 +7873,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -5375,10 +5375,10 @@ export const SETTINGS_SCHEMA = {
+@@ -5388,10 +5388,10 @@ export const SETTINGS_SCHEMA = {
  		default: "max",
  		ui: {
  			tab: "tasks",
@@ -7870,7 +7887,7 @@ index 5e551f3..2ef535e 100644
  			options: THINKING_EFFORTS.map(getThinkingLevelMetadata),
  		},
  	},
-@@ -5409,8 +5409,8 @@ export const SETTINGS_SCHEMA = {
+@@ -5422,8 +5422,8 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "tasks",
@@ -7881,7 +7898,7 @@ index 5e551f3..2ef535e 100644
  			description:
  				"Arm prewalk for the bundled generic `task` subagent: it starts on its resolved model, plans and begins the implementation, then hands off to the 'smol' role at its first edit/write. Per-agent overrides (task.agentPrewalk, configured from the /agents hub) and user agent `prewalk` frontmatter apply regardless of this toggle.",
  		},
-@@ -5421,17 +5421,17 @@ export const SETTINGS_SCHEMA = {
+@@ -5434,17 +5434,17 @@ export const SETTINGS_SCHEMA = {
  		default: 60,
  		ui: {
  			tab: "tools",
@@ -7909,7 +7926,7 @@ index 5e551f3..2ef535e 100644
  			],
  		},
  	},
-@@ -5441,9 +5441,9 @@ export const SETTINGS_SCHEMA = {
+@@ -5454,9 +5454,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "appearance",
@@ -7922,7 +7939,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -5455,9 +5455,9 @@ export const SETTINGS_SCHEMA = {
+@@ -5468,9 +5468,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tasks",
@@ -7935,7 +7952,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -5487,9 +5487,9 @@ export const SETTINGS_SCHEMA = {
+@@ -5500,9 +5500,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "tasks",
@@ -7948,7 +7965,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -5498,9 +5498,9 @@ export const SETTINGS_SCHEMA = {
+@@ -5511,9 +5511,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tasks",
@@ -7961,7 +7978,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -5509,9 +5509,9 @@ export const SETTINGS_SCHEMA = {
+@@ -5522,9 +5522,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "tasks",
@@ -7974,7 +7991,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -5520,9 +5520,9 @@ export const SETTINGS_SCHEMA = {
+@@ -5533,9 +5533,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tasks",
@@ -7987,7 +8004,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -5536,9 +5536,9 @@ export const SETTINGS_SCHEMA = {
+@@ -5549,9 +5549,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "providers",
@@ -8000,7 +8017,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -5548,10 +5548,10 @@ export const SETTINGS_SCHEMA = {
+@@ -5561,10 +5561,10 @@ export const SETTINGS_SCHEMA = {
  		default: 3,
  		ui: {
  			tab: "providers",
@@ -8014,7 +8031,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  	"providers.webSearchOrder": {
-@@ -5559,10 +5559,10 @@ export const SETTINGS_SCHEMA = {
+@@ -5572,10 +5572,10 @@ export const SETTINGS_SCHEMA = {
  		default: [] as SearchProviderId[],
  		ui: {
  			tab: "providers",
@@ -8028,7 +8045,7 @@ index 5e551f3..2ef535e 100644
  			options: SEARCH_PROVIDER_CHOICES,
  			ordered: true,
  		},
-@@ -5572,9 +5572,9 @@ export const SETTINGS_SCHEMA = {
+@@ -5585,9 +5585,9 @@ export const SETTINGS_SCHEMA = {
  		default: [] as SearchProviderId[],
  		ui: {
  			tab: "providers",
@@ -8041,7 +8058,7 @@ index 5e551f3..2ef535e 100644
  			options: SEARCH_PROVIDER_CHOICES,
  		},
  	},
-@@ -5583,15 +5583,15 @@ export const SETTINGS_SCHEMA = {
+@@ -5596,15 +5596,15 @@ export const SETTINGS_SCHEMA = {
  		default: DEFAULT_WEB_SEARCH_TIMEOUT_SECONDS,
  		ui: {
  			tab: "providers",
@@ -8065,7 +8082,7 @@ index 5e551f3..2ef535e 100644
  			],
  		},
  	},
-@@ -5600,9 +5600,9 @@ export const SETTINGS_SCHEMA = {
+@@ -5613,9 +5613,9 @@ export const SETTINGS_SCHEMA = {
  		default: undefined,
  		ui: {
  			tab: "providers",
@@ -8078,7 +8095,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  	"providers.antigravityEndpoint": {
-@@ -5611,24 +5611,24 @@ export const SETTINGS_SCHEMA = {
+@@ -5624,24 +5624,24 @@ export const SETTINGS_SCHEMA = {
  		default: "auto",
  		ui: {
  			tab: "providers",
@@ -8112,7 +8129,7 @@ index 5e551f3..2ef535e 100644
  				},
  			],
  		},
-@@ -5638,10 +5638,10 @@ export const SETTINGS_SCHEMA = {
+@@ -5651,10 +5651,10 @@ export const SETTINGS_SCHEMA = {
  		default: [] as ImageProvider[],
  		ui: {
  			tab: "providers",
@@ -8126,7 +8143,7 @@ index 5e551f3..2ef535e 100644
  			options: IMAGE_PROVIDER_CHOICES,
  			ordered: true,
  		},
-@@ -5653,15 +5653,15 @@ export const SETTINGS_SCHEMA = {
+@@ -5666,15 +5666,15 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "providers",
  			group: "Fireworks",
@@ -8147,7 +8164,7 @@ index 5e551f3..2ef535e 100644
  				},
  			],
  		},
-@@ -5672,9 +5672,9 @@ export const SETTINGS_SCHEMA = {
+@@ -5685,9 +5685,9 @@ export const SETTINGS_SCHEMA = {
  		default: DEFAULT_LIVE_VOICE,
  		ui: {
  			tab: "providers",
@@ -8160,7 +8177,7 @@ index 5e551f3..2ef535e 100644
  			options: LIVE_VOICE_OPTIONS,
  		},
  	},
-@@ -5684,26 +5684,26 @@ export const SETTINGS_SCHEMA = {
+@@ -5697,26 +5697,26 @@ export const SETTINGS_SCHEMA = {
  		default: "auto",
  		ui: {
  			tab: "providers",
@@ -8196,7 +8213,7 @@ index 5e551f3..2ef535e 100644
  				},
  			],
  		},
-@@ -5714,9 +5714,9 @@ export const SETTINGS_SCHEMA = {
+@@ -5727,9 +5727,9 @@ export const SETTINGS_SCHEMA = {
  		default: DEFAULT_TTS_LOCAL_MODEL_KEY,
  		ui: {
  			tab: "providers",
@@ -8209,7 +8226,7 @@ index 5e551f3..2ef535e 100644
  			options: TTS_LOCAL_MODEL_OPTIONS,
  		},
  	},
-@@ -5726,9 +5726,9 @@ export const SETTINGS_SCHEMA = {
+@@ -5739,9 +5739,9 @@ export const SETTINGS_SCHEMA = {
  		default: DEFAULT_TTS_VOICE,
  		ui: {
  			tab: "providers",
@@ -8222,7 +8239,7 @@ index 5e551f3..2ef535e 100644
  			options: TTS_LOCAL_VOICE_OPTIONS,
  		},
  	},
-@@ -5737,9 +5737,9 @@ export const SETTINGS_SCHEMA = {
+@@ -5750,9 +5750,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "providers",
@@ -8235,7 +8252,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  	"speech.mode": {
-@@ -5748,14 +5748,14 @@ export const SETTINGS_SCHEMA = {
+@@ -5761,14 +5761,14 @@ export const SETTINGS_SCHEMA = {
  		default: "assistant",
  		ui: {
  			tab: "providers",
@@ -8256,7 +8273,7 @@ index 5e551f3..2ef535e 100644
  			],
  		},
  	},
-@@ -5764,10 +5764,10 @@ export const SETTINGS_SCHEMA = {
+@@ -5777,10 +5777,10 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "providers",
@@ -8270,7 +8287,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  	"speech.voice": {
-@@ -5776,9 +5776,9 @@ export const SETTINGS_SCHEMA = {
+@@ -5789,9 +5789,9 @@ export const SETTINGS_SCHEMA = {
  		default: DEFAULT_TTS_VOICE,
  		ui: {
  			tab: "providers",
@@ -8283,7 +8300,35 @@ index 5e551f3..2ef535e 100644
  			options: TTS_LOCAL_VOICE_OPTIONS,
  		},
  	},
-@@ -5788,10 +5788,10 @@ export const SETTINGS_SCHEMA = {
+@@ -5801,21 +5801,21 @@ export const SETTINGS_SCHEMA = {
+ 		default: "auto",
+ 		ui: {
+ 			tab: "providers",
+-			group: "Tiny Model",
+-			label: "Judgment Provider",
++			group: "小模型",
++			label: "判定提供商",
+ 			description:
+-				"Preferred backend for typed judgments (auto-thinking difficulty, Smart unexpected-stop detection, git AI staging, eval judge()). Auto uses TypeSafe when authenticated; failed TypeSafe requests fall back through tiny, smol, default, then the active session model.",
++				"类型化判定(auto 思考难度、Smart 意外停止检测、git AI 暂存、eval judge())的首选后端。Auto 在已认证时使用 TypeSafe;TypeSafe 请求失败后依次回退到 tiny、smol、default,最后是当前会话模型。",
+ 			options: [
+-				{ value: "auto", label: "Auto", description: "TypeSafe when authenticated, else the LLM bridge (default)" },
++				{ value: "auto", label: "自动", description: "已认证时使用 TypeSafe,否则使用 LLM 桥接(默认)" },
+ 				{
+ 					value: "typesafe",
+ 					label: "TypeSafe",
+-					description: "Prefer TypeSafe; fall back through the online model roles on failure",
++					description: "优先 TypeSafe;失败后回退到在线模型角色",
+ 				},
+ 				{
+ 					value: "llm",
+ 					label: "LLM",
+-					description: "Never TypeSafe; keyword prompts to the tiny/smol or local model",
++					description: "从不使用 TypeSafe;改为向 tiny/smol 或本地模型发送关键词提示",
+ 				},
+ 			],
+ 		},
+@@ -5826,10 +5826,10 @@ export const SETTINGS_SCHEMA = {
  		default: ONLINE_TINY_TITLE_MODEL_KEY,
  		ui: {
  			tab: "providers",
@@ -8297,7 +8342,7 @@ index 5e551f3..2ef535e 100644
  			options: TINY_TITLE_MODEL_OPTIONS,
  		},
  	},
-@@ -5801,8 +5801,8 @@ export const SETTINGS_SCHEMA = {
+@@ -5839,8 +5839,8 @@ export const SETTINGS_SCHEMA = {
  		default: TINY_MODEL_DEVICE_DEFAULT,
  		ui: {
  			tab: "providers",
@@ -8308,7 +8353,7 @@ index 5e551f3..2ef535e 100644
  			description:
  				"Inference backend for local tiny models (titles + memory): an ONNX execution provider, or `mlx` to download MLX weights and run them through mlx-lm on Apple silicon. Default uses CPU-only ONNX. The PI_TINY_DEVICE env var overrides this.",
  			options: TINY_MODEL_DEVICE_SETTING_OPTIONS,
-@@ -5814,8 +5814,8 @@ export const SETTINGS_SCHEMA = {
+@@ -5852,8 +5852,8 @@ export const SETTINGS_SCHEMA = {
  		default: TINY_MODEL_DTYPE_DEFAULT,
  		ui: {
  			tab: "providers",
@@ -8319,7 +8364,7 @@ index 5e551f3..2ef535e 100644
  			description:
  				"ONNX quantization/precision for local tiny models. Default uses each model's shipped dtype (q4); lower precision is faster, higher is more faithful. Ignored by the MLX backend (its repos are pre-quantized 4-bit). The PI_TINY_DTYPE env var overrides this.",
  			options: TINY_MODEL_DTYPE_SETTING_OPTIONS,
-@@ -5827,10 +5827,10 @@ export const SETTINGS_SCHEMA = {
+@@ -5865,10 +5865,10 @@ export const SETTINGS_SCHEMA = {
  		default: ONLINE_MEMORY_MODEL_KEY,
  		ui: {
  			tab: "memory",
@@ -8333,7 +8378,7 @@ index 5e551f3..2ef535e 100644
  			condition: "mnemopiActive",
  			options: TINY_MEMORY_MODEL_OPTIONS,
  		},
-@@ -5842,10 +5842,10 @@ export const SETTINGS_SCHEMA = {
+@@ -5880,10 +5880,10 @@ export const SETTINGS_SCHEMA = {
  		default: ONLINE_AUTO_THINKING_MODEL_KEY,
  		ui: {
  			tab: "model",
@@ -8347,7 +8392,7 @@ index 5e551f3..2ef535e 100644
  			condition: "autoThinkingActive",
  			options: AUTO_THINKING_MODEL_OPTIONS,
  		},
-@@ -5856,14 +5856,14 @@ export const SETTINGS_SCHEMA = {
+@@ -5894,14 +5894,14 @@ export const SETTINGS_SCHEMA = {
  		default: "xhigh",
  		ui: {
  			tab: "model",
@@ -8367,7 +8412,7 @@ index 5e551f3..2ef535e 100644
  			],
  		},
  	},
-@@ -5873,21 +5873,21 @@ export const SETTINGS_SCHEMA = {
+@@ -5911,21 +5911,21 @@ export const SETTINGS_SCHEMA = {
  		default: "mechanical",
  		ui: {
  			tab: "interaction",
@@ -8396,7 +8441,7 @@ index 5e551f3..2ef535e 100644
  				},
  			],
  		},
-@@ -5898,8 +5898,8 @@ export const SETTINGS_SCHEMA = {
+@@ -5936,8 +5936,8 @@ export const SETTINGS_SCHEMA = {
  		default: ONLINE_MEMORY_MODEL_KEY,
  		ui: {
  			tab: "providers",
@@ -8407,7 +8452,7 @@ index 5e551f3..2ef535e 100644
  			description:
  				"Classifier for Smart unexpected-stop detection: online (the TINY role from /models, else smol) by default, or a local on-device model.",
  			condition: "unexpectedStopSmart",
-@@ -5913,11 +5913,11 @@ export const SETTINGS_SCHEMA = {
+@@ -5951,11 +5951,11 @@ export const SETTINGS_SCHEMA = {
  		default: "auto",
  		ui: {
  			tab: "providers",
@@ -8423,7 +8468,7 @@ index 5e551f3..2ef535e 100644
  				{ value: "openai", label: "OpenAI", description: "api.kimi.com" },
  				{ value: "anthropic", label: "Anthropic", description: "api.moonshot.ai" },
  			],
-@@ -5930,13 +5930,13 @@ export const SETTINGS_SCHEMA = {
+@@ -5968,13 +5968,13 @@ export const SETTINGS_SCHEMA = {
  		default: "auto",
  		ui: {
  			tab: "providers",
@@ -8442,7 +8487,7 @@ index 5e551f3..2ef535e 100644
  			],
  		},
  	},
-@@ -5947,29 +5947,29 @@ export const SETTINGS_SCHEMA = {
+@@ -5985,29 +5985,29 @@ export const SETTINGS_SCHEMA = {
  		default: "auto",
  		ui: {
  			tab: "providers",
@@ -8480,7 +8525,7 @@ index 5e551f3..2ef535e 100644
  			],
  		},
  	},
-@@ -5979,16 +5979,16 @@ export const SETTINGS_SCHEMA = {
+@@ -6017,16 +6017,16 @@ export const SETTINGS_SCHEMA = {
  		default: -1,
  		ui: {
  			tab: "providers",
@@ -8505,7 +8550,7 @@ index 5e551f3..2ef535e 100644
  			],
  		},
  	},
-@@ -5998,16 +5998,16 @@ export const SETTINGS_SCHEMA = {
+@@ -6036,16 +6036,16 @@ export const SETTINGS_SCHEMA = {
  		default: -1,
  		ui: {
  			tab: "providers",
@@ -8530,7 +8575,7 @@ index 5e551f3..2ef535e 100644
  			],
  		},
  	},
-@@ -6018,19 +6018,19 @@ export const SETTINGS_SCHEMA = {
+@@ -6056,19 +6056,19 @@ export const SETTINGS_SCHEMA = {
  		default: "default",
  		ui: {
  			tab: "providers",
@@ -8558,7 +8603,7 @@ index 5e551f3..2ef535e 100644
  				},
  			],
  		},
-@@ -6041,21 +6041,21 @@ export const SETTINGS_SCHEMA = {
+@@ -6079,21 +6079,21 @@ export const SETTINGS_SCHEMA = {
  		default: "auto",
  		ui: {
  			tab: "providers",
@@ -8591,7 +8636,7 @@ index 5e551f3..2ef535e 100644
  			],
  		},
  	},
-@@ -6066,18 +6066,18 @@ export const SETTINGS_SCHEMA = {
+@@ -6104,18 +6104,18 @@ export const SETTINGS_SCHEMA = {
  		default: "unset" as const,
  		ui: {
  			tab: "providers",
@@ -8617,7 +8662,7 @@ index 5e551f3..2ef535e 100644
  			],
  		},
  	},
-@@ -6086,10 +6086,10 @@ export const SETTINGS_SCHEMA = {
+@@ -6124,10 +6124,10 @@ export const SETTINGS_SCHEMA = {
  		default: 60,
  		ui: {
  			tab: "providers",
@@ -8631,7 +8676,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  	"codexResets.keepCredits": {
-@@ -6097,10 +6097,10 @@ export const SETTINGS_SCHEMA = {
+@@ -6135,10 +6135,10 @@ export const SETTINGS_SCHEMA = {
  		default: 0,
  		ui: {
  			tab: "providers",
@@ -8645,7 +8690,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  	"codexResets.salvageHorizonHours": {
-@@ -6108,10 +6108,10 @@ export const SETTINGS_SCHEMA = {
+@@ -6146,10 +6146,10 @@ export const SETTINGS_SCHEMA = {
  		default: 12,
  		ui: {
  			tab: "providers",
@@ -8659,7 +8704,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  	"provider.appendOnlyContext": {
-@@ -6120,14 +6120,14 @@ export const SETTINGS_SCHEMA = {
+@@ -6158,14 +6158,14 @@ export const SETTINGS_SCHEMA = {
  		default: "auto",
  		ui: {
  			tab: "providers",
@@ -8680,7 +8725,7 @@ index 5e551f3..2ef535e 100644
  			],
  		},
  	},
-@@ -6138,9 +6138,9 @@ export const SETTINGS_SCHEMA = {
+@@ -6176,9 +6176,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "providers",
@@ -8692,7 +8737,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -6149,9 +6149,9 @@ export const SETTINGS_SCHEMA = {
+@@ -6187,9 +6187,9 @@ export const SETTINGS_SCHEMA = {
  		default: 1_000,
  		ui: {
  			tab: "providers",
@@ -8705,7 +8750,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -6161,9 +6161,9 @@ export const SETTINGS_SCHEMA = {
+@@ -6199,9 +6199,9 @@ export const SETTINGS_SCHEMA = {
  		default: undefined,
  		ui: {
  			tab: "providers",
@@ -8718,7 +8763,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -6221,10 +6221,10 @@ export const SETTINGS_SCHEMA = {
+@@ -6259,10 +6259,10 @@ export const SETTINGS_SCHEMA = {
  		default: 30_000,
  		ui: {
  			tab: "tools",
@@ -8732,7 +8777,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -6233,10 +6233,10 @@ export const SETTINGS_SCHEMA = {
+@@ -6271,10 +6271,10 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tools",
@@ -8746,7 +8791,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -6245,9 +6245,9 @@ export const SETTINGS_SCHEMA = {
+@@ -6283,9 +6283,9 @@ export const SETTINGS_SCHEMA = {
  		default: "https://qa.omp.sh/v1/grievances" as const,
  		ui: {
  			tab: "tools",
@@ -8759,7 +8804,7 @@ index 5e551f3..2ef535e 100644
  		},
  	},
  
-@@ -6513,7 +6513,7 @@ export interface CommitSettings {
+@@ -6551,7 +6551,7 @@ export interface CommitSettings {
  export interface TtsrSettings {
  	enabled: boolean;
  	contextMode: "discard" | "keep";
@@ -9463,15 +9508,15 @@ index 4e53cfc..09b9c85 100644
  				const thinkingLevel = state.thinkingLevel ?? ThinkingLevel.Off;
  				rightSide = `${modelName} • ${thinkingLevel}`;
 diff --git a/pi-coding-agent/src/modes/components/login-dialog.ts b/pi-coding-agent-zh/src/modes/components/login-dialog.ts
-index 3a996cc..4fa3af2 100644
+index 8cac981..ca9260c 100644
 --- a/pi-coding-agent/src/modes/components/login-dialog.ts
 +++ b/pi-coding-agent-zh/src/modes/components/login-dialog.ts
-@@ -152,7 +152,7 @@ export class LoginDialogComponent extends OverlayPanel {
+@@ -161,7 +161,7 @@ export class LoginDialogComponent extends OverlayPanel {
  		this.#contentContainer.addChild(new Spacer(1));
- 		this.#contentContainer.addChild(new Text(theme.fg("text", message), 0, 0));
- 		if (placeholder) {
--			this.#contentContainer.addChild(new Text(theme.fg("dim", `e.g., ${placeholder}`), 0, 0));
-+			this.#contentContainer.addChild(new Text(theme.fg("dim", `例如: ${placeholder}`), 0, 0));
+ 		this.#contentContainer.addChild(new Text(theme.fg("text", prompt.message), 0, 0));
+ 		if (prompt.placeholder) {
+-			this.#contentContainer.addChild(new Text(theme.fg("dim", `e.g., ${prompt.placeholder}`), 0, 0));
++			this.#contentContainer.addChild(new Text(theme.fg("dim", `例如: ${prompt.placeholder}`), 0, 0));
  		}
  		this.#contentContainer.addChild(this.#input);
  		this.#contentContainer.addChild(new Text(theme.fg("dim", "(Escape to cancel, Enter to submit)"), 0, 0));
@@ -9738,10 +9783,10 @@ index e1f4ce6..064508e 100644
  			this.#requestRender();
  
 diff --git a/pi-coding-agent/src/modes/components/model-browser.ts b/pi-coding-agent-zh/src/modes/components/model-browser.ts
-index fe86476..8784a33 100644
+index c63c1dd..14d703e 100644
 --- a/pi-coding-agent/src/modes/components/model-browser.ts
 +++ b/pi-coding-agent-zh/src/modes/components/model-browser.ts
-@@ -388,7 +388,7 @@ function formatCostPair(model: Model): string {
+@@ -469,7 +469,7 @@ function formatCostPair(model: Model): string {
   */
  export function modelSearchText({ provider, id, model }: ModelBrowserItem): string {
  	const base = `${provider}/${id}`;
@@ -9751,10 +9796,10 @@ index fe86476..8784a33 100644
  
  /** Provider-supplied blurb, flattened to a single renderable detail-line cell. */
 diff --git a/pi-coding-agent/src/modes/components/model-hub.ts b/pi-coding-agent-zh/src/modes/components/model-hub.ts
-index d27970b..ea5c3ed 100644
+index e680fb4..b008dd6 100644
 --- a/pi-coding-agent/src/modes/components/model-hub.ts
 +++ b/pi-coding-agent-zh/src/modes/components/model-hub.ts
-@@ -1936,7 +1936,7 @@ export class ModelHubComponent implements Component {
+@@ -1971,7 +1971,7 @@ export class ModelHubComponent implements Component {
  
  	#statusRow(width: number): string {
  		if (this.#assignmentPending) {
@@ -9763,7 +9808,7 @@ index d27970b..ea5c3ed 100644
  		}
  		if (this.#assigning !== null) {
  			if (this.#assigning.kind === "fallbackKey") {
-@@ -2184,20 +2184,20 @@ export class ModelHubComponent implements Component {
+@@ -2219,20 +2219,20 @@ export class ModelHubComponent implements Component {
  		const strip = this.#strip;
  		if (strip) {
  			if (strip.kind === "roleName") {
@@ -9790,7 +9835,7 @@ index d27970b..ea5c3ed 100644
  			}
  		}
  		const entry = this.#activeEntry();
-@@ -2211,8 +2211,8 @@ export class ModelHubComponent implements Component {
+@@ -2246,8 +2246,8 @@ export class ModelHubComponent implements Component {
  				// inherit and unknown models have no ladder to offer, so the
  				// action would be inert there.
  				const editable = this.#resolveFallbackEntry(row.role, row.chainIndex) !== undefined;
@@ -9801,7 +9846,7 @@ index d27970b..ea5c3ed 100644
  			}
  			if (row?.kind === "chainKey") {
  				return "↑/↓ rows · Enter/f add fallback · x clear chain · ← providers";
-@@ -2223,10 +2223,10 @@ export class ModelHubComponent implements Component {
+@@ -2258,10 +2258,10 @@ export class ModelHubComponent implements Component {
  			return "↑/↓ rows · Enter pick · f fallback · x clear · t thinking · c cycle · [/] reorder · n new";
  		}
  		if (entry.kind === "provider" && entry.locked) {
@@ -10021,7 +10066,7 @@ index bbe8143..67e6bf1 100644
  		const ruleWidth = Math.min(SERVED_MODEL_RULE_WIDTH, width - labelWidth - 1);
  		if (ruleWidth < 1) {
 diff --git a/pi-coding-agent/src/modes/components/settings-selector.ts b/pi-coding-agent-zh/src/modes/components/settings-selector.ts
-index 3c7d4c3..69c7955 100644
+index c603d61..cd2b5c0 100644
 --- a/pi-coding-agent/src/modes/components/settings-selector.ts
 +++ b/pi-coding-agent-zh/src/modes/components/settings-selector.ts
 @@ -471,7 +471,7 @@ class ProviderLimitsSubmenu extends Container {
@@ -10033,6 +10078,15 @@ index 3c7d4c3..69c7955 100644
  				limits[provider]?.toString() ?? "",
  				false,
  				value => {
+@@ -533,7 +533,7 @@ function getSettingsTabs(): Tab[] {
+ 			const icon = theme.symbol(meta.icon);
+ 			return { id, label: `${icon} ${meta.label}`, short: icon };
+ 		}),
+-		{ id: "plugins", label: `${theme.icon.package} Plugins`, short: theme.icon.package },
++		{ id: "plugins", label: `${theme.icon.package} 插件`, short: theme.icon.package },
+ 	];
+ }
+ 
 @@ -666,10 +666,10 @@ export class SettingsSelectorComponent implements Component {
  
  	#footerHintText(): string {
@@ -10046,6 +10100,15 @@ index 3c7d4c3..69c7955 100644
  		}
  		if (this.#currentList?.sectionFocused) {
  			return "↑/↓ to jump sections · Tab/Enter to settings · ←/→ to switch tabs · Esc to close";
+@@ -945,7 +945,7 @@ export class SettingsSelectorComponent implements Component {
+ 		// Plugins hosts its own UI; it is not part of the schema-backed search.
+ 		empty.push({
+ 			id: "plugins",
+-			label: `${theme.icon.package} Plugins`,
++			label: `${theme.icon.package} 插件`,
+ 			short: theme.icon.package,
+ 			muted: true,
+ 		});
 diff --git a/pi-coding-agent/src/modes/components/show-images-selector.ts b/pi-coding-agent-zh/src/modes/components/show-images-selector.ts
 index 4d43f45..0fca98c 100644
 --- a/pi-coding-agent/src/modes/components/show-images-selector.ts
@@ -10369,9 +10432,72 @@ index 395e335..5e88915 100644
  				return false;
  			},
 diff --git a/pi-coding-agent/src/modes/controllers/command-controller.ts b/pi-coding-agent-zh/src/modes/controllers/command-controller.ts
-index 0d95ebb..8faadac 100644
+index 0c72d51..03a0d4e 100644
 --- a/pi-coding-agent/src/modes/controllers/command-controller.ts
 +++ b/pi-coding-agent-zh/src/modes/controllers/command-controller.ts
+@@ -152,7 +152,7 @@ export class CommandController {
+ 			this.ctx.showStatus(`Session exported to: ${filePath}`);
+ 			this.openInBrowser(filePath);
+ 		} catch (error: unknown) {
+-			this.ctx.showError(`Failed to export session: ${error instanceof Error ? error.message : "Unknown error"}`);
++			this.ctx.showError(`Failed to export session: ${error instanceof Error ? error.message : "未知错误"}`);
+ 		}
+ 	}
+ 	async handleTraceCommand(): Promise<void> {
+@@ -170,7 +170,7 @@ export class CommandController {
+ 			this.openInBrowser(url);
+ 			this.ctx.showStatus(`Trace: ${url}`);
+ 		} catch (error: unknown) {
+-			this.ctx.showError(`Failed to open trace: ${error instanceof Error ? error.message : "Unknown error"}`);
++			this.ctx.showError(`Failed to open trace: ${error instanceof Error ? error.message : "未知错误"}`);
+ 		}
+ 	}
+ 
+@@ -188,7 +188,7 @@ export class CommandController {
+ 			try {
+ 				sidecarPath = await this.ctx.session.dumpLlmRequestToTmpDir();
+ 			} catch (error: unknown) {
+-				sidecarError = error instanceof Error ? error.message : "Unknown error";
++				sidecarError = error instanceof Error ? error.message : "未知错误";
+ 			}
+ 			const doc = sidecarPath
+ 				? `${formatted}\n\n---\nLLM request JSON: ${sidecarPath}\nThis file persists on disk and may contain raw context/secrets — treat accordingly.`
+@@ -199,7 +199,7 @@ export class CommandController {
+ 			if (sidecarError) statusParts.push(`LLM request JSON unavailable: ${sidecarError}`);
+ 			this.ctx.showStatus(statusParts.join("\n"));
+ 		} catch (error: unknown) {
+-			this.ctx.showError(`Failed to copy session: ${error instanceof Error ? error.message : "Unknown error"}`);
++			this.ctx.showError(`Failed to copy session: ${error instanceof Error ? error.message : "未知错误"}`);
+ 		}
+ 	}
+ 
+@@ -218,7 +218,7 @@ export class CommandController {
+ 			this.ctx.showStatus("Advisor history copied to clipboard");
+ 		} catch (error: unknown) {
+ 			this.ctx.showError(
+-				`Failed to copy advisor history: ${error instanceof Error ? error.message : "Unknown error"}`,
++				`Failed to copy advisor history: ${error instanceof Error ? error.message : "未知错误"}`,
+ 			);
+ 		}
+ 	}
+@@ -237,7 +237,7 @@ export class CommandController {
+ 			this.ctx.showStatus(`Debug transcript written to:\n${tmpPath}`);
+ 		} catch (error: unknown) {
+ 			this.ctx.showError(
+-				`Failed to write debug transcript: ${error instanceof Error ? error.message : "Unknown error"}`,
++				`Failed to write debug transcript: ${error instanceof Error ? error.message : "未知错误"}`,
+ 			);
+ 		}
+ 	}
+@@ -321,7 +321,7 @@ export class CommandController {
+ 		} catch (error: unknown) {
+ 			if (!loader.signal.aborted) {
+ 				restoreEditor();
+-				this.ctx.showError(`Failed to share session: ${error instanceof Error ? error.message : "Unknown error"}`);
++				this.ctx.showError(`Failed to share session: ${error instanceof Error ? error.message : "未知错误"}`);
+ 			}
+ 		}
+ 	}
 @@ -345,7 +345,7 @@ export class CommandController {
  			const authMode = resolveProviderAuthMode(this.ctx.session.modelRegistry.authStorage, model.provider);
  			const openaiWebsocketSetting = this.ctx.settings.get("providers.openaiWebsockets") ?? "auto";
@@ -10539,6 +10665,33 @@ index 0d95ebb..8faadac 100644
  	}
  
  	async handleForkCommand(): Promise<void> {
+@@ -1412,7 +1412,7 @@ export class CommandController {
+ 			} catch (error) {
+ 				this.ctx.showError(
+ 					`Bash command completed, but OMP failed to update its working directory: ${
+-						error instanceof Error ? error.message : "Unknown error"
++						error instanceof Error ? error.message : "未知错误"
+ 					}`,
+ 				);
+ 			}
+@@ -1420,7 +1420,7 @@ export class CommandController {
+ 			if (this.ctx.bashComponent) {
+ 				this.ctx.bashComponent.setComplete(undefined, false);
+ 			}
+-			this.ctx.showError(`Bash command failed: ${error instanceof Error ? error.message : "Unknown error"}`);
++			this.ctx.showError(`Bash command failed: ${error instanceof Error ? error.message : "未知错误"}`);
+ 		} finally {
+ 			this.ctx.bashComponent = undefined;
+ 			this.ctx.ui.requestRender();
+@@ -1481,7 +1481,7 @@ export class CommandController {
+ 			if (this.ctx.pythonComponent) {
+ 				this.ctx.pythonComponent.setComplete(undefined, false);
+ 			}
+-			this.ctx.showError(`Python execution failed: ${error instanceof Error ? error.message : "Unknown error"}`);
++			this.ctx.showError(`Python execution failed: ${error instanceof Error ? error.message : "未知错误"}`);
+ 		}
+ 
+ 		this.ctx.pythonComponent = undefined;
 @@ -1605,10 +1605,10 @@ export class CommandController {
  			}
  		} catch (error) {
@@ -10569,7 +10722,7 @@ index 0d95ebb..8faadac 100644
  function truncateJobLabel(label: string, maxWidth: number): string {
 @@ -2032,14 +2032,14 @@ export function formatCompactQuota(
  
- function resolveStatusIcon(status: AggregateDisplayStatus, uiTheme: typeof theme): string {
+ function resolveStatusIcon(status: AggregateDisplayStatus, uiTheme: Theme): string {
  	if (status === "neutral") return uiTheme.fg("dim", uiTheme.status.info);
 -	if (status === "exhausted") return uiTheme.fg("error", uiTheme.status.error);
 +	if (status === "exhausted") return uiTheme.fg("出错", uiTheme.status.error);
@@ -10586,10 +10739,10 @@ index 0d95ebb..8faadac 100644
  	if (status === "ok") return "success";
  	return "dim";
 diff --git a/pi-coding-agent/src/modes/controllers/input-controller.ts b/pi-coding-agent-zh/src/modes/controllers/input-controller.ts
-index e68f1bd..f90ec0a 100644
+index c47691b..685c010 100644
 --- a/pi-coding-agent/src/modes/controllers/input-controller.ts
 +++ b/pi-coding-agent-zh/src/modes/controllers/input-controller.ts
-@@ -768,7 +768,7 @@ export class InputController {
+@@ -769,7 +769,7 @@ export class InputController {
  		// what the click displayed.
  		const nextId = pickRecentFocusableAgentId(scoped, this.ctx.focusedAgentId);
  		if (nextId === undefined) {
@@ -10598,7 +10751,7 @@ index e68f1bd..f90ec0a 100644
  			return;
  		}
  		this.#focusResolvedAgent(nextId);
-@@ -1427,7 +1427,7 @@ export class InputController {
+@@ -1437,7 +1437,7 @@ export class InputController {
  		// as local and does not blank the editor the dequeue just restored to.
  		this.ctx.locallySubmittedUserSignatures.delete(`${popped.text}\u0000${popped.images?.length ?? 0}`);
  		this.#restoreEntriesToEditor([popped]);
@@ -10607,6 +10760,19 @@ index e68f1bd..f90ec0a 100644
  	}
  
  	/**
+@@ -2138,9 +2138,9 @@ export class InputController {
+ 			choice = await this.ctx.showHookSelector(
+ 				`Pasted ${lineCount} lines`,
+ 				[
+-					{ label: WRAPPED_BLOCK, description: "Wrap the text in <attachment> tags, collapsed to a marker" },
+-					{ label: LOCAL_FILE, description: "Save the text to a local://paste file" },
+-					{ label: INLINE, description: "Collapse the text to an inline paste marker" },
++					{ label: WRAPPED_BLOCK, description: "将文本包裹进 <attachment> 标签，折叠为一个标记" },
++					{ label: LOCAL_FILE, description: "将文本保存为 local://paste 文件" },
++					{ label: INLINE, description: "将文本折叠为内联粘贴标记" },
+ 				],
+ 				{ helpText: "Esc to paste inline" },
+ 			);
 diff --git a/pi-coding-agent/src/modes/controllers/mcp-command-controller.ts b/pi-coding-agent-zh/src/modes/controllers/mcp-command-controller.ts
 index a2da756..4bbf98e 100644
 --- a/pi-coding-agent/src/modes/controllers/mcp-command-controller.ts
@@ -10621,7 +10787,7 @@ index a2da756..4bbf98e 100644
  				].join("\n"),
  			);
 diff --git a/pi-coding-agent/src/modes/controllers/selector-controller.ts b/pi-coding-agent-zh/src/modes/controllers/selector-controller.ts
-index 0bac248..d6f1bd3 100644
+index 99ae413..91222c1 100644
 --- a/pi-coding-agent/src/modes/controllers/selector-controller.ts
 +++ b/pi-coding-agent-zh/src/modes/controllers/selector-controller.ts
 @@ -1373,7 +1373,7 @@ export class SelectorController {
@@ -10707,7 +10873,7 @@ index 0bac248..d6f1bd3 100644
  			return;
  		}
  
-@@ -2370,14 +2370,14 @@ export class SelectorController {
+@@ -2369,14 +2369,14 @@ export class SelectorController {
  		}
  		const accounts = toResetUsageAccounts(statuses);
  		if (accounts.length === 0) {
@@ -10752,10 +10918,10 @@ index 338dea3..8697f9e 100644
  							}
  							return extractAssistantText(clone.getLastAssistantMessage()) || "(no output)";
 diff --git a/pi-coding-agent/src/modes/interactive-mode.ts b/pi-coding-agent-zh/src/modes/interactive-mode.ts
-index 5d24baf..25278a0 100644
+index b1d00ef..2121dd5 100644
 --- a/pi-coding-agent/src/modes/interactive-mode.ts
 +++ b/pi-coding-agent-zh/src/modes/interactive-mode.ts
-@@ -679,7 +679,7 @@ export function renderSubagentHudLines(sessions: ObservableSession[], columns: n
+@@ -682,7 +682,7 @@ export function renderSubagentHudLines(sessions: ObservableSession[], columns: n
  					truncateToWidth(
  						`${outerIndent}${theme.fg(
  							"dim",
@@ -10764,7 +10930,7 @@ index 5d24baf..25278a0 100644
  						)}`,
  						columns,
  						"",
-@@ -3848,7 +3848,7 @@ export class InteractiveMode implements InteractiveModeContext {
+@@ -3890,7 +3890,7 @@ export class InteractiveMode implements InteractiveModeContext {
  	 */
  	#warnPlanModeBlocks(): void {
  		this.showWarning(
@@ -10773,7 +10939,7 @@ index 5d24baf..25278a0 100644
  		);
  	}
  
-@@ -4053,11 +4053,11 @@ export class InteractiveMode implements InteractiveModeContext {
+@@ -4095,11 +4095,11 @@ export class InteractiveMode implements InteractiveModeContext {
  
  	#formatKeepContextLabel(contextUsage: ContextUsage | undefined): string {
  		if (!contextUsage) {
@@ -10787,7 +10953,7 @@ index 5d24baf..25278a0 100644
  	}
  
  	#isKeepContextDisabled(contextUsage: ContextUsage | undefined): boolean {
-@@ -5164,7 +5164,7 @@ export class InteractiveMode implements InteractiveModeContext {
+@@ -5206,7 +5206,7 @@ export class InteractiveMode implements InteractiveModeContext {
  		const slider: HookSelectorSlider | undefined =
  			cycle && cycle.models.length > 1
  				? {
@@ -10796,7 +10962,7 @@ index 5d24baf..25278a0 100644
  						index: startTierIndex,
  						segments: cycle.models.map(entry => ({
  							label: entry.role,
-@@ -5177,7 +5177,7 @@ export class InteractiveMode implements InteractiveModeContext {
+@@ -5219,7 +5219,7 @@ export class InteractiveMode implements InteractiveModeContext {
  				: undefined;
  		// The overlay now owns the dynamic, focus-aware help line; the caller only
  		// supplies the trailing cancel hint.
@@ -10805,7 +10971,7 @@ index 5d24baf..25278a0 100644
  		// In-overlay edits (section deletes/undo) and section annotations. Deletes
  		// update `editedContent` (and mirror to disk); annotations build `feedback`
  		// that the Refine branch re-prompts the model with.
-@@ -5187,12 +5187,12 @@ export class InteractiveMode implements InteractiveModeContext {
+@@ -5229,12 +5229,12 @@ export class InteractiveMode implements InteractiveModeContext {
  
  		const choice = await this.showPlanReview(
  			planContent,
@@ -10822,7 +10988,7 @@ index 5d24baf..25278a0 100644
  				PLAN_SAVE_AND_QUIT_OPTION,
  			],
  			{
-@@ -5234,7 +5234,7 @@ export class InteractiveMode implements InteractiveModeContext {
+@@ -5276,7 +5276,7 @@ export class InteractiveMode implements InteractiveModeContext {
  			return;
  		}
  
@@ -10831,7 +10997,7 @@ index 5d24baf..25278a0 100644
  			try {
  				// Prefer in-overlay edits (already in memory) over a disk re-read. The
  				// overlay mirrors edits as they happen, and approval awaits one final
-@@ -5279,8 +5279,8 @@ export class InteractiveMode implements InteractiveModeContext {
+@@ -5321,8 +5321,8 @@ export class InteractiveMode implements InteractiveModeContext {
  				const executionDispatched = await this.#approvePlan(latestPlanContent, {
  					planFilePath,
  					title: details.title,
@@ -10842,7 +11008,7 @@ index 5d24baf..25278a0 100644
  					executionModel,
  				});
  				if (executionDispatched) this.#planReviewAnnotationState.delete(annotationStateKey);
-@@ -5293,7 +5293,7 @@ export class InteractiveMode implements InteractiveModeContext {
+@@ -5335,7 +5335,7 @@ export class InteractiveMode implements InteractiveModeContext {
  			return;
  		}
  
@@ -10851,7 +11017,7 @@ index 5d24baf..25278a0 100644
  			const refinement = feedback.trim();
  			try {
  				if (refinement) {
-@@ -5306,10 +5306,10 @@ export class InteractiveMode implements InteractiveModeContext {
+@@ -5348,10 +5348,10 @@ export class InteractiveMode implements InteractiveModeContext {
  						this.#planReviewAnnotationState.delete(annotationStateKey);
  					}
  				} else {
@@ -10864,25 +11030,18 @@ index 5d24baf..25278a0 100644
  			}
  			closePlanReview();
  			return;
-@@ -5434,7 +5434,7 @@ export class InteractiveMode implements InteractiveModeContext {
- 			await this.#teardown();
- 		} catch (error) {
- 			this.#isShuttingDown = false;
--			this.showError(`Could not close session: ${error instanceof Error ? error.message : String(error)}`);
-+			this.showError(`无法关闭会话：${error instanceof Error ? error.message : String(error)}`);
- 			return;
- 		}
+@@ -5516,8 +5516,8 @@ export class InteractiveMode implements InteractiveModeContext {
+ 		this.#teardownFailed = this.session.isDisposed;
+ 		this.showError(
+ 			this.#teardownFailed
+-				? `Could not ${action} session: ${detail}\nPress Ctrl+C again to exit without saving the session log.`
+-				: `Could not ${action} session: ${detail}`,
++				? `无法${action === "close" ? "关闭" : "重启"}会话：${detail}\n再次按 Ctrl+C 可在不保存会话日志的情况下退出。`
++				: `无法${action === "close" ? "关闭" : "重启"}会话：${detail}`,
+ 		);
+ 	}
  
-@@ -5467,7 +5467,7 @@ export class InteractiveMode implements InteractiveModeContext {
- 			await this.#teardown();
- 		} catch (error) {
- 			this.#isShuttingDown = false;
--			this.showError(`Could not restart session: ${error instanceof Error ? error.message : String(error)}`);
-+			this.showError(`无法重启会话：${error instanceof Error ? error.message : String(error)}`);
- 			return;
- 		}
- 
-@@ -5485,7 +5485,7 @@ export class InteractiveMode implements InteractiveModeContext {
+@@ -5556,7 +5556,7 @@ export class InteractiveMode implements InteractiveModeContext {
  			const child = Bun.spawn(cmd, { stdin: "inherit", stdout: "inherit", stderr: "inherit" });
  			await postmortem.quit(await child.exited);
  		} catch (err) {
@@ -10891,7 +11050,7 @@ index 5d24baf..25278a0 100644
  			await postmortem.quit(1);
  		}
  	}
-@@ -5564,7 +5564,7 @@ export class InteractiveMode implements InteractiveModeContext {
+@@ -5635,7 +5635,7 @@ export class InteractiveMode implements InteractiveModeContext {
  		// Background extensions do not submit terminal input. Start the same
  		// settled-boundary check without waiting for another user keystroke.
  		void this.checkShutdownRequested().catch(error => {
@@ -11104,7 +11263,7 @@ index 8bd27ae..67d84ce 100644
  	mount: host => new ProvidersSceneController(host),
  };
 diff --git a/pi-coding-agent/src/modes/setup-wizard/scenes/sign-in.ts b/pi-coding-agent-zh/src/modes/setup-wizard/scenes/sign-in.ts
-index 06b69b8..40878e8 100644
+index 59813ca..3f60d6e 100644
 --- a/pi-coding-agent/src/modes/setup-wizard/scenes/sign-in.ts
 +++ b/pi-coding-agent-zh/src/modes/setup-wizard/scenes/sign-in.ts
 @@ -75,7 +75,7 @@ interface PromptState {
