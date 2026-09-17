@@ -223,7 +223,7 @@ npm publish --registry https://registry.npmjs.org --access public
 `package.json` 的 `repository.url` 必须与 GitHub 仓库完全一致（构建脚本已保证）。
 仓库公开 + 包公开时 npm 会自动生成 provenance 证明，不需要 `--provenance`。
 
-工作流带安全阀：只有 `baseVersion` 等于要发布的版本时才真正发布——上游发新版后必须先跟进翻译并更新基线，才会发出新包。
+工作流带两道安全阀：只有 `baseVersion` 等于要发布的版本时才真正发布——上游发新版后必须先跟进翻译并更新基线，才会发出新包；目标版本若已在 npm 上存在则跳过发布，因此打 `v*` tag 与手动触发指向同一版本时不会因重复发布而失败。
 
 ### translations/ 数据格式
 
