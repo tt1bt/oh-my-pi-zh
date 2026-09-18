@@ -1,10 +1,20 @@
 // 翻译数据库条目类型定义。
-// 所有 file 字段均为相对 pi-coding-agent 包根的 POSIX 路径（如 src/cli/args.ts）。
+// file 字段为相对所属 omp 包根的 POSIX 路径（如 src/cli/args.ts）。
+//
+// 自 omp 18.2.5 起上游把 UI 层抽成独立包 @oh-my-pi/pi-tui，因此条目需要区分归属：
+//   agent = @oh-my-pi/pi-coding-agent（默认，translations/*.jsonc）
+//   tui   = @oh-my-pi/pi-tui（translations/tui/*.jsonc）
+// pkg 由 db.loadTranslationDir 按所在目录自动标注，条目本身无需手写。
+
+/** 条目所属的 omp 包。 */
+export type PkgId = 'agent' | 'tui';
 
 /** 字符串字面量替换：匹配引号内内容完全一致的普通字面量（'…' 或 "…"）。 */
 export interface StringEntry {
 	kind: 'string';
 	file: string;
+	/** 所属包（加载时自动标注） */
+	pkg?: PkgId;
 	/** 原文（字面量内部原文，保留转义形式） */
 	en: string;
 	/** 译文（同上，逐字替换引号内内容） */
@@ -30,6 +40,8 @@ export interface StringEntry {
 export interface TemplateEntry {
 	kind: 'template';
 	file: string;
+	/** 所属包（加载时自动标注） */
+	pkg?: PkgId;
 	/** 原模板内容（含 ${...}，不含反引号） */
 	en: string;
 	/** 译模板内容（槽位表达式须与 en 一致） */
@@ -45,6 +57,8 @@ export interface TemplateEntry {
 export interface LineEntry {
 	kind: 'line';
 	file: string;
+	/** 所属包（加载时自动标注） */
+	pkg?: PkgId;
 	en: string;
 	zh: string;
 	/** 同 en 行多次出现、需指向特定某次时使用（0-based） */
@@ -56,6 +70,8 @@ export interface LineEntry {
 export interface SnippetEntry {
 	kind: 'snippet';
 	file: string;
+	/** 所属包（加载时自动标注） */
+	pkg?: PkgId;
 	/** 便于人读的名字 */
 	name: string;
 	find: string;
@@ -69,6 +85,8 @@ export interface SnippetEntry {
 export interface AssetEntry {
 	kind: 'asset';
 	file: string;
+	/** 所属包（加载时自动标注） */
+	pkg?: PkgId;
 	zhContent: string;
 	note?: string;
 }

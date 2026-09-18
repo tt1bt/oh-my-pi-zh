@@ -1,0 +1,7 @@
+{
+	"entries": [
+		{"kind":"line","file":"src/tools/eval.ts","en":"\t\t\tlines.push(`   ${theme.fg(\"dim\", `… ${previewLines.hidden} more lines`)}`);","zh":"\t\t\tlines.push(`   ${theme.fg(\"dim\", `… 还有 ${previewLines.hidden} 行`)}`);","pkg":"tui"},
+		{"kind":"line","file":"src/tools/json-tree.ts","en":"\t\t\t\t\t\t\t`${indent}${theme.fg(\"dim\", `…(${sourceLines.length - displayedCount} more lines)\"`)}`,","zh":"\t\t\t\t\t\t\t`${indent}${theme.fg(\"dim\", `…(还有 ${sourceLines.length - displayedCount} 行)\"`)}`,","pkg":"tui"},
+		{"kind":"line","file":"src/tools/bash-interactive.ts","en":"\t\t\t\t\t\t`${this.#uiTheme.fg(\"warning\", \"esc\")} ${this.#uiTheme.fg(\"dim\", \"force-kill\")} ${this.#uiTheme.fg(\"dim\", \"· input forwarded to PTY\")}`,","zh":"\t\t\t\t\t\t`${this.#uiTheme.fg(\"warning\", \"esc\")} ${this.#uiTheme.fg(\"dim\", \"强制终止\")} ${this.#uiTheme.fg(\"dim\", \"· 输入已转发到 PTY\")}`,","pkg":"tui"}
+	]
+}

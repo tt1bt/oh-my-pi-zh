@@ -14,10 +14,10 @@
 // 因此启动约 4-5 秒（未打包），需要用户装有 bun。
 // 包内的 dist/cli.js 仍是上游原版（未汉化），仅为兼容保留、不是入口。
 
-import { cpSync, existsSync, mkdirSync, readFileSync, rmSync, statSync, writeFileSync } from 'node:fs';
+import { cpSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from 'node:fs';
 import { execSync } from 'node:child_process';
-import { join, resolve } from 'node:path';
-import { applyEntriesToText, groupEntries } from './lib/apply-entries';
+import { dirname, join, resolve, sep } from 'node:path';
+import { applyEntriesToText, groupEntries, splitKey } from './lib/apply-entries';
 import { loadTranslationDir, parseJsonc } from './lib/db';
 
 function arg(name: string, def = ''): string {
@@ -75,15 +75,54 @@ mkdirSync(dstRoot, { recursive: true });
 console.log(`[npm-pkg] 复制源码树 ...`);
 cpSync(srcDir, dstRoot, { recursive: true });
 
+// 自 omp 18.2.5 起 UI 层抽成 @oh-my-pi/pi-tui；发布包需内含其汉化副本，
+// 否则用户装上后界面一半中文一半英文。
+const tuiSrcArg = arg('tui-source');
+let tuiSrcDir = tuiSrcArg ? resolve(tuiSrcArg) : '';
+if (!tuiSrcDir) {
+	// 尝试按同版本从 npm 拉取
+	try {
+		const { execSync } = require('node:child_process') as typeof import('node:child_process');
+		const work = join(OUT, 'tui-fetch');
+		mkdirSync(work, { recursive: true });
+		const dir = join(work, `pi-tui-${ompVersion}`);
+		if (!existsSync(dir)) {
+			execSync(`npm pack @oh-my-pi/pi-tui@${ompVersion} --pack-destination "${work}"`, { stdio: 'pipe' });
+			mkdirSync(dir, { recursive: true });
+			execSync(`tar -xzf "${join(work, `oh-my-pi-pi-tui-${ompVersion}.tgz`)}" -C "${dir}" --strip-components=1`);
+		}
+		tuiSrcDir = dir;
+	} catch {
+		tuiSrcDir = '';
+	}
+}
+const hasTui = !!tuiSrcDir && existsSync(join(tuiSrcDir, 'package.json'));
+const dstTuiRoot = join(dstRoot, 'node_modules', '@oh-my-pi', 'pi-tui-zh');
+if (hasTui) {
+	console.log(`[npm-pkg] 复制 pi-tui 源码树 -> ${dstTuiRoot}`);
+	mkdirSync(dirname(dstTuiRoot), { recursive: true });
+	cpSync(tuiSrcDir, dstTuiRoot, { recursive: true });
+	// 改包名，使主包内的重定向导入可解析
+	const tj = JSON.parse(readFileSync(join(dstTuiRoot, 'package.json'), 'utf8'));
+	tj.name = '@oh-my-pi/pi-tui-zh';
+	writeFileSync(join(dstTuiRoot, 'package.json'), JSON.stringify(tj, null, '\t') + '\n', 'utf8');
+} else {
+	console.warn('[npm-pkg] 警告: 未找到 pi-tui 包，将只汉化主包（界面可能部分英文）');
+}
+
 const { entries } = loadTranslationDir('translations');
 const grouped = groupEntries(entries);
 let hitCount = 0;
 let changedFiles = 0;
 const missed: string[] = [];
-for (const [file, set] of grouped) {
-	const dstFile = join(dstRoot, file);
+for (const [key, set] of grouped) {
+	const { pkg, file } = splitKey(key);
+	const root = pkg === 'tui' ? dstTuiRoot : dstRoot;
+	const label = pkg === 'tui' ? `tui:${file}` : file;
+	if (pkg === 'tui' && !hasTui) continue;
+	const dstFile = join(root, file);
 	if (!existsSync(dstFile)) {
-		missed.push(file);
+		missed.push(label);
 		continue;
 	}
 	const res = applyEntriesToText(readFileSync(dstFile, 'utf8'), set);
@@ -93,8 +132,32 @@ for (const [file, set] of grouped) {
 		changedFiles++;
 	}
 	const zero = set.lineMap.size + set.litMap.size + set.snippets.length + set.assets.length - res.hits.size;
-	if (zero > 0) missed.push(`${file} (${zero} 条未命中)`);
+	if (zero > 0) missed.push(`${label} (${zero} 条未命中)`);
 }
+
+// 把主包内对 @oh-my-pi/pi-tui 的导入重定向到随包携带的 -zh 副本
+if (hasTui) {
+	let rewritten = 0;
+	const walk = (dir: string, out: string[] = []): string[] => {
+		for (const name of readdirSync(dir)) {
+			if (name === 'node_modules' || name === '.git') continue;
+			const p = join(dir, name);
+			const st = statSync(p);
+			if (st.isDirectory()) walk(p, out);
+			else if (/\.(ts|tsx|js|mjs|json)$/.test(name)) out.push(p);
+		}
+		return out;
+	};
+	for (const f of walk(dstRoot)) {
+		if (f.includes(`${sep}node_modules${sep}`)) continue;
+		const text = readFileSync(f, 'utf8');
+		if (!text.includes('@oh-my-pi/pi-tui')) continue;
+		const next = text.replace(/(@oh-my-pi\/pi-tui)(?!-zh)(?=["'/])/g, '$1-zh');
+		if (next !== text) { writeFileSync(f, next, 'utf8'); rewritten++; }
+	}
+	console.log(`[npm-pkg] 已重定向主包内 pi-tui 导入: ${rewritten} 个文件`);
+}
+
 console.log(`[npm-pkg] 应用翻译: 命中 ${hitCount} 处，改动 ${changedFiles} 个文件`);
 if (missed.length) {
 	console.log(`[npm-pkg] 未完全命中（保持英文）: ${missed.length} 个文件`);
@@ -144,6 +207,18 @@ pkg.keywords = [...(Array.isArray(pkg.keywords) ? (pkg.keywords as string[]) : [
 // 把 bin 加进 files 白名单（保留上游其余白名单项）
 const files = Array.isArray(pkg.files) ? (pkg.files as string[]) : [];
 pkg.files = files.includes('bin') ? files : [...files, 'bin'];
+// 双包模式：随包携带 pi-tui-zh（放在 node_modules/@oh-my-pi/ 下）。
+// npm 的规则：bundledDependencies 里的包必须同时出现在 dependencies 中，
+// 否则 npm pack 会直接忽略 node_modules（实测 files 白名单不足以让它入包）。
+// 被 bundle 后安装时不再去 registry 拉取，因此该包无需真实存在于 npm 上。
+if (hasTui) {
+	pkg.bundledDependencies = ['@oh-my-pi/pi-tui-zh'];
+	const deps = (pkg.dependencies ?? {}) as Record<string, string>;
+	deps['@oh-my-pi/pi-tui-zh'] = ompVersion;
+	pkg.dependencies = deps;
+	const tuiPath = 'node_modules/@oh-my-pi/pi-tui-zh';
+	if (!(pkg.files as string[]).includes(tuiPath)) (pkg.files as string[]).push(tuiPath);
+}
 delete pkg.publishConfig;
 delete pkg.private;
 // 去掉上游的 scripts：其中的 prepack 会在 npm pack/publish 时触发构建，

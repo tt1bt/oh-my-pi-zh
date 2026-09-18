@@ -3,7 +3,7 @@
 // 因此 omp 升级导致行号漂移时仍能命中幸存的字符串。
 
 import { analyzeLines } from './scanner';
-import type { Entry, ApplyReport, LineEntry, SnippetEntry, StringEntry, TemplateEntry, AssetEntry } from './types';
+import type { Entry, ApplyReport, LineEntry, SnippetEntry, StringEntry, TemplateEntry, AssetEntry, PkgId } from './types';
 
 export interface FileApplyResult {
 	text: string;
@@ -25,19 +25,30 @@ interface FileEntrySet {
 	assets: AssetEntry[];
 }
 
-/** 按文件组织条目。 */
-export function groupEntries(entries: Entry[]): Map<string, FileEntrySet> {
-	const byFile = new Map<string, FileEntrySet>();
-	const ensure = (file: string): FileEntrySet => {
-		let s = byFile.get(file);
+/** 分组键：`<pkg>:<file>`。pkg 为 agent（主包）或 tui（@oh-my-pi/pi-tui）。 */
+export type GroupKey = string;
+
+/** 拆解分组键为 { pkg, file }。 */
+export function splitKey(key: GroupKey): { pkg: PkgId; file: string } {
+	const i = key.indexOf(':');
+	if (i === -1) return { pkg: 'agent', file: key };
+	return { pkg: key.slice(0, i) as PkgId, file: key.slice(i + 1) };
+}
+
+/** 按 包+文件 组织条目。 */
+export function groupEntries(entries: Entry[]): Map<GroupKey, FileEntrySet> {
+	const byFile = new Map<GroupKey, FileEntrySet>();
+	const ensure = (key: GroupKey): FileEntrySet => {
+		let s = byFile.get(key);
 		if (!s) {
 			s = { lineMap: new Map(), litMap: new Map(), snippets: [], assets: [] };
-			byFile.set(file, s);
+			byFile.set(key, s);
 		}
 		return s;
 	};
 	for (const e of entries) {
-		const s = ensure(e.file);
+		const pkg: PkgId = (e as { pkg?: PkgId }).pkg === 'tui' ? 'tui' : 'agent';
+		const s = ensure(`${pkg}:${e.file}`);
 		switch (e.kind) {
 			case 'line': {
 				const list = s.lineMap.get(e.en) ?? [];

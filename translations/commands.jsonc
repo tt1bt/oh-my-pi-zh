@@ -217,7 +217,6 @@
 		{"kind":"string","file":"src/commands/plugin.ts","en":"Disable a feature","zh":"禁用某个功能"},
 		{"kind":"string","file":"src/commands/plugin.ts","en":"Set plugin config (key=value)","zh":"设置插件配置(key=value)"},
 		{"kind":"string","file":"src/commands/plugin.ts","en":"Install scope: \"user\" (default) or \"project\"","zh":"安装范围:\"user\"(默认)或 \"project\""},
-		{"kind":"string","file":"src/commands/read.ts","en":"Path, URL, or internal URI to read (append :sel for line ranges or raw mode, e.g. src/foo.ts:50-100)","zh":"要读取的路径、URL 或内部 URI(追加 :sel 表示行范围或 raw 模式,如 src/foo.ts:50-100)"},
 		{"kind":"string","file":"src/commands/say.ts","en":"Text to speak (or use --file)","zh":"要朗读的文本(或使用 --file)"},
 		{"kind":"string","file":"src/commands/say.ts","en":"Voice id","zh":"语音 id"},
 		{"kind":"string","file":"src/commands/say.ts","en":"Local TTS model key","zh":"本地 TTS 模型键"},
@@ -308,6 +307,9 @@
 		{"kind":"string","file":"src/commands/collab.ts","en":"Request a view-only link instead of control access (link only)","zh":"请求只读链接而非控制权限（仅 link 用）"},
 		{"kind":"string","file":"src/commands/collab.ts","en":"collab link requires exactly one selector (usage: collab link <instanceId|pid> [--view] [--json])","zh":"collab link 需要且仅需一个选择器（用法：collab link <instanceId|pid> [--view] [--json]）"},
 		{"kind":"string","file":"src/commands/collab.ts","en":"collab list accepts no selector or --view (usage: collab list [--json])","zh":"collab list 不接受选择器或 --view（用法：collab list [--json]）"},
-		{"kind":"string","file":"src/commands/collab.ts","en":"list (default) or link","zh":"list（默认）或 link"}
+		{"kind":"string","file":"src/commands/collab.ts","en":"list (default) or link","zh":"list（默认）或 link"},
+		{"kind":"string","file":"src/commands/stream.ts","en":"Stream title (defaults to the current directory name)","zh":"直播标题（默认为当前目录名）"},
+		{"kind":"string","file":"src/commands/stream.ts","en":"Stream server base URL (overrides stream.serverUrl)","zh":"直播服务器基础 URL（覆盖 stream.serverUrl）"},
+		{"kind":"string","file":"src/commands/stream.ts","en":"Use the line-oriented console instead of the interactive TUI","zh":"使用面向行的控制台，而不是交互式 TUI"}
 	]
 }
