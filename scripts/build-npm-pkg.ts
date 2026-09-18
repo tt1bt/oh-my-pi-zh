@@ -97,9 +97,13 @@ if (!tuiSrcDir) {
 	}
 }
 const hasTui = !!tuiSrcDir && existsSync(join(tuiSrcDir, 'package.json'));
-const dstTuiRoot = join(dstRoot, 'node_modules', '@oh-my-pi', 'pi-tui-zh');
+// 放在 vendor/ 而非 node_modules/：npm pack 会无条件忽略 node_modules 下未被
+// registry 解析的内容，而 bun 又不支持 bundledDependencies（实测会去 registry 拉取而 404）。
+// 因此改为随包内联 + 运行时用 bunfig/tsconfig 的路径映射把包名指过来。
+const VENDOR_DIR = 'vendor';
+const dstTuiRoot = join(dstRoot, VENDOR_DIR, 'pi-tui-zh');
 if (hasTui) {
-	console.log(`[npm-pkg] 复制 pi-tui 源码树 -> ${dstTuiRoot}`);
+	console.log(`[npm-pkg] 内联 pi-tui 源码树 -> ${dstTuiRoot}`);
 	mkdirSync(dirname(dstTuiRoot), { recursive: true });
 	cpSync(tuiSrcDir, dstTuiRoot, { recursive: true });
 	// 改包名，使主包内的重定向导入可解析
@@ -178,16 +182,35 @@ if (!/export async function runCli\(/.test(cliText)) {
 	process.exit(1);
 }
 mkdirSync(join(dstRoot, 'bin'), { recursive: true });
+// 双包模式下，启动前需把 vendor/pi-tui-zh 物化到 node_modules，
+// 否则 `@oh-my-pi/pi-tui-zh` 无法按标准解析规则找到（npm 不会打包 node_modules）。
+// 注意：bootstrap 必须早于任何会解析 pi-tui-zh 的静态 import，
+// 因此入口用动态 import 加载 cli，避免 ESM 的 import 提升绕过引导逻辑。
 writeFileSync(
 	join(dstRoot, 'bin', 'omp.mjs'),
 	[
 		'#!/usr/bin/env bun',
 		'// 由 oh-my-pi-zh build-npm-pkg 生成——等价于 src/cli.ts 的入口段：',
 		'//   if (isProcessEntry) runCli(process.argv.slice(2)).catch(fatal);',
-		'// 这里直接显式调用，绕开 import.meta.main（被 import 的模块该值为 false）。',
-		'import { fatal } from "@oh-my-pi/pi-utils/postmortem";',
-		'import { runCli } from "../src/cli.ts";',
+		'// 这里用动态 import 显式调用，既绕开 import.meta.main（被 import 时为 false），',
+		'// 也保证双包引导先于任何 pi-tui-zh 的解析发生。',
+		'import { existsSync, mkdirSync, symlinkSync, cpSync } from "node:fs";',
+		'import { join, dirname } from "node:path";',
 		'',
+		'const SELF = import.meta.dirname;',
+		'const VENDOR = join(SELF, "..", "vendor", "pi-tui-zh");',
+		'// 必须物化到「顶层」node_modules：bun 解析嵌套包时不会去子目录的',
+		'// node_modules 里找（实测放在 omp-zh/node_modules 下无效）。',
+		'const ROOT = join(SELF, "..", "..");',
+		'const TARGET = join(ROOT, "@oh-my-pi", "pi-tui-zh");',
+		'if (existsSync(VENDOR) && !existsSync(join(TARGET, "package.json"))) {',
+		'  mkdirSync(dirname(TARGET), { recursive: true });',
+		'  try { symlinkSync(VENDOR, TARGET, "junction"); }',
+		'  catch { try { cpSync(VENDOR, TARGET, { recursive: true }); } catch {} }',
+		'}',
+		'',
+		'const { runCli } = await import("../src/cli.ts");',
+		'const { fatal } = await import("@oh-my-pi/pi-utils/postmortem");',
 		'runCli(process.argv.slice(2)).catch(fatal);',
 		'',
 	].join('\n'),
@@ -207,17 +230,13 @@ pkg.keywords = [...(Array.isArray(pkg.keywords) ? (pkg.keywords as string[]) : [
 // 把 bin 加进 files 白名单（保留上游其余白名单项）
 const files = Array.isArray(pkg.files) ? (pkg.files as string[]) : [];
 pkg.files = files.includes('bin') ? files : [...files, 'bin'];
-// 双包模式：随包携带 pi-tui-zh（放在 node_modules/@oh-my-pi/ 下）。
-// npm 的规则：bundledDependencies 里的包必须同时出现在 dependencies 中，
-// 否则 npm pack 会直接忽略 node_modules（实测 files 白名单不足以让它入包）。
-// 被 bundle 后安装时不再去 registry 拉取，因此该包无需真实存在于 npm 上。
+// 双包模式：pi-tui-zh 以 vendor/ 内联随包分发（见上方说明）。
+// npm 会过滤 node_modules 目录，因此打包时放在 vendor/，
+// 由包内 bin/omp.mjs 在启动前把它物化到 node_modules（符号链接或复制），
+// 使 @oh-my-pi/pi-tui-zh 能按标准 node 解析规则被找到。
 if (hasTui) {
-	pkg.bundledDependencies = ['@oh-my-pi/pi-tui-zh'];
-	const deps = (pkg.dependencies ?? {}) as Record<string, string>;
-	deps['@oh-my-pi/pi-tui-zh'] = ompVersion;
-	pkg.dependencies = deps;
-	const tuiPath = 'node_modules/@oh-my-pi/pi-tui-zh';
-	if (!(pkg.files as string[]).includes(tuiPath)) (pkg.files as string[]).push(tuiPath);
+	const vendorPath = `${VENDOR_DIR}/pi-tui-zh`;
+	if (!(pkg.files as string[]).includes(vendorPath)) (pkg.files as string[]).push(vendorPath);
 }
 delete pkg.publishConfig;
 delete pkg.private;
