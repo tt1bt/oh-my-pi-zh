@@ -9161,7 +9161,7 @@ index 0f0eca3..270f832 100644
  	if (status === "ok") return "success";
  	return "dim";
 diff --git a/pi-coding-agent/src/modes/controllers/input-controller.ts b/pi-coding-agent-zh/src/modes/controllers/input-controller.ts
-index 517cd88..33802fc 100644
+index 7ef9fa6..4807098 100644
 --- a/pi-coding-agent/src/modes/controllers/input-controller.ts
 +++ b/pi-coding-agent-zh/src/modes/controllers/input-controller.ts
 @@ -766,7 +766,7 @@ export class InputController {
@@ -9182,7 +9182,7 @@ index 517cd88..33802fc 100644
  	}
  
  	/**
-@@ -2135,9 +2135,9 @@ export class InputController {
+@@ -2146,9 +2146,9 @@ export class InputController {
  			choice = await this.ctx.showHookSelector(
  				`Pasted ${lineCount} lines`,
  				[

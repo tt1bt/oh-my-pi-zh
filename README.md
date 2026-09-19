@@ -8,7 +8,7 @@
 [![npm](https://img.shields.io/npm/v/omp-zh?label=npm)](https://www.npmjs.com/package/omp-zh)
 [![License](https://img.shields.io/github/license/tt1bt/oh-my-pi-zh)](LICENSE)
 
-当前基线：**omp 18.2.5** · 翻译条目 **2515** 条 · 命中 **3292** 处
+当前基线：**omp 18.2.6** · 翻译条目 **2514** 条 · 命中 **3292** 处
 
 <img width="1481" height="820" alt="汉化后的主界面" src="https://github.com/user-attachments/assets/ae0db8e6-e79b-4d9a-b384-5f3145b0fef5" />
 
@@ -114,7 +114,7 @@ bun install -g omp-zh@latest   # 升级
 bun remove -g omp-zh           # 卸载
 ```
 
-版本号与上游 omp 对齐（如 `18.2.5`），一眼看出对应哪个上游版本。
+版本号与上游 omp 对齐（如 `18.2.6`），一眼看出对应哪个上游版本。
 
 > **首次启动会略慢。** 包内以 `vendor/` 内联了汉化后的 pi-tui，首次运行时需要把它物化到 `node_modules`（bun 不支持 `bundledDependencies`，这是让双包可靠工作的方式）。之后启动正常，约 4–5 秒（bun 直跑 TS 源码，未打包）。
 
@@ -228,11 +228,10 @@ Remove-Item "$HOME\.local\bin\omp.cmd"
 
 ## 兼容性与已知限制
 
-- 翻译库基线为 **omp 18.2.5**。该版本下 2515 条条目中 3292 处命中、1 处未命中。
+- 翻译库基线为 **omp 18.2.6**。该版本下 2514 条条目全部命中，零未命中。
 - **双包模式**：omp 18.2.5 起上游把 UI 层抽成 `@oh-my-pi/pi-tui`，汉化同时处理两个包。旧版 omp（无 pi-tui）会自动退化为单包模式。
 - **启动耗时**约 4–5 秒（bun 直跑 TS 源码，未打包）。
 - **已知遗留**：
-  - `pi-tui/src/tools/json-tree.ts` 有 1 条旧变量名文案未命中，该处局部保持英文
   - `src/config/settings-schema.ts` 仍有部分设置项长描述为英文（历史遗留，欢迎 PR）
   - `omp --help` 的 Environment Variables 整块仍为英文（体量大且以技术名称为主）
 - 模型侧提示词（如 `src/prompts/system/*.md`）与工具返回给模型的内容完全保留英文，这是有意为之——汉化会改变模型行为。
@@ -309,9 +308,10 @@ oh-my-pi-zh/
 上游迭代很快，本项目为此构建了完整工具链（全部零依赖，bun 直跑）。
 
 ```bash
-# 1. 生成缺口报告（A 失效 / B 漂移 / C 新增）
+# 1. 生成缺口报告（A 失效 / B 漂移 / C 新增）——已支持双包
 bun scripts/extract.ts --version <新版>
-#    报告写入 .tmp/extract-report-<新版>.json
+#    报告写入 .tmp/extract-report-<新版>.json，条目按 pkg 标注（tui: 前缀即 pi-tui）
+#    未显式指定目录时会按同版本自动拉取 pi-tui；旧版无该包则退化为单包
 
 # 2. 按报告修改 translations/*.jsonc
 #    注意：B 类"漂移串"可能是 diff 对齐造成的假阳性，需逐条实证核对
@@ -324,8 +324,6 @@ bun scripts/gen-patch.ts --source <主包目录> --source-tui <pi-tui 目录>
 
 # 5. 更新 translations/meta.jsonc 的 baseVersion，提交
 ```
-
-> **注意**：`extract.ts` 目前只扫描主包，尚未适配双包。跟进前需手工核对 pi-tui 侧的缺口。
 
 处理"失效条目"时的关键判断：**多数失效是归属漂移，不是删除**。原文可能一字未改，只是随代码搬到了 pi-tui 的其他文件。按字面删除会丢掉汉化——必须先在两个包的全部源文件中确认原文确实无处存活，才能删除；否则应改 `file` 与 `pkg` 保留译文。
 
