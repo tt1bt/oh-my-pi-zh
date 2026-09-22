@@ -1054,10 +1054,10 @@ index c3d947e..1a47c10 100644
  			this.#asyncStep("✓ Authentication successful!", "success", healthBody);
  
 diff --git a/pi-tui/src/overlays/model-browser.ts b/pi-tui-zh/src/overlays/model-browser.ts
-index 5ae6d55..a137c15 100644
+index 0a892e1..0ad1b94 100644
 --- a/pi-tui/src/overlays/model-browser.ts
 +++ b/pi-tui-zh/src/overlays/model-browser.ts
-@@ -516,7 +516,7 @@ function formatCostPair(model: Model): string {
+@@ -557,7 +557,7 @@ function formatCostPair(model: Model): string {
   */
  export function modelSearchText({ provider, id, model }: ModelBrowserItem): string {
  	const base = `${provider}/${id}`;
@@ -1067,10 +1067,10 @@ index 5ae6d55..a137c15 100644
  
  /** Provider-supplied blurb, flattened to a single renderable detail-line cell. */
 diff --git a/pi-tui/src/overlays/model-hub.ts b/pi-tui-zh/src/overlays/model-hub.ts
-index e5b43ee..ef61046 100644
+index 2b68b3a..f51491e 100644
 --- a/pi-tui/src/overlays/model-hub.ts
 +++ b/pi-tui-zh/src/overlays/model-hub.ts
-@@ -1929,7 +1929,7 @@ export class ModelHubComponent implements Component {
+@@ -2019,7 +2019,7 @@ export class ModelHubComponent implements Component {
  
  	#statusRow(width: number): string {
  		if (this.#assignmentPending) {
@@ -1079,7 +1079,7 @@ index e5b43ee..ef61046 100644
  		}
  		if (this.#assigning !== null) {
  			if (this.#assigning.kind === "fallbackKey") {
-@@ -2177,20 +2177,20 @@ export class ModelHubComponent implements Component {
+@@ -2266,20 +2266,20 @@ export class ModelHubComponent implements Component {
  		const strip = this.#strip;
  		if (strip) {
  			if (strip.kind === "roleName") {
@@ -1095,18 +1095,18 @@ index e5b43ee..ef61046 100644
  		if (this.#assigning !== null) {
  			switch (this.#assigning.kind) {
  				case "fallback":
--					return "Enter pick fallback · ↑/↓ providers · type to search · Esc cancel";
-+					return "Enter 选择回退 · ↑/↓ 提供商 · 输入搜索 · Esc 取消";
+-					return "Enter pick fallback · ↑/↓ providers · type to search · Alt+←/→ kind · Esc cancel";
++					return "Enter 选择回退 · ↑/↓ 提供商 · 输入搜索 · Alt+←/→ 类型 · Esc 取消";
  				case "fallbackKey":
--					return "Enter pick the protected model · ↑/↓ providers · type to search · Esc cancel";
-+					return "Enter 选择受保护模型 · ↑/↓ 提供商 · 输入搜索 · Esc 取消";
+-					return "Enter pick the protected model · ↑/↓ providers · type to search · Alt+←/→ kind · Esc cancel";
++					return "Enter 选择受保护模型 · ↑/↓ 提供商 · 输入搜索 · Alt+←/→ 类型 · Esc 取消";
  				default:
--					return "Enter assign · ↑/↓ providers · type to search · Esc cancel";
-+					return "Enter 分配 · ↑/↓ 提供商 · 输入搜索 · Esc 取消";
+-					return "Enter assign · ↑/↓ providers · type to search · Alt+←/→ kind · Esc cancel";
++					return "Enter 分配 · ↑/↓ 提供商 · 输入搜索 · Alt+←/→ 类型 · Esc 取消";
  			}
  		}
  		const entry = this.#activeEntry();
-@@ -2204,8 +2204,8 @@ export class ModelHubComponent implements Component {
+@@ -2293,8 +2293,8 @@ export class ModelHubComponent implements Component {
  				// inherit and unknown models have no ladder to offer, so the
  				// action would be inert there.
  				const editable = this.#resolveFallbackEntry(row.role, row.chainIndex) !== undefined;
@@ -1117,7 +1117,7 @@ index e5b43ee..ef61046 100644
  			}
  			if (row?.kind === "chainKey") {
  				return "↑/↓ rows · Enter/f add fallback · x clear chain · ← providers";
-@@ -2216,10 +2216,10 @@ export class ModelHubComponent implements Component {
+@@ -2305,10 +2305,10 @@ export class ModelHubComponent implements Component {
  			return "↑/↓ rows · Enter pick · f fallback · x clear · t thinking · c cycle · [/] reorder · n new";
  		}
  		if (entry.kind === "provider" && entry.locked) {
@@ -1128,7 +1128,7 @@ index e5b43ee..ef61046 100644
 -		const refresh = entry.kind === "provider" ? " · F5 refresh" : "";
 +		const arrows = this.#focus === "scope" ? "↑/↓ 提供商 · → 模型" : "↑/↓ 模型 · ← 提供商";
 +		const refresh = entry.kind === "provider" ? " · F5 刷新" : "";
- 		return `Enter assign roles · ${arrows} · type to search${refresh} · Esc close`;
+ 		return `Enter assign roles · ${arrows} · type to search · Alt+←/→ kind${refresh} · Esc close`;
  	}
  
 diff --git a/pi-tui/src/overlays/move-overlay.ts b/pi-tui-zh/src/overlays/move-overlay.ts
@@ -1451,10 +1451,10 @@ index 4638422..698f782 100644
  		const details = [bar, pct, bytes, file].filter((part): part is string => Boolean(part)).join(" ");
  
 diff --git a/pi-tui/src/prompt/tips.txt b/pi-tui-zh/src/prompt/tips.txt
-index ba0c200..e33a954 100644
+index 93c7089..e33a954 100644
 --- a/pi-tui/src/prompt/tips.txt
 +++ b/pi-tui-zh/src/prompt/tips.txt
-@@ -1,27 +1,26 @@
+@@ -1,28 +1,26 @@
 -Tired of typing "keep going"? Just send a '.'
 -You can /btw to ask a side question
 -Use /tan to fork the current conversation into a background agent
@@ -1467,6 +1467,7 @@ index ba0c200..e33a954 100644
 -Drop the word `ultrathink` in your message for harder multi-step reasoning — watch it glow rainbow as you type
 -Say `orchestrate` in your message to drive a multi-phase task with parallel subagents — watch it glow as you type
 -Say `workflowz` in your message to drive the task with parallel subagents in eval — watch it glow as you type
+-Bulk data to classify or triage? Say `jevify` in your message — the eval kernel's `judge()` processes the batch and you read only what it flags — watch it glow as you type
 -Log in to several accounts of the same provider — `/login` again — and omp load-balances across them automatically
 -Run `omp auth-broker serve` once and every machine pulls live tokens over the wire — refresh keys never leave the host; `omp auth-gateway` fronts it as a drop-in proxy any OpenAI-compatible client can hit
 -Press alt+p (or /switch) to switch provider, and ctrl+p to cycle role models smol -> slow -> etc
@@ -1777,10 +1778,10 @@ index fe9baed..61f0d6e 100644
  	}
  	await runSetupWizard(ctx, [providersScene], {
 diff --git a/pi-tui/src/setup/scenes/glyph.ts b/pi-tui-zh/src/setup/scenes/glyph.ts
-index 00ad85d..e1e5e83 100644
+index e83176a..4c6c7ac 100644
 --- a/pi-tui/src/setup/scenes/glyph.ts
 +++ b/pi-tui-zh/src/setup/scenes/glyph.ts
-@@ -27,8 +27,8 @@ const GLYPH_ITEMS: readonly SelectItem[] = GLYPH_PRESETS.map((preset, index) =>
+@@ -28,8 +28,8 @@ const GLYPH_ITEMS: readonly SelectItem[] = GLYPH_PRESETS.map((preset, index) =>
  }));
  
  class GlyphSceneController implements SetupSceneController {
@@ -1791,7 +1792,7 @@ index 00ad85d..e1e5e83 100644
  	#selectList: SelectList;
  	#previewRequest = 0;
  	#committing = false;
-@@ -79,7 +79,7 @@ class GlyphSceneController implements SetupSceneController {
+@@ -80,7 +80,7 @@ class GlyphSceneController implements SetupSceneController {
  		if (!this.#step) {
  			this.#step = new WizardStep({
  				kind: "choice",
@@ -1800,15 +1801,15 @@ index 00ad85d..e1e5e83 100644
  				content: this.#selectList,
  				minContentLines: GLYPH_ITEMS.length,
  				fitContent: () => {
-@@ -114,7 +114,7 @@ class GlyphSceneController implements SetupSceneController {
- /** Preview and persist the terminal glyph preset. */
+@@ -120,7 +120,7 @@ class GlyphSceneController implements SetupSceneController {
+  */
  export const glyphSetupScene: SetupScene = {
  	id: "glyph-mode",
 -	title: "Choose glyph mode",
 +	title: "选择字形模式",
  	minVersion: 1,
+ 	shouldRun: () => !TERMINAL.glyphProtocol,
  	mount: host => new GlyphSceneController(host),
- };
 diff --git a/pi-tui/src/setup/scenes/model.ts b/pi-tui-zh/src/setup/scenes/model.ts
 index d36fcb3..7e141c4 100644
 --- a/pi-tui/src/setup/scenes/model.ts
@@ -2460,7 +2461,7 @@ index f60badd..932a66c 100644
  		const content = visibleLines.length > 0 ? visibleLines : [padding(innerWidth)];
  		const borderHorizontal = this.#uiTheme.fg("border", this.#uiTheme.boxRound.horizontal.repeat(innerWidth));
 diff --git a/pi-tui/src/tools/bash.ts b/pi-tui-zh/src/tools/bash.ts
-index c23eea6..f523220 100644
+index dfafe10..36dc7eb 100644
 --- a/pi-tui/src/tools/bash.ts
 +++ b/pi-tui-zh/src/tools/bash.ts
 @@ -360,26 +360,26 @@ export function createShellRenderer<TArgs>(config: ShellRendererConfig<TArgs>) {
@@ -2584,22 +2585,19 @@ index 5fd1590..27fc16c 100644
  			let renderedAsJson = false;
  			if (textContent.startsWith("{") || textContent.startsWith("[")) {
 diff --git a/pi-tui/src/tools/eval.ts b/pi-tui-zh/src/tools/eval.ts
-index ec54aef..3a3f825 100644
+index ce7a614..5b9bdfd 100644
 --- a/pi-tui/src/tools/eval.ts
 +++ b/pi-tui-zh/src/tools/eval.ts
-@@ -145,9 +145,9 @@ type AgentEventStatus = "pending" | "running" | "completed" | "failed" | "aborte
-  * bounded even when a subagent emits hundreds of throttled progress ticks.
+@@ -146,7 +146,7 @@ type AgentEventStatus = "pending" | "running" | "completed" | "failed" | "aborte
+  * hundreds of throttled progress ticks.
   */
  export function upsertStatusEvent(events: EvalStatusEvent[], event: EvalStatusEvent): void {
--	if (event.op === "agent" && typeof event.id === "string") {
-+	if (event.op === "代理" && typeof event.id === "string") {
- 		const id = event.id;
--		const idx = events.findIndex(e => e.op === "agent" && e.id === id);
-+		const idx = events.findIndex(e => e.op === "代理" && e.id === id);
+-	if ((event.op === "agent" || event.op === "judge_batch") && typeof event.id === "string") {
++	if ((event.op === "代理" || event.op === "judge_batch") && typeof event.id === "string") {
+ 		const { op, id } = event;
+ 		const idx = events.findIndex(e => e.op === op && e.id === id);
  		if (idx >= 0) {
- 			events[idx] = event;
- 			return;
-@@ -206,7 +206,7 @@ function renderAgentProgressEvents(
+@@ -207,7 +207,7 @@ function renderAgentProgressEvents(
  					presentation: "eval",
  					status,
  					prefix,
@@ -2608,7 +2606,7 @@ index ec54aef..3a3f825 100644
  					width,
  					model: eventString(event.resolvedModelIdentity ?? event.model ?? event.resolvedModel),
  					thinkingLevel: event.resolvedThinkingLevel,
-@@ -292,55 +292,55 @@ function formatStatusEvent(event: EvalStatusEvent, theme: Theme): string {
+@@ -293,55 +293,55 @@ function formatStatusEvent(event: EvalStatusEvent, theme: Theme): string {
  
  	switch (op) {
  		case "read":
@@ -2684,7 +2682,7 @@ index ec54aef..3a3f825 100644
  			break;
  		case "tool_define":
  			parts.push(`${data.name}(${(Array.isArray(data.params) ? data.params : []).join(", ")})`);
-@@ -405,7 +405,7 @@ function formatStatusEventExpanded(event: EvalStatusEvent, theme: Theme): string
+@@ -412,7 +412,7 @@ function formatStatusEventExpanded(event: EvalStatusEvent, theme: Theme): string
  			lines.push(`   ${theme.fg("toolOutput", truncateToWidth(replaceTabs(line), 80))}`);
  		}
  		if (previewLines.hidden > 0) {
@@ -2693,7 +2691,7 @@ index ec54aef..3a3f825 100644
  		}
  	};
  
-@@ -458,7 +458,7 @@ function renderStatusEvents(events: EvalStatusEvent[], theme: Theme, expanded: b
+@@ -465,7 +465,7 @@ function renderStatusEvents(events: EvalStatusEvent[], theme: Theme, expanded: b
  
  	const lines: string[] = [];
  	if (hidden > 0) {
@@ -2702,7 +2700,7 @@ index ec54aef..3a3f825 100644
  	}
  	for (let i = 0; i < visible.length; i++) {
  		const isLast = i === visible.length - 1;
-@@ -619,7 +619,7 @@ export const evalToolRenderer = {
+@@ -626,7 +626,7 @@ export const evalToolRenderer = {
  		const timeoutSeconds = options.renderContext?.timeout;
  		const timeoutLine =
  			typeof timeoutSeconds === "number"
@@ -2711,7 +2709,7 @@ index ec54aef..3a3f825 100644
  				: undefined;
  		let warningLine: string | undefined;
  		if (details?.meta?.truncation || details?.meta?.artifactError) {
-@@ -655,8 +655,8 @@ export const evalToolRenderer = {
+@@ -662,8 +662,8 @@ export const evalToolRenderer = {
  					for (let i = 0; i < displayCells.length; i++) {
  						const { cell, code, language } = displayCells[i];
  						const allEvents = cell.statusEvents ?? [];
@@ -2722,7 +2720,7 @@ index ec54aef..3a3f825 100644
  						const statusLines = renderStatusEvents(otherEvents, uiTheme, expanded);
  						const outputContent = formatCellOutputLines(cell, expanded, previewLines, uiTheme, width);
  						const outputLines = [...outputContent.lines];
-@@ -667,7 +667,7 @@ export const evalToolRenderer = {
+@@ -674,7 +674,7 @@ export const evalToolRenderer = {
  						}
  						if (statusLines.length > 0) {
  							if (outputLines.length > 0) {
@@ -2731,7 +2729,7 @@ index ec54aef..3a3f825 100644
  							}
  							outputLines.push(...statusLines);
  						}
-@@ -741,7 +741,7 @@ export const evalToolRenderer = {
+@@ -748,7 +748,7 @@ export const evalToolRenderer = {
  
  		if (!combinedOutput && statusLines.length > 0) {
  			const lines = [
@@ -2740,7 +2738,7 @@ index ec54aef..3a3f825 100644
  				...statusLines,
  				timeoutLine,
  				noticeLine,
-@@ -758,7 +758,7 @@ export const evalToolRenderer = {
+@@ -765,7 +765,7 @@ export const evalToolRenderer = {
  				.join("\n");
  			const lines = [
  				styledOutput,
@@ -2749,7 +2747,7 @@ index ec54aef..3a3f825 100644
  				timeoutLine,
  				noticeLine,
  				asyncLine,
-@@ -802,7 +802,7 @@ export const evalToolRenderer = {
+@@ -809,7 +809,7 @@ export const evalToolRenderer = {
  				}
  				outputLines.push(...cachedLines);
  				if (statusLines.length > 0) {
@@ -2869,6 +2867,104 @@ index c0efe41..594fa9e 100644
  				],
  				applyBg: false,
  			};
+diff --git a/pi-tui/src/tools/find.ts b/pi-tui-zh/src/tools/find.ts
+index 6eb4f1d..f7ea14e 100644
+--- a/pi-tui/src/tools/find.ts
++++ b/pi-tui-zh/src/tools/find.ts
+@@ -119,7 +119,7 @@ function renderHit(hit: FindHit, rangeLimit: number, cwd: string | undefined, th
+ 	const absPath = cwd === undefined ? undefined : path.join(cwd, hit.rel);
+ 	const link = (text: string, line?: number) =>
+ 		absPath === undefined ? text : fileHyperlink(absPath, text, { line });
+-	const coverage = hit.truncated ? `${hit.linesSeen} lines judged, partial` : `${hit.linesSeen} lines judged`;
++	const coverage = hit.truncated ? `${hit.linesSeen} 行已判定,不完整` : `${hit.linesSeen} 行已判定`;
+ 	const lines = [
+ 		`${gauge(hit.contentScore, theme)} ${theme.fg(scoreColor(hit.contentScore), hit.contentScore.toFixed(2))} ${link(theme.fg("accent", hit.rel))} ${theme.fg("dim", coverage)}`,
+ 	];
+@@ -143,12 +143,12 @@ export const findToolRenderer = {
+ 	renderCall(args: FindRenderArgs, options: RenderResultOptions, uiTheme: Theme): Component {
+ 		const keywords = args.grep_keywords ?? [];
+ 		const meta = keywords.length > 0 ? [keywords.join(" ")] : [];
+-		if (args.path) meta.push(`in ${args.path}`);
++		if (args.path) meta.push(`于 ${args.path}`);
+ 		const text = renderStatusLine(
+ 			{
+ 				icon: "pending",
+ 				spinnerFrame: options.spinnerFrame,
+-				title: "Find",
++				title: "语义查找",
+ 				titleColor: "toolTitle",
+ 				description: quoteQuery(args.query),
+ 				meta,
+@@ -168,7 +168,7 @@ export const findToolRenderer = {
+ 		const text = result.content?.find(c => c.type === "text")?.text ?? "";
+ 
+ 		if (result.isError) {
+-			return new Text(formatErrorMessage(text || "Unknown error", uiTheme), 1, 0);
++			return new Text(formatErrorMessage(text || "未知错误", uiTheme), 1, 0);
+ 		}
+ 
+ 		// Streaming progress: the tool reports the phase it is in.
+@@ -177,7 +177,7 @@ export const findToolRenderer = {
+ 				{
+ 					icon: "pending",
+ 					spinnerFrame: options.spinnerFrame,
+-					title: "Find",
++					title: "语义查找",
+ 					titleColor: "toolTitle",
+ 					description: quoteQuery(args?.query ?? details?.query),
+ 					meta: text ? [text] : [],
+@@ -189,26 +189,26 @@ export const findToolRenderer = {
+ 
+ 		const { hits, stats, threshold } = details;
+ 		const description = quoteQuery(details.query);
+-		const scope = details.scopePath === undefined ? [] : [`in ${details.scopePath}`];
++		const scope = details.scopePath === undefined ? [] : [`于 ${details.scopePath}`];
+ 		const meta = [
+ 			formatCount("hit", hits.length),
+ 			...scope,
+-			`${stats.filesRead} files read`,
++			`${stats.filesRead} 个文件已读取`,
+ 			`τ ${threshold.toFixed(2)}`,
+ 			`${formatNumber(stats.inputTokens)} tokens`,
+ 			`$${stats.cost.toFixed(4)}`,
+ 			formatDuration(details.elapsedMs),
+ 		];
+-		if (stats.errors > 0) meta.push(uiTheme.fg("warning", `${stats.errors} failed`));
++		if (stats.errors > 0) meta.push(uiTheme.fg("warning", `${stats.errors} 失败`));
+ 
+ 		if (hits.length === 0) {
+-			const emptyMeta = ["0 hits", ...scope, `$${stats.cost.toFixed(4)}`, formatDuration(details.elapsedMs)];
+-			if (stats.errors > 0) emptyMeta.push(uiTheme.fg("warning", `${stats.errors} failed`));
++			const emptyMeta = ["0 处命中", ...scope, `$${stats.cost.toFixed(4)}`, formatDuration(details.elapsedMs)];
++			if (stats.errors > 0) emptyMeta.push(uiTheme.fg("warning", `${stats.errors} 失败`));
+ 			const header = renderStatusLine(
+-				{ icon: "warning", title: "Find", titleColor: "toolTitle", description, meta: emptyMeta },
++				{ icon: "warning", title: "语义查找", titleColor: "toolTitle", description, meta: emptyMeta },
+ 				uiTheme,
+ 			);
+-			const lines = [header, formatEmptyMessage("No relevant passages found", uiTheme)];
++			const lines = [header, formatEmptyMessage("未找到相关片段", uiTheme)];
+ 			for (const failure of stats.failures) lines.push(uiTheme.fg("warning", failure));
+ 			return new Text(lines.join("\n"), 1, 0);
+ 		}
+@@ -216,7 +216,7 @@ export const findToolRenderer = {
+ 		const header = renderStatusLine(
+ 			{
+ 				iconOverride: uiTheme.fg("toolTitle", uiTheme.symbol("icon.search")),
+-				title: "Find",
++				title: "语义查找",
+ 				titleColor: "toolTitle",
+ 				description,
+ 				meta,
+@@ -241,7 +241,7 @@ export const findToolRenderer = {
+ 				);
+ 				const extra: string[] = [];
+ 				if (expanded) {
+-					extra.push(uiTheme.fg("dim", `keywords: ${details.keywords.join(", ")}`));
++					extra.push(uiTheme.fg("dim", `关键词: ${details.keywords.join(", ")}`));
+ 					for (const failure of stats.failures) extra.push(uiTheme.fg("warning", failure));
+ 				}
+ 				return [header, ...hitLines, ...extra].map(line => truncateToWidth(line, width, Ellipsis.Omit));
 diff --git a/pi-tui/src/tools/github.ts b/pi-tui-zh/src/tools/github.ts
 index 22491e9..bcf5320 100644
 --- a/pi-tui/src/tools/github.ts
@@ -3236,7 +3332,7 @@ index 8e5320b..07f880a 100644
  				description,
  				meta,
 diff --git a/pi-tui/src/tools/hub.ts b/pi-tui-zh/src/tools/hub.ts
-index 4dff505..8004a21 100644
+index 7df6764..cb5548d 100644
 --- a/pi-tui/src/tools/hub.ts
 +++ b/pi-tui-zh/src/tools/hub.ts
 @@ -341,10 +341,10 @@ export function readyPendingSummary(daemon: DaemonSnapshot, ready?: LaunchParams
@@ -3384,8 +3480,8 @@ index 4dff505..8004a21 100644
 +								: "等待超时。",
  						),
  					);
- 				}
-@@ -886,7 +886,7 @@ export function launchRenderResult(
+ 				} else if (details && params.pattern && details.matched === undefined) {
+@@ -888,7 +888,7 @@ export function launchRenderResult(
  			case "logs": {
  				if (details?.state) meta.push(theme.fg(stateColor(details.state), details.state));
  				if (details?.cursor !== undefined) meta.push(`cursor ${details.cursor}`);
@@ -3394,7 +3490,7 @@ index 4dff505..8004a21 100644
  				// Strip the trailing `[name: state; cursor=N]` status suffix `toolContent` appends.
  				const logText = text.replace(/\n?\[[^\n]*\]$/, "").trimEnd();
  				const terminalRows = details?.terminalRows;
-@@ -924,7 +924,7 @@ export function launchRenderResult(
+@@ -926,7 +926,7 @@ export function launchRenderResult(
  				: options.isPartial
  					? { icon: "pending" as const }
  					: { iconOverride: theme.styledSymbol("tool.launch", "accent") }),
@@ -3403,7 +3499,7 @@ index 4dff505..8004a21 100644
  			description: description ? replaceTabs(description) : undefined,
  			meta,
  		},
-@@ -995,11 +995,11 @@ function outcomeColor(outcome: IrcDeliveryReceipt["outcome"]): ToolUIColor {
+@@ -997,11 +997,11 @@ function outcomeColor(outcome: IrcDeliveryReceipt["outcome"]): ToolUIColor {
  function peerStatusBadge(status: string, theme: Theme): string {
  	switch (status) {
  		case "running":
@@ -3418,7 +3514,7 @@ index 4dff505..8004a21 100644
  		default:
  			return theme.fg("error", `${theme.status.aborted} ${status}`);
  	}
-@@ -1051,9 +1051,9 @@ function callTitle(args: HubRenderArgs | undefined, theme: Theme): string {
+@@ -1053,9 +1053,9 @@ function callTitle(args: HubRenderArgs | undefined, theme: Theme): string {
  		case "wait":
  			return `IRC ${theme.nav.back} ${args.from?.trim() || "anyone"}`;
  		case "inbox":
@@ -3430,7 +3526,7 @@ index 4dff505..8004a21 100644
  		default:
  			return "Hub";
  	}
-@@ -1062,11 +1062,11 @@ function callTitle(args: HubRenderArgs | undefined, theme: Theme): string {
+@@ -1064,11 +1064,11 @@ function callTitle(args: HubRenderArgs | undefined, theme: Theme): string {
  function messagingCallMeta(args: HubRenderArgs | undefined): string[] {
  	const meta: string[] = [];
  	if (args?.op === "send") {
@@ -3446,7 +3542,7 @@ index 4dff505..8004a21 100644
  	return meta;
  }
  
-@@ -1075,7 +1075,7 @@ function renderErrorResult(
+@@ -1077,7 +1077,7 @@ function renderErrorResult(
  	args: HubRenderArgs | undefined,
  	theme: Theme,
  ): string[] {
@@ -3455,7 +3551,7 @@ index 4dff505..8004a21 100644
  	return [
  		renderStatusLine({ icon: "error", title: callTitle(args, theme), meta: messagingCallMeta(args) }, theme),
  		formatErrorDetail(text, theme),
-@@ -1116,7 +1116,7 @@ export function createIrcMessageCard(
+@@ -1118,7 +1118,7 @@ export function createIrcMessageCard(
  	const meta: string[] = [];
  	if (card.kind === "autoreply") meta.push("auto");
  	if (card.kind === "workpool" && card.mode) meta.push(card.mode);
@@ -3464,7 +3560,7 @@ index 4dff505..8004a21 100644
  	const age = messageAge(card.timestamp);
  	if (age) meta.push(age);
  	return createCachedComponent(
-@@ -1145,7 +1145,7 @@ function renderSendResult(
+@@ -1147,7 +1147,7 @@ function renderSendResult(
  
  	// Pre-delivery failures (validation) and empty broadcasts carry no receipts.
  	if (receipts.length === 0) {
@@ -3473,7 +3569,7 @@ index 4dff505..8004a21 100644
  		return [
  			renderStatusLine({ icon: result.isError ? "error" : "warning", title }, theme),
  			result.isError ? formatErrorDetail(text, theme) : `  ${theme.fg("muted", replaceTabs(text))}`,
-@@ -1158,15 +1158,15 @@ function renderSendResult(
+@@ -1160,15 +1160,15 @@ function renderSendResult(
  	const timedOut = waited === null;
  
  	const meta: string[] = [];
@@ -3493,7 +3589,7 @@ index 4dff505..8004a21 100644
  
  	const icon = result.isError
  		? { icon: "error" as const }
-@@ -1185,7 +1185,7 @@ function renderSendResult(
+@@ -1187,7 +1187,7 @@ function renderSendResult(
  					items: receipts,
  					expanded,
  					maxCollapsed: PREVIEW_LIMITS.COLLAPSED_ITEMS,
@@ -3502,7 +3598,7 @@ index 4dff505..8004a21 100644
  					renderItem: receipt => {
  						const badge = formatBadge(receipt.outcome, outcomeColor(receipt.outcome), theme);
  						const error =
-@@ -1221,7 +1221,7 @@ function renderWaitResult(
+@@ -1223,7 +1223,7 @@ function renderWaitResult(
  ): string[] {
  	const waited = details.waited;
  	if (!waited) {
@@ -3511,7 +3607,7 @@ index 4dff505..8004a21 100644
  		return [
  			renderStatusLine(
  				{ icon: "warning", title: `IRC ${theme.nav.back} ${args?.from?.trim() || "anyone"}`, meta: ["timed out"] },
-@@ -1231,7 +1231,7 @@ function renderWaitResult(
+@@ -1233,7 +1233,7 @@ function renderWaitResult(
  		];
  	}
  	const meta = [messageAge(waited.ts)];
@@ -3520,7 +3616,7 @@ index 4dff505..8004a21 100644
  	return [
  		renderStatusLine({ iconOverride: ircGlyph(theme), title: `IRC ${theme.nav.back} ${waited.from}`, meta }, theme),
  		...bodyLines(waited.body, expanded, theme, { indent: "  " }),
-@@ -1246,11 +1246,11 @@ function renderInboxResult(
+@@ -1248,11 +1248,11 @@ function renderInboxResult(
  ): string[] {
  	const messages = details.inbox ?? [];
  	if (messages.length === 0) {
@@ -3535,7 +3631,7 @@ index 4dff505..8004a21 100644
  	const items = renderTreeList<IrcMessage>(
  		{
  			items: messages,
-@@ -1259,7 +1259,7 @@ function renderInboxResult(
+@@ -1261,7 +1261,7 @@ function renderInboxResult(
  			itemType: "message",
  			renderItem: msg => {
  				const age = messageAge(msg.ts);
@@ -3544,7 +3640,7 @@ index 4dff505..8004a21 100644
  				const head = `${theme.fg("accent", msg.from)}${age ? ` ${theme.fg("dim", age)}` : ""}${replyBadge}`;
  				return [head, ...bodyLines(msg.body, expanded, theme, { collapsedLines: 1 })];
  			},
-@@ -1284,8 +1284,8 @@ function renderListResult(details: Partial<CoordinationDetails>, expanded: boole
+@@ -1286,8 +1286,8 @@ function renderListResult(details: Partial<CoordinationDetails>, expanded: boole
  						`${rosterCounts.parked} parked`,
  						...(rosterCounts.truncated > 0 ? [`${rosterCounts.truncated} truncated`] : []),
  					]
@@ -3555,7 +3651,7 @@ index 4dff505..8004a21 100644
  	}
  	const counts = new Map<string, number>();
  	for (const peer of peers) counts.set(peer.status, (counts.get(peer.status) ?? 0) + 1);
-@@ -1298,16 +1298,16 @@ function renderListResult(details: Partial<CoordinationDetails>, expanded: boole
+@@ -1300,16 +1300,16 @@ function renderListResult(details: Partial<CoordinationDetails>, expanded: boole
  			]
  		: [...counts].map(([status, count]) => `${count} ${status}`);
  	const unreadTotal = peers.reduce((sum, peer) => sum + peer.unread, 0);
@@ -3576,7 +3672,7 @@ index 4dff505..8004a21 100644
  				const unread = peer.unread > 0 ? ` ${formatBadge(`${peer.unread} unread`, "warning", theme)}` : "";
  				const age = messageAge(peer.lastActivity);
  				const activity = peer.activity ? ` ${theme.fg("dim", replaceTabs(peer.activity))}` : "";
-@@ -1338,7 +1338,7 @@ function buildResultLines(
+@@ -1340,7 +1340,7 @@ function buildResultLines(
  		case "list":
  			return result.isError ? renderErrorResult(result, args, theme) : renderListResult(details, expanded, theme);
  		default: {
@@ -4106,6 +4202,19 @@ index ca145ad..cdbda20 100644
  				const header = renderStatusLine(
  					{
  						icon: details.wait?.timedOut ? "warning" : running > 0 ? "info" : "done",
+diff --git a/pi-tui/src/tools/web-search.ts b/pi-tui-zh/src/tools/web-search.ts
+index 8fcfdab..40ed27f 100644
+--- a/pi-tui/src/tools/web-search.ts
++++ b/pi-tui-zh/src/tools/web-search.ts
+@@ -293,7 +293,7 @@ export const SEARCH_PROVIDER_OPTIONS = [
+ 	{
+ 		value: "openrouter",
+ 		label: "OpenRouter",
+-		description: "OpenRouter plugins-based web search with model-selected grounding",
++		description: "基于 OpenRouter 插件、由模型选择 grounding 的网页搜索",
+ 	},
+ 	{ value: "zai", label: "Z.AI", description: "Calls Z.AI webSearchPrime MCP" },
+ 	{ value: "exa", label: "Exa", description: "API via /login exa or EXA_API_KEY; explicit keyless fallback via MCP" },
 diff --git a/pi-tui/src/tools/write.ts b/pi-tui-zh/src/tools/write.ts
 index 346ed85..4667ea8 100644
 --- a/pi-tui/src/tools/write.ts
