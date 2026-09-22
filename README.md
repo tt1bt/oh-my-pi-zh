@@ -8,7 +8,7 @@
 [![npm](https://img.shields.io/npm/v/omp-zh?label=npm)](https://www.npmjs.com/package/omp-zh)
 [![License](https://img.shields.io/github/license/tt1bt/oh-my-pi-zh)](LICENSE)
 
-当前基线：**omp 18.2.6** · 翻译条目 **2514** 条 · 命中 **3292** 处
+当前基线：**omp 18.2.8** · 翻译条目 **2521** 条 · 命中 **3285** 处
 
 <img width="1481" height="820" alt="汉化后的主界面" src="https://github.com/user-attachments/assets/ae0db8e6-e79b-4d9a-b384-5f3145b0fef5" />
 
@@ -59,7 +59,7 @@ omp 没有本地化机制，所以无法通过插件或配置切换语言。本�
 - **全中文 TUI**：欢迎横幅、小贴士、状态栏、设置面板、工具执行渲染、选择器 / 向导 / 审批提示
 - **中文帮助**：`omp --help` 及全部子命令的 flags / args / examples
 - **中文 `/help`**：快捷键表、计划审批选项、新手引导
-- **约 2500 条翻译**：专有名词（Git / LSP / MCP / API / token 等）按惯例保留英文
+- **2521 条翻译**：专有名词（Git / LSP / MCP / API / token 等）按惯例保留英文
 - **自愈启动器**：omp 升级后首次启动自动重打汉化，无需手动操作
 - **内容级匹配**：按字符串内容而非行号匹配，上游小版本升级后绝大多数翻译直接命中
 - **失败安全**：失配条目局部退化为英文，不影响程序运行，且会在报告中明确列出
@@ -114,7 +114,7 @@ bun install -g omp-zh@latest   # 升级
 bun remove -g omp-zh           # 卸载
 ```
 
-版本号与上游 omp 对齐（如 `18.2.6`），一眼看出对应哪个上游版本。
+版本号与上游 omp 对齐（如 `18.2.8`），一眼看出对应哪个上游版本。
 
 > **首次启动会略慢。** 包内以 `vendor/` 内联了汉化后的 pi-tui，首次运行时需要把它物化到 `node_modules`（bun 不支持 `bundledDependencies`，这是让双包可靠工作的方式）。之后启动正常，约 4–5 秒（bun 直跑 TS 源码，未打包）。
 
@@ -228,7 +228,7 @@ Remove-Item "$HOME\.local\bin\omp.cmd"
 
 ## 兼容性与已知限制
 
-- 翻译库基线为 **omp 18.2.6**。该版本下 2514 条条目全部命中，零未命中。
+- 翻译库基线为 **omp 18.2.8**。该版本下 2521 条条目全部命中，零未命中。
 - **双包模式**：omp 18.2.5 起上游把 UI 层抽成 `@oh-my-pi/pi-tui`，汉化同时处理两个包。旧版 omp（无 pi-tui）会自动退化为单包模式。
 - **启动耗时**约 4–5 秒（bun 直跑 TS 源码，未打包）。
 - **已知遗留**：

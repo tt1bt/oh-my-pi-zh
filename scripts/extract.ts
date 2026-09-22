@@ -66,8 +66,9 @@ function fetchPkgNamed(pkgName: string, version: string, dirName: string): strin
 	execSync(`tar -xzf "${join(WORK, tgz)}" -C "${dir}" --strip-components=1`);
 	return dir;
 }
-function fetchPkg(version: string, dest: string): string {
-	return fetchPkgNamed('@oh-my-pi/pi-coding-agent', version, dest);
+function fetchPkg(version: string): string {
+	// 基线与目标必须落到不同目录，否则第二次调用会命中已存在的目录并跳过拉取。
+	return fetchPkgNamed('@oh-my-pi/pi-coding-agent', version, `pkg-pi-coding-agent-${version}`);
 }
 /** pi-tui 包（18.2.5 起 UI 层抽包）；拉取失败（旧版无此包）时返回空串。 */
 function fetchTuiPkg(version: string): string {
@@ -78,8 +79,8 @@ function fetchTuiPkg(version: string): string {
 	}
 }
 
-const targetDir = SOURCE ? SOURCE : fetchPkg(VERSION, WORK);
-const baseDir = BASE_SOURCE ? BASE_SOURCE : fetchPkg(baseVersion, WORK);
+const targetDir = SOURCE ? SOURCE : fetchPkg(VERSION);
+const baseDir = BASE_SOURCE ? BASE_SOURCE : fetchPkg(baseVersion);
 const targetVersion = (JSON.parse(readFileSync(join(targetDir, 'package.json'), 'utf8')) as { version: string }).version;
 // 双包：pi-tui 目录（显式指定优先，否则按同版本拉取）
 const targetTuiDir = SOURCE_TUI ? resolve(SOURCE_TUI) : fetchTuiPkg(targetVersion);
@@ -213,7 +214,7 @@ for (const groupKey of [...scanSet].sort()) {
 		for (let li = 0; li < lines.length; li++) {
 			for (const lit of lines[li].lits) {
 				const m = lines[li].text.slice(0, lit.startCol).match(FIELD_RE);
-				if (m && !newFileDbCont?.has(lit.content) && !keepEnglish.has(lit.content))
+				if (m && lit.content.trim() && !newFileDbCont?.has(lit.content) && !keepEnglish.has(lit.content))
 					fresh.push({ pkg, file, line: li + 1, en: lit.content, field: m[1] });
 			}
 		}
@@ -240,7 +241,7 @@ for (const groupKey of [...scanSet].sort()) {
 			if (!info) continue;
 			for (const lit of info.lits) {
 				const m = info.text.slice(0, lit.startCol).match(FIELD_RE);
-				if (m && !dbCont?.has(lit.content) && !keepEnglish.has(lit.content)) fresh.push({ pkg, file, line: newNo + 1, en: lit.content, field: m[1] });
+				if (m && lit.content.trim() && !dbCont?.has(lit.content) && !keepEnglish.has(lit.content)) fresh.push({ pkg, file, line: newNo + 1, en: lit.content, field: m[1] });
 			}
 			continue;
 		}
