@@ -137,6 +137,31 @@
 		"600K tokens",
 		"700K tokens",
 		"800K tokens",
-		"900K tokens"
+		"900K tokens",
+		// 18.2.8：选项标签是路由后缀或产品名，描述已另译
+		":nitro",
+		":floor",
+		":online",
+		":exacto",
+		"Trafilatura",
+		"Lynx",
+		"Parallel",
+		"Firecrawl",
+		"Jina",
+		"Exa",
+		"OpenRouter",
+		// 无散文、仅插值的结构模板（18.2.6 起即如此）
+		"${loaded.command.description} (${loaded.source})",
+		// 返回给模型的工具文本 / 系统提示示例，汉化会改变模型行为
+		"Screenshot diff: ${diff.pixelChangeRatio.toFixed(6)} changed-pixel ratio (${changed ? \"changed\" : \"unchanged\"}); saved to ${diffPath}",
+		"No image data returned.${result.text ? `\\n\\n${result.text}` : \"\"}",
+		"Find a behavior by description",
+		"Locate an implementation without known symbol names",
+		"Scope the search to one directory",
+		"Saved ${result.audio.length} bytes to ${displayPath} (model=${model.provider}/${model.id}, voice=${voiceId}, codec=${codec}).",
+		"Local TTS synthesis failed (model=${model.id}). The on-device worker may be unavailable or the model download was interrupted.",
+		"Saved ${wav.length} bytes to ${displayPath} (voice=${model.id}/${voice}, codec=wav, backend=local, ${audio.sampleRate} Hz).${note}",
+		"No available speech model matches the speech role.",
+		"Speech synthesis failed for every candidate: ${failures.join(\"; \")}"
 	]
 }
