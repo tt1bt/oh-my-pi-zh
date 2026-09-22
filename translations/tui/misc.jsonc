@@ -22,5 +22,8 @@
 		{"kind":"template","file":"src/hotkeys-markdown.ts","en":"| \\`${hotkeyLabel(bindings, \"app.clipboard.pasteImage\")}\\` | Paste image or text from clipboard |","zh":"| \\`${hotkeyLabel(bindings, \"app.clipboard.pasteImage\")}\\` | 从剪贴板粘贴图片或文本 |","pkg":"tui"},
 		{"kind":"template","file":"src/hotkeys-markdown.ts","en":"| \\`${hotkeyLabel(bindings, \"app.live.toggle\")}\\` | Start/stop live voice mode (/live) |","zh":"| \\`${hotkeyLabel(bindings, \"app.live.toggle\")}\\` | 开始/停止实时语音模式（/live） |","pkg":"tui"},
 		{"kind":"template","file":"src/hotkeys-markdown.ts","en":"| \\`${hotkeyLabel(bindings, \"app.agents.hub\")}\\` / \\`${hotkeyLabel(bindings, \"app.session.observe\")}\\` / double-tap \\`←\\` (empty editor) | Open the agent hub |","zh":"| \\`${hotkeyLabel(bindings, \"app.agents.hub\")}\\` / \\`${hotkeyLabel(bindings, \"app.session.observe\")}\\` / 双击 \\`←\\`（空编辑器） | 打开代理中心 |","pkg":"tui"},
+		{"kind":"string","file":"src/overlays/model-hub.ts","en":"Enter pick fallback · ↑/↓ providers · type to search · Alt+←/→ kind · Esc cancel","zh":"Enter 选择回退 · ↑/↓ 提供商 · 输入搜索 · Alt+←/→ 类别 · Esc 取消","pkg":"tui"},
+		{"kind":"string","file":"src/overlays/model-hub.ts","en":"Enter pick the protected model · ↑/↓ providers · type to search · Alt+←/→ kind · Esc cancel","zh":"Enter 选择受保护模型 · ↑/↓ 提供商 · 输入搜索 · Alt+←/→ 类别 · Esc 取消","pkg":"tui"},
+		{"kind":"string","file":"src/overlays/model-hub.ts","en":"Enter assign · ↑/↓ providers · type to search · Alt+←/→ kind · Esc cancel","zh":"Enter 分配 · ↑/↓ 提供商 · 输入搜索 · Alt+←/→ 类别 · Esc 取消","pkg":"tui"}
 	]
 }

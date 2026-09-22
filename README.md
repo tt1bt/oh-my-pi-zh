@@ -8,7 +8,7 @@
 [![npm](https://img.shields.io/npm/v/omp-zh?label=npm)](https://www.npmjs.com/package/omp-zh)
 [![License](https://img.shields.io/github/license/tt1bt/oh-my-pi-zh)](LICENSE)
 
-当前基线：**omp 18.2.6** · 翻译条目 **2514** 条 · 命中 **3292** 处
+当前基线：**omp 18.2.8** · 翻译条目 **2512** 条 · 命中 **3275** 处
 
 <img width="1481" height="820" alt="汉化后的主界面" src="https://github.com/user-attachments/assets/ae0db8e6-e79b-4d9a-b384-5f3145b0fef5" />
 
@@ -114,7 +114,7 @@ bun install -g omp-zh@latest   # 升级
 bun remove -g omp-zh           # 卸载
 ```
 
-版本号与上游 omp 对齐（如 `18.2.6`），一眼看出对应哪个上游版本。
+版本号与上游 omp 对齐（如 `18.2.8`），一眼看出对应哪个上游版本。
 
 > **首次启动会略慢。** 包内以 `vendor/` 内联了汉化后的 pi-tui，首次运行时需要把它物化到 `node_modules`（bun 不支持 `bundledDependencies`，这是让双包可靠工作的方式）。之后启动正常，约 4–5 秒（bun 直跑 TS 源码，未打包）。
 
@@ -228,12 +228,12 @@ Remove-Item "$HOME\.local\bin\omp.cmd"
 
 ## 兼容性与已知限制
 
-- 翻译库基线为 **omp 18.2.6**。该版本下 2514 条条目全部命中，零未命中。
+- 翻译库基线为 **omp 18.2.8**。该版本下 2512 条条目全部命中，零未命中。
 - **双包模式**：omp 18.2.5 起上游把 UI 层抽成 `@oh-my-pi/pi-tui`，汉化同时处理两个包。旧版 omp（无 pi-tui）会自动退化为单包模式。
 - **启动耗时**约 4–5 秒（bun 直跑 TS 源码，未打包）。
 - **已知遗留**：
-  - `src/config/settings-schema.ts` 仍有部分设置项长描述为英文（历史遗留，欢迎 PR）
   - `omp --help` 的 Environment Variables 整块仍为英文（体量大且以技术名称为主）
+  - OpenRouter 路由变体（`:nitro`/`:floor`/`:online`/`:exacto`）与 reader 后端名（`Trafilatura`/`Lynx`/`Parallel`/`Firecrawl`/`Jina`/`Exa`）按品牌保留英文
 - 模型侧提示词（如 `src/prompts/system/*.md`）与工具返回给模型的内容完全保留英文，这是有意为之——汉化会改变模型行为。
 
 ## 常见问题

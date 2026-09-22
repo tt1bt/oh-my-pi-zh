@@ -90,9 +90,6 @@
 		{"kind":"string","file":"src/overlays/model-hub.ts","en":"Enter create + pick model · Esc cancel","zh":"Enter 创建并选择模型 · Esc 取消","pkg":"tui"},
 		{"kind":"string","file":"src/overlays/model-hub.ts","en":"←/→ choose · Enter assign/clear · Esc cancel","zh":"←/→ 选择 · Enter 分配/清除 · Esc 取消","pkg":"tui"},
 		{"kind":"string","file":"src/overlays/model-hub.ts","en":"←/→ save scope · Enter choose · Esc cancel","zh":"←/→ 保存范围 · Enter 选择 · Esc 取消","pkg":"tui"},
-		{"kind":"string","file":"src/overlays/model-hub.ts","en":"Enter pick fallback · ↑/↓ providers · type to search · Esc cancel","zh":"Enter 选择回退 · ↑/↓ 提供商 · 输入搜索 · Esc 取消","pkg":"tui"},
-		{"kind":"string","file":"src/overlays/model-hub.ts","en":"Enter pick the protected model · ↑/↓ providers · type to search · Esc cancel","zh":"Enter 选择受保护模型 · ↑/↓ 提供商 · 输入搜索 · Esc 取消","pkg":"tui"},
-		{"kind":"string","file":"src/overlays/model-hub.ts","en":"Enter assign · ↑/↓ providers · type to search · Esc cancel","zh":"Enter 分配 · ↑/↓ 提供商 · 输入搜索 · Esc 取消","pkg":"tui"},
 		{"kind":"string","file":"src/overlays/model-hub.ts","en":"Enter log in · ↑/↓ providers · Esc close","zh":"Enter 登录 · ↑/↓ 提供商 · Esc 关闭","pkg":"tui"},
 		{"kind":"string","file":"src/overlays/model-hub.ts","en":"↑/↓ providers · Esc close","zh":"↑/↓ 提供商 · Esc 关闭","pkg":"tui"},
 		{"kind":"string","file":"src/overlays/model-hub.ts","en":"↑/↓ providers · → models","zh":"↑/↓ 提供商 · → 模型","pkg":"tui"},
@@ -352,6 +349,9 @@
 		{"kind":"string","file":"src/overlays/btw-history-panel.ts","en":"Interrupted","zh":"已中断","pkg":"tui"},
 		{"kind":"string","file":"src/overlays/btw-history-panel.ts","en":"Question","zh":"问题","pkg":"tui"},
 		{"kind":"string","file":"src/overlays/btw-history-panel.ts","en":"Answer","zh":"回答","pkg":"tui"},
-		{"kind":"string","file":"src/overlays/btw-history-panel.ts","en":"Details","zh":"详情","pkg":"tui"}
+		{"kind":"string","file":"src/overlays/btw-history-panel.ts","en":"Details","zh":"详情","pkg":"tui"},
+		{"kind":"template","file":"src/modes/interactive-mode.ts","en":"${loaded.command.description} (${loaded.source})","zh":"${loaded.command.description} (${loaded.source})"},
+		{"kind":"string","file":"src/modes/magic-keywords.ts","en":"Jevify Keyword","zh":"Jevify 关键词"},
+		{"kind":"string","file":"src/modes/magic-keywords.ts","en":"Let standalone jevify append its hidden bulk-judge classification notice","zh":"让独立的 jevify 附加其隐藏的批量评判分类提示"}
 	]
 }

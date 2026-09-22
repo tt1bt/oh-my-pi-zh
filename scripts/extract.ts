@@ -66,8 +66,9 @@ function fetchPkgNamed(pkgName: string, version: string, dirName: string): strin
 	execSync(`tar -xzf "${join(WORK, tgz)}" -C "${dir}" --strip-components=1`);
 	return dir;
 }
-function fetchPkg(version: string, dest: string): string {
-	return fetchPkgNamed('@oh-my-pi/pi-coding-agent', version, dest);
+function fetchPkg(version: string, _dest: string): string {
+	// dest 参数保留仅为兼容旧调用；实际目录名由版本推导，避免误把 WORK 当目录
+	return fetchPkgNamed('@oh-my-pi/pi-coding-agent', version, `pkg-${version}`);
 }
 /** pi-tui 包（18.2.5 起 UI 层抽包）；拉取失败（旧版无此包）时返回空串。 */
 function fetchTuiPkg(version: string): string {

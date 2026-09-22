@@ -297,6 +297,17 @@
 		{"kind":"template","file":"src/tools/hub.ts","en":"output pattern /${params.pattern}/ never matched","zh":"输出模式 /${params.pattern}/ 从未匹配","pkg":"tui"},
 		{"kind":"template","file":"src/tools/hub.ts","en":"process exit (still ${daemon.state})","zh":"进程退出（仍为 ${daemon.state}）","pkg":"tui"},
 		{"kind":"template","file":"src/tools/hub.ts","en":"readiness (still ${daemon.state})","zh":"就绪检查（仍为 ${daemon.state}）","pkg":"tui"},
-		{"kind":"template","file":"src/render/render-utils.ts","en":"… ${hidden} more ${pluralize(\"warning\", hidden)}","zh":"… 还有 ${hidden} 条警告","pkg":"tui"}
+		{"kind":"template","file":"src/render/render-utils.ts","en":"… ${hidden} more ${pluralize(\"warning\", hidden)}","zh":"… 还有 ${hidden} 条警告","pkg":"tui"},
+		{"kind":"line","file":"src/tools/browser/cmux/cmux-tab.ts","en":"\t\t\ttext: `Screenshot diff: ${diff.pixelChangeRatio.toFixed(6)} changed-pixel ratio (${changed ? \"changed\" : \"unchanged\"}); saved to ${diffPath}`,","zh":"\t\t\ttext: `截图差异: ${diff.pixelChangeRatio.toFixed(6)} 变化像素比 (${changed ? \"已变化\" : \"无变化\"}); 已保存到 ${diffPath}`,"},
+		{"kind":"line","file":"src/tools/browser/tab-worker.ts","en":"\t\t\ttext: `Screenshot diff: ${diff.pixelChangeRatio.toFixed(6)} changed-pixel ratio (${changed ? \"changed\" : \"unchanged\"}); saved to ${diffPath}`,","zh":"\t\t\ttext: `截图差异: ${diff.pixelChangeRatio.toFixed(6)} 变化像素比 (${changed ? \"已变化\" : \"无变化\"}); 已保存到 ${diffPath}`,"},
+		{"kind":"string","file":"src/tools/jfind/index.ts","en":"Find a behavior by description","zh":"按描述查找某个行为"},
+		{"kind":"string","file":"src/tools/jfind/index.ts","en":"Locate an implementation without known symbol names","zh":"在不知道符号名的情况下定位实现"},
+		{"kind":"string","file":"src/tools/jfind/index.ts","en":"Scope the search to one directory","zh":"把搜索限定到单个目录"},
+		{"kind":"template","file":"src/tools/tts.ts","en":"Saved ${result.audio.length} bytes to ${displayPath} (model=${model.provider}/${model.id}, voice=${voiceId}, codec=${codec}).","zh":"已保存 ${result.audio.length} 字节到 ${displayPath} (model=${model.provider}/${model.id}, voice=${voiceId}, codec=${codec})。"},
+		{"kind":"template","file":"src/tools/tts.ts","en":"Local TTS synthesis failed (model=${model.id}). The on-device worker may be unavailable or the model download was interrupted.","zh":"本地 TTS 合成失败 (model=${model.id})。设备端 worker 可能不可用，或模型下载被中断。"},
+		{"kind":"template","file":"src/tools/tts.ts","en":"Saved ${wav.length} bytes to ${displayPath} (voice=${model.id}/${voice}, codec=wav, backend=local, ${audio.sampleRate} Hz).${note}","zh":"已保存 ${wav.length} 字节到 ${displayPath} (voice=${model.id}/${voice}, codec=wav, backend=local, ${audio.sampleRate} Hz)。${note}"},
+		{"kind":"string","file":"src/tools/tts.ts","en":"No available speech model matches the speech role.","zh":"没有可用的语音模型匹配 speech 角色。"},
+		{"kind":"template","file":"src/tools/tts.ts","en":"Speech synthesis failed for every candidate: ${failures.join(\"; \")}","zh":"所有候选的语音合成都失败了：${failures.join(\"; \")}"},
+		{"kind":"template","file":"src/tools/image-gen.ts","en":"No image data returned.${result.text ? `\\n\\n${result.text}` : \"\"}","zh":"未返回图片数据。${result.text ? `\\n\\n${result.text}` : \"\"}"}
 	]
 }

@@ -201,7 +201,7 @@
 		{"kind":"string","file":"src/commands/models.ts","en":"Load an extension file before listing (repeatable)","zh":"列出前加载扩展文件(可重复)"},
 		{"kind":"string","file":"src/commands/models.ts","en":"Disable extension discovery (explicit -e paths still work)","zh":"禁用扩展自动发现(显式 -e 路径仍然生效)"},
 		{"kind":"string","file":"src/commands/models.ts","en":"Load an extra config.yml-style overlay for this run (repeatable)","zh":"本次运行加载额外的 config.yml 风格覆盖文件(可重复)"},
-		{"kind":"template","file":"src/commands/models.ts","en":"# List every available model, grouped by provider\\n  ${APP_NAME} models","zh":"# 列出每个提供商的全部可用模型,按提供商分组\\n  ${APP_NAME} models"},
+		{"kind":"template","file":"src/commands/models.ts","en":"# List available chat models, grouped by provider\\n  ${APP_NAME} models","zh":"# 列出可用的聊天模型,按提供商分组\\n  ${APP_NAME} models"},
 		{"kind":"template","file":"src/commands/models.ts","en":"# List one provider's models (any provider name works)\\n  ${APP_NAME} models openai-codex","zh":"# 列出某个提供商的模型(任意提供商名称均可)\\n  ${APP_NAME} models openai-codex"},
 		{"kind":"template","file":"src/commands/models.ts","en":"# Find models by substring\\n  ${APP_NAME} models find minimax","zh":"# 按子串查找模型\\n  ${APP_NAME} models find minimax"},
 		{"kind":"template","file":"src/commands/models.ts","en":"# Force a fresh catalog fetch (replaces rm -rf ~/.omp/models.db)\\n  ${APP_NAME} models refresh","zh":"# 强制重新拉取目录(相当于 rm -rf ~/.omp/models.db)\\n  ${APP_NAME} models refresh"},
@@ -282,7 +282,7 @@
 		{"kind":"string","file":"src/commands/usage.ts","en":"# Invalidate cached usage reports for all providers\\n  omp usage invalidate","zh":"# 使所有提供商的用量缓存报告失效\\n  omp usage invalidate"},
 		{"kind":"string","file":"src/commands/usage.ts","en":"# Invalidate cached usage reports for a specific provider\\n  omp usage invalidate --provider anthropic","zh":"# 使指定提供商的用量缓存报告失效\\n  omp usage invalidate --provider anthropic"},
 		{"kind":"string","file":"src/commands/web-search.ts","en":"Search query text","zh":"搜索查询文本"},
-		{"kind":"string","file":"src/commands/web-search.ts","en":"Search provider","zh":"搜索提供商"},
+		{"kind":"string","file":"src/commands/web-search.ts","en":"Catalog model selector","zh":"目录模型选择器"},
 		{"kind":"string","file":"src/commands/web-search.ts","en":"Recency filter","zh":"时间范围过滤器"},
 		{"kind":"string","file":"src/commands/web-search.ts","en":"Max results to return","zh":"最多返回的结果数"},
 		{"kind":"string","file":"src/commands/web-search.ts","en":"Render condensed output","zh":"渲染精简输出"},
@@ -310,6 +310,14 @@
 		{"kind":"string","file":"src/commands/collab.ts","en":"list (default) or link","zh":"list（默认）或 link"},
 		{"kind":"string","file":"src/commands/stream.ts","en":"Stream title (defaults to the current directory name)","zh":"直播标题（默认为当前目录名）"},
 		{"kind":"string","file":"src/commands/stream.ts","en":"Stream server base URL (overrides stream.serverUrl)","zh":"直播服务器基础 URL（覆盖 stream.serverUrl）"},
-		{"kind":"string","file":"src/commands/stream.ts","en":"Use the line-oriented console instead of the interactive TUI","zh":"使用面向行的控制台，而不是交互式 TUI"}
+		{"kind":"string","file":"src/commands/stream.ts","en":"Use the line-oriented console instead of the interactive TUI","zh":"使用面向行的控制台，而不是交互式 TUI"},
+		{"kind":"string","file":"src/commands/find.ts","en":"What to find, in plain language","zh":"用自然语言描述要找什么"},
+		{"kind":"string","file":"src/commands/find.ts","en":"Directory to search","zh":"要搜索的目录"},
+		{"kind":"string","file":"src/commands/find.ts","en":"Extra lexical keyword (repeatable, or comma-separated)","zh":"额外的词法关键词(可重复,或用逗号分隔)"},
+		{"kind":"string","file":"src/commands/find.ts","en":"Include dot-files and dot-folders","zh":"包含点文件和点文件夹"},
+		{"kind":"string","file":"src/commands/find.ts","en":"Emit the full result as JSON","zh":"以 JSON 输出完整结果"},
+		{"kind":"string","file":"src/commands/find.ts","en":"Suppress progress on stderr","zh":"抑制 stderr 进度输出"},
+		{"kind":"string","file":"src/commands/launch-help.ts","en":"Handlebars system prompt template (mutually exclusive with --system-prompt)","zh":"Handlebars 系统提示模板(与 --system-prompt 互斥)"},
+		{"kind":"string","file":"src/commands/models.ts","en":"Catalog kind to list","zh":"要列出的目录类型"}
 	]
 }

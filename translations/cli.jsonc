@@ -144,9 +144,7 @@
 		{"kind":"line","file":"src/cli/update-cli.ts","en":"  ${APP_NAME} update --check      Check if updates are available","zh":"  ${APP_NAME} update --check      检查是否有可用更新"},
 		{"kind":"line","file":"src/cli/update-cli.ts","en":"  ${APP_NAME} update --force      Force reinstall","zh":"  ${APP_NAME} update --force      强制重新安装"},
 		{"kind":"line","file":"src/cli/update-cli.ts","en":"  ${APP_NAME} update -l           Update installed plugins","zh":"  ${APP_NAME} update -l           更新已安装的插件"},
-		{"kind":"line","file":"src/cli/web-search-cli.ts","en":"\tprocess.stdout.write(`${chalk.bold(`${APP_NAME} q`)} - Test web search providers","zh":"\tprocess.stdout.write(`${chalk.bold(`${APP_NAME} q`)} - 测试 web 搜索提供商"},
 		{"kind":"line","file":"src/cli/web-search-cli.ts","en":"  query      Search query text","zh":"  query      搜索查询文本"},
-		{"kind":"line","file":"src/cli/web-search-cli.ts","en":"  --provider <name>   Provider: ${PROVIDERS.join(\", \")}","zh":"  --provider <name>   提供商:${PROVIDERS.join(\", \")}"},
 		{"kind":"line","file":"src/cli/web-search-cli.ts","en":"  --recency <value>   Recency filter (when supported): ${RECENCY_OPTIONS.join(\", \")}","zh":"  --recency <value>   时间范围过滤器(受支持时):${RECENCY_OPTIONS.join(\", \")}"},
 		{"kind":"line","file":"src/cli/web-search-cli.ts","en":"  -l, --limit <n>     Max results to return","zh":"  -l, --limit <n>     最多返回的结果数"},
 		{"kind":"line","file":"src/cli/web-search-cli.ts","en":"  --compact           Render condensed output","zh":"  --compact           渲染精简输出"},
@@ -264,6 +262,9 @@
 		{"kind":"string","file":"src/apps/git/git-tui.ts","en":"↑/↓ move · ←/→ fold · space stage · del discard · enter open · alt+↓/↑ hunk · c commit · t tree · q quit","zh":"↑/↓ 移动 · ←/→ 折叠 · space 暂存 · del 丢弃 · enter 打开 · alt+↓/↑ 块 · c 提交 · t 树 · q 退出","pkg":"tui"},
 		{"kind":"template","file":"src/cli/plugin-cli.ts","en":"For an npm-installed plugin, upgrade with: ${APP_NAME} plugin install ${pluginId} --force","zh":"对于通过 npm 安装的插件，升级命令为：${APP_NAME} plugin install ${pluginId} --force"},
 		{"kind":"template","file":"src/cli/plugin-cli.ts","en":"Invalid plugin ID: \"${pluginId}\". Marketplace plugins upgrade as \"name@marketplace\".","zh":"插件 ID 无效：\"${pluginId}\"。市场插件的升级写法为 \"name@marketplace\"。"},
-		{"kind":"string","file":"src/cli/command-help.ts","en":"Broadcast local omp session screens and chat to your public live channel","zh":"把本地 omp 会话画面与对话直播到你的公开频道"}
+		{"kind":"string","file":"src/cli/command-help.ts","en":"Broadcast local omp session screens and chat to your public live channel","zh":"把本地 omp 会话画面与对话直播到你的公开频道"},
+		{"kind":"line","file":"src/cli/web-search-cli.ts","en":"\tprocess.stdout.write(`${chalk.bold(`${APP_NAME} q`)} - Test web search models","zh":"\tprocess.stdout.write(`${chalk.bold(`${APP_NAME} q`)} - 测试 web 搜索模型"},
+		{"kind":"line","file":"src/cli/web-search-cli.ts","en":"  --model <selector>  Catalog model selector (for example, web/duckduckgo)","zh":"  --model <selector>  目录模型选择器(例如 web/duckduckgo)"},
+		{"kind":"string","file":"src/cli/command-help.ts","en":"Semantic search: describe a behavior, get the files and line ranges that implement it","zh":"语义搜索:描述一个行为,得到实现它的文件与行范围"}
 	]
 }

@@ -1,8 +1,8 @@
 diff --git a/pi-coding-agent/src/cli/args.ts b/pi-coding-agent-zh/src/cli/args.ts
-index 4c31e43..2d3fbc8 100644
+index da0ee08..f729f5a 100644
 --- a/pi-coding-agent/src/cli/args.ts
 +++ b/pi-coding-agent-zh/src/cli/args.ts
-@@ -374,9 +374,9 @@ export function reportCliUsageError(
+@@ -378,9 +378,9 @@ export function reportCliUsageError(
  
  export function printHelp(): void {
  	process.stdout.write(
@@ -60,7 +60,7 @@ index 516b6c8..72fecc6 100644
  
  export async function runCollabLinkCommand(
 diff --git a/pi-coding-agent/src/cli/command-help.ts b/pi-coding-agent-zh/src/cli/command-help.ts
-index 9b20083..74f121a 100644
+index 60607a0..a5a142c 100644
 --- a/pi-coding-agent/src/cli/command-help.ts
 +++ b/pi-coding-agent-zh/src/cli/command-help.ts
 @@ -1,17 +1,17 @@
@@ -85,7 +85,7 @@ index 9b20083..74f121a 100644
  } satisfies CommandMetadata;
  
  export const benchHelp = {
-@@ -20,118 +20,118 @@ export const benchHelp = {
+@@ -20,122 +20,122 @@ export const benchHelp = {
  } satisfies CommandMetadata;
  
  export const browserRelayHelp = {
@@ -141,6 +141,11 @@ index 9b20083..74f121a 100644
  export const gitHelp = {
 -	description: "Interactive fullscreen git UI: split diff viewer, staging sidebar, and commit composer",
 +	description: "交互式全屏 git 界面：分栏 diff 查看器、暂存侧栏与提交编辑器",
+ } satisfies CommandMetadata;
+ 
+ export const findHelp = {
+-	description: "Semantic search: describe a behavior, get the files and line ranges that implement it",
++	description: "语义搜索:描述一个行为,得到实现它的文件与行范围",
  } satisfies CommandMetadata;
  
 -export const grepHelp = { description: "Test grep tool" } satisfies CommandMetadata;
@@ -623,10 +628,10 @@ index 43bdb93..8f104cc 100644
    ${APP_NAME} plugin list --json
    ${APP_NAME} plugin features my-plugin --enable search,web
 diff --git a/pi-coding-agent/src/cli/setup-cli.ts b/pi-coding-agent-zh/src/cli/setup-cli.ts
-index d98199d..f9c5b85 100644
+index c5c0284..816e021 100644
 --- a/pi-coding-agent/src/cli/setup-cli.ts
 +++ b/pi-coding-agent-zh/src/cli/setup-cli.ts
-@@ -288,25 +288,25 @@ async function handleSpeechSetup(flags: { json?: boolean; check?: boolean }): Pr
+@@ -306,25 +306,25 @@ async function handleSpeechSetup(flags: { json?: boolean; check?: boolean }): Pr
   * Print setup command help.
   */
  export function printSetupHelp(): void {
@@ -827,15 +832,15 @@ index 1dde6fd..f4f8cc1 100644
  `);
  }
 diff --git a/pi-coding-agent/src/cli/web-search-cli.ts b/pi-coding-agent-zh/src/cli/web-search-cli.ts
-index 3eb79c9..895f688 100644
+index 43f2f2e..3df5a82 100644
 --- a/pi-coding-agent/src/cli/web-search-cli.ts
 +++ b/pi-coding-agent-zh/src/cli/web-search-cli.ts
-@@ -114,29 +114,29 @@ export async function runSearchCommand(cmd: SearchCommandArgs): Promise<void> {
+@@ -104,29 +104,29 @@ export async function runSearchCommand(cmd: SearchCommandArgs): Promise<void> {
  }
  
  export function printSearchHelp(): void {
--	process.stdout.write(`${chalk.bold(`${APP_NAME} q`)} - Test web search providers
-+	process.stdout.write(`${chalk.bold(`${APP_NAME} q`)} - 测试 web 搜索提供商
+-	process.stdout.write(`${chalk.bold(`${APP_NAME} q`)} - Test web search models
++	process.stdout.write(`${chalk.bold(`${APP_NAME} q`)} - 测试 web 搜索模型
  
 -${chalk.bold("Usage:")}
 +${chalk.bold("用法:")}
@@ -848,13 +853,13 @@ index 3eb79c9..895f688 100644
 +  query      搜索查询文本
  
 -${chalk.bold("Options:")}
--  --provider <name>   Provider: ${PROVIDERS.join(", ")}
+-  --model <selector>  Catalog model selector (for example, web/duckduckgo)
 -  --recency <value>   Recency filter (when supported): ${RECENCY_OPTIONS.join(", ")}
 -  -l, --limit <n>     Max results to return
 -  --compact           Render condensed output
 -  -h, --help          Show this help
 +${chalk.bold("选项:")}
-+  --provider <name>   提供商:${PROVIDERS.join(", ")}
++  --model <selector>  目录模型选择器(例如 web/duckduckgo)
 +  --recency <value>   时间范围过滤器(受支持时):${RECENCY_OPTIONS.join(", ")}
 +  -l, --limit <n>     最多返回的结果数
 +  --compact           渲染精简输出
@@ -871,8 +876,8 @@ index 3eb79c9..895f688 100644
  
 -${chalk.bold("Examples:")}
 +${chalk.bold("示例:")}
-   ${APP_NAME} q --provider=exa "what's the color of the sky"
-   ${APP_NAME} q --provider=brave --recency=week "latest TypeScript 5.7 changes"
+   ${APP_NAME} q --model=web/duckduckgo "what's the color of the sky"
+   ${APP_NAME} q --model=openrouter/google/gemini-2.5-flash --recency=week "latest TypeScript changes"
    ${APP_NAME} q 'transformer scaling site:arxiv.org after:2024 -site:reddit.com'
 diff --git a/pi-coding-agent/src/commands/agents.ts b/pi-coding-agent-zh/src/commands/agents.ts
 index 40b5944..29ff788 100644
@@ -1343,6 +1348,36 @@ index 0ae5447..e81416e 100644
  	];
  
  	async run(): Promise<void> {
+diff --git a/pi-coding-agent/src/commands/find.ts b/pi-coding-agent-zh/src/commands/find.ts
+index ad09efd..d27ae59 100644
+--- a/pi-coding-agent/src/commands/find.ts
++++ b/pi-coding-agent-zh/src/commands/find.ts
+@@ -9,19 +9,19 @@ import { runFindCommand } from "../cli/find-cli";
+ export default class Find extends Command {
+ 	static description = commandHelp.description;
+ 	static args = {
+-		query: Args.string({ description: "What to find, in plain language", required: false }),
+-		path: Args.string({ description: "Directory to search", required: false }),
++		query: Args.string({ description: "用自然语言描述要找什么", required: false }),
++		path: Args.string({ description: "要搜索的目录", required: false }),
+ 	};
+ 
+ 	static flags = {
+ 		keyword: Flags.string({
+ 			char: "k",
+-			description: "Extra lexical keyword (repeatable, or comma-separated)",
++			description: "额外的词法关键词(可重复,或用逗号分隔)",
+ 			multiple: true,
+ 		}),
+-		hidden: Flags.boolean({ description: "Include dot-files and dot-folders" }),
+-		json: Flags.boolean({ description: "Emit the full result as JSON" }),
+-		quiet: Flags.boolean({ char: "q", description: "Suppress progress on stderr" }),
++		hidden: Flags.boolean({ description: "包含点文件和点文件夹" }),
++		json: Flags.boolean({ description: "以 JSON 输出完整结果" }),
++		quiet: Flags.boolean({ char: "q", description: "抑制 stderr 进度输出" }),
+ 	};
+ 
+ 	async run(): Promise<void> {
 diff --git a/pi-coding-agent/src/commands/gallery.ts b/pi-coding-agent-zh/src/commands/gallery.ts
 index 80004ff..13a0afe 100644
 --- a/pi-coding-agent/src/commands/gallery.ts
@@ -1521,10 +1556,10 @@ index 65f9edc..8429a0c 100644
  		}),
  	};
 diff --git a/pi-coding-agent/src/commands/launch-help.ts b/pi-coding-agent-zh/src/commands/launch-help.ts
-index 29b574c..e45c46d 100644
+index ca927d2..f760d9e 100644
 --- a/pi-coding-agent/src/commands/launch-help.ts
 +++ b/pi-coding-agent-zh/src/commands/launch-help.ts
-@@ -4,117 +4,117 @@ import { CLI_THINKING_LEVELS } from "@oh-my-pi/pi-tui/thinking";
+@@ -4,120 +4,120 @@ import { CLI_THINKING_LEVELS } from "@oh-my-pi/pi-tui/thinking";
  import { SERVICE_TIER_OPENAI_VALUES } from "../config/service-tier";
  
  export const launchHelp = {
@@ -1562,22 +1597,25 @@ index 29b574c..e45c46d 100644
  		"plan-yolo": Flags.boolean({
  			description:
 -				"Force read-only plan mode at start, auto-approve the plan on the model's first resolve call, then switch to --plan-yolo-into to implement it",
--		}),
++				"启动时强制只读规划模式,模型首次 resolve 调用时自动批准计划,再切换到 --plan-yolo-into 执行",
+ 		}),
 -		"plan-yolo-into": Flags.string({ description: 'Target model for plan-yolo execution (default the "smol" role)' }),
 -		provider: Flags.string({ description: "Provider to use (legacy; prefer --model)" }),
 -		"api-key": Flags.string({ description: "API key (defaults to env vars)" }),
 -		"system-prompt": Flags.string({ description: "System prompt (default: coding assistant prompt)" }),
++		"plan-yolo-into": Flags.string({ description: 'plan-yolo 执行的目标模型(默认 "smol" 角色)' }),
++		provider: Flags.string({ description: "使用的提供商(旧参数;优先用 --model)" }),
++		"api-key": Flags.string({ description: "API 密钥(默认取环境变量)" }),
++		"system-prompt": Flags.string({ description: "系统提示词(默认:编程助手提示词)" }),
+ 		"system-prompt-template": Flags.string({
+-			description: "Handlebars system prompt template (mutually exclusive with --system-prompt)",
++			description: "Handlebars 系统提示模板(与 --system-prompt 互斥)",
+ 		}),
 -		"append-system-prompt": Flags.string({ description: "Append text or file contents to the system prompt" }),
 -		"allow-home": Flags.boolean({ description: "Allow starting in ~ without auto-switching to a temp dir" }),
 -		profile: Flags.string({ description: "Use an isolated profile for auth, sessions, settings, and caches" }),
 -		alias: Flags.string({ description: "Create a shell shortcut for the selected profile and exit" }),
 -		cwd: Flags.string({ description: "Directory to start in (overrides the launch cwd)" }),
-+				"启动时强制只读规划模式,模型首次 resolve 调用时自动批准计划,再切换到 --plan-yolo-into 执行",
-+		}),
-+		"plan-yolo-into": Flags.string({ description: 'plan-yolo 执行的目标模型(默认 "smol" 角色)' }),
-+		provider: Flags.string({ description: "使用的提供商(旧参数;优先用 --model)" }),
-+		"api-key": Flags.string({ description: "API 密钥(默认取环境变量)" }),
-+		"system-prompt": Flags.string({ description: "系统提示词(默认:编程助手提示词)" }),
 +		"append-system-prompt": Flags.string({ description: "在系统提示词后追加文本或文件内容" }),
 +		"allow-home": Flags.boolean({ description: "允许在 ~ 目录启动而不自动切换到临时目录" }),
 +		profile: Flags.string({ description: "使用独立 profile 隔离认证、会话、设置与缓存" }),
@@ -1704,10 +1742,10 @@ index 29b574c..e45c46d 100644
  	],
  } satisfies CommandMetadata;
 diff --git a/pi-coding-agent/src/commands/models.ts b/pi-coding-agent-zh/src/commands/models.ts
-index 0bb30e9..b564b23 100644
+index 23fcf1b..ac84ab3 100644
 --- a/pi-coding-agent/src/commands/models.ts
 +++ b/pi-coding-agent-zh/src/commands/models.ts
-@@ -11,37 +11,37 @@ export default class Models extends Command {
+@@ -14,43 +14,43 @@ export default class Models extends Command {
  	static description = commandHelp.description;
  	static args = {
  		action: Args.string({
@@ -1725,6 +1763,12 @@ index 0bb30e9..b564b23 100644
  	static flags = {
 -		json: Flags.boolean({ description: "Output JSON" }),
 +		json: Flags.boolean({ description: "以 JSON 输出" }),
+ 		kind: Flags.string({
+-			description: "Catalog kind to list",
++			description: "要列出的目录类型",
+ 			options: MODEL_KIND_OPTIONS,
+ 			default: "chat",
+ 		}),
  		extension: Flags.string({
  			char: "e",
 -			description: "Load an extension file before listing (repeatable)",
@@ -1743,12 +1787,13 @@ index 0bb30e9..b564b23 100644
  	};
  
  	static examples = [
--		`# List every available model, grouped by provider\n  ${APP_NAME} models`,
+-		`# List available chat models, grouped by provider\n  ${APP_NAME} models`,
++		`# 列出可用的聊天模型,按提供商分组\n  ${APP_NAME} models`,
+ 		`# List models of every catalog kind\n  ${APP_NAME} models --kind all`,
 -		`# List one provider's models (any provider name works)\n  ${APP_NAME} models openai-codex`,
 -		`# Find models by substring\n  ${APP_NAME} models find minimax`,
 -		`# Force a fresh catalog fetch (replaces rm -rf ~/.omp/models.db)\n  ${APP_NAME} models refresh`,
 -		`# Machine-readable output\n  ${APP_NAME} models --json`,
-+		`# 列出每个提供商的全部可用模型,按提供商分组\n  ${APP_NAME} models`,
 +		`# 列出某个提供商的模型(任意提供商名称均可)\n  ${APP_NAME} models openai-codex`,
 +		`# 按子串查找模型\n  ${APP_NAME} models find minimax`,
 +		`# 强制重新拉取目录(相当于 rm -rf ~/.omp/models.db)\n  ${APP_NAME} models refresh`,
@@ -1845,10 +1890,10 @@ index 8311d5e..f819a03 100644
  
  	static examples = [
 diff --git a/pi-coding-agent/src/commands/say.ts b/pi-coding-agent-zh/src/commands/say.ts
-index 7deecfb..f6d4140 100644
+index 296d7b2..05438d7 100644
 --- a/pi-coding-agent/src/commands/say.ts
 +++ b/pi-coding-agent-zh/src/commands/say.ts
-@@ -23,14 +23,14 @@ import { encodeWav } from "../tts/wav";
+@@ -26,14 +26,14 @@ import { encodeWav } from "../tts/wav";
  export default class Say extends Command {
  	static description = commandHelp.description;
  	static args = {
@@ -2200,11 +2245,11 @@ index 2caeeaa..09a1aab 100644
  
  	async run(): Promise<void> {
 diff --git a/pi-coding-agent/src/commands/web-search.ts b/pi-coding-agent-zh/src/commands/web-search.ts
-index f5c3004..aa47578 100644
+index b1a8941..0b20ce1 100644
 --- a/pi-coding-agent/src/commands/web-search.ts
 +++ b/pi-coding-agent-zh/src/commands/web-search.ts
-@@ -16,14 +16,14 @@ export default class Search extends Command {
- 	static aliases = ["q"];
+@@ -13,14 +13,14 @@ export default class Search extends Command {
+ 	static aliases = ["q", "web-search"];
  
  	static args = {
 -		query: Args.string({ description: "Search query text", required: false, multiple: true }),
@@ -2212,11 +2257,11 @@ index f5c3004..aa47578 100644
  	};
  
  	static flags = {
--		provider: Flags.string({ description: "Search provider", options: PROVIDERS }),
+-		model: Flags.string({ description: "Catalog model selector" }),
 -		recency: Flags.string({ description: "Recency filter", options: RECENCY }),
 -		limit: Flags.integer({ char: "l", description: "Max results to return" }),
 -		compact: Flags.boolean({ description: "Render condensed output" }),
-+		provider: Flags.string({ description: "搜索提供商", options: PROVIDERS }),
++		model: Flags.string({ description: "目录模型选择器" }),
 +		recency: Flags.string({ description: "时间范围过滤器", options: RECENCY }),
 +		limit: Flags.integer({ char: "l", description: "最多返回的结果数" }),
 +		compact: Flags.boolean({ description: "渲染精简输出" }),
@@ -2247,10 +2292,19 @@ index 1796529..d32be6d 100644
  
  	static examples = [
 diff --git a/pi-coding-agent/src/config/settings-schema.ts b/pi-coding-agent-zh/src/config/settings-schema.ts
-index 4fb8447..4e5c30c 100644
+index 4a582ea..9923be1 100644
 --- a/pi-coding-agent/src/config/settings-schema.ts
 +++ b/pi-coding-agent-zh/src/config/settings-schema.ts
-@@ -239,32 +239,32 @@ export const DEFAULT_BASH_INTERCEPTOR_RULES: BashInterceptorRule[] = [
+@@ -113,7 +113,7 @@ const MAGIC_KEYWORD_SETTINGS = Object.fromEntries(
+ 		{
+ 			type: "boolean",
+ 			default: true,
+-			ui: { tab: "interaction", group: "Magic Keywords", label: keyword.label, description: keyword.description },
++			ui: { tab: "interaction", group: "魔法关键词", label: keyword.label, description: keyword.description },
+ 		},
+ 	]),
+ ) as { readonly [K in MagicKeywordId as `magicKeywords.${K}`]: MagicKeywordSettingDef };
+@@ -233,32 +233,32 @@ export const DEFAULT_BASH_INTERCEPTOR_RULES: BashInterceptorRule[] = [
  	{
  		pattern: "^\\s*(cat|head|tail|less|more)\\s+",
  		tool: "read",
@@ -2289,7 +2343,7 @@ index 4fb8447..4e5c30c 100644
  	},
  	{
  		// `>` must sit outside quoted regions (so `echo "a -> b"` passes) and be
-@@ -276,7 +276,7 @@ export const DEFAULT_BASH_INTERCEPTOR_RULES: BashInterceptorRule[] = [
+@@ -270,7 +270,7 @@ export const DEFAULT_BASH_INTERCEPTOR_RULES: BashInterceptorRule[] = [
  		pattern:
  			"^\\s*(echo|printf|cat\\s*<<)\\s+(?:(?:[^\"'>]|\"[^\"]*\"|'[^']*')|(?<!\\|)>{1,2}\\|?\\s*(?:\"/dev/(?:null|tty|stdout|stderr)\"|'/dev/(?:null|tty|stdout|stderr)'|/dev/(?:null|tty|stdout|stderr))(?:[\\s;&|]|$))*(?<!\\|)>{1,2}\\|?\\s*(?!(?:\"/dev/(?:null|tty|stdout|stderr)\"|'/dev/(?:null|tty|stdout|stderr)'|/dev/(?:null|tty|stdout|stderr))(?:[\\s;&|]|$))[$\\w./~\"'-]",
  		tool: "write",
@@ -2298,7 +2352,7 @@ index 4fb8447..4e5c30c 100644
  	},
  	{
  		pattern: "^\\s*nohup\\s+|(?<!&)\\&\\s*$",
-@@ -295,7 +295,7 @@ export const DEFAULT_BASH_INTERCEPTOR_RULES: BashInterceptorRule[] = [
+@@ -289,7 +289,7 @@ export const DEFAULT_BASH_INTERCEPTOR_RULES: BashInterceptorRule[] = [
  		pattern:
  			"^\\s*(?:(?:bun|npm|pnpm|yarn)\\s+(?:run\\s+)?\\S+|cargo\\s+watch|watchexec|pytest|vitest|jest|tsc)(?:.|\\n)*(?:--watch|-w)(?:\\s|$)",
  		tool: "hub",
@@ -2307,7 +2361,7 @@ index 4fb8447..4e5c30c 100644
  	},
  ];
  
-@@ -319,9 +319,9 @@ export const SETTINGS_SCHEMA = {
+@@ -313,9 +313,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "interaction",
@@ -2320,7 +2374,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -332,29 +332,29 @@ export const SETTINGS_SCHEMA = {
+@@ -326,29 +326,29 @@ export const SETTINGS_SCHEMA = {
  		default: "idle",
  		ui: {
  			tab: "interaction",
@@ -2359,7 +2413,7 @@ index 4fb8447..4e5c30c 100644
  					description:
  						"Also block all system sleep on AC and declare the user active (macOS `caffeinate -i -d -s -u`)",
  				},
-@@ -366,10 +366,10 @@ export const SETTINGS_SCHEMA = {
+@@ -360,10 +360,10 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "model",
@@ -2373,7 +2427,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  	"prewalk.enabled": {
-@@ -378,9 +378,9 @@ export const SETTINGS_SCHEMA = {
+@@ -372,9 +372,9 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "model",
  			group: "Prewalk",
@@ -2385,7 +2439,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  	"advisor.syncBacklog": {
-@@ -389,10 +389,10 @@ export const SETTINGS_SCHEMA = {
+@@ -383,10 +383,10 @@ export const SETTINGS_SCHEMA = {
  		default: "off",
  		ui: {
  			tab: "model",
@@ -2399,7 +2453,7 @@ index 4fb8447..4e5c30c 100644
  			condition: "advisorEnabled",
  		},
  	},
-@@ -401,17 +401,17 @@ export const SETTINGS_SCHEMA = {
+@@ -395,17 +395,17 @@ export const SETTINGS_SCHEMA = {
  		default: 3,
  		ui: {
  			tab: "model",
@@ -2426,7 +2480,7 @@ index 4fb8447..4e5c30c 100644
  			],
  			condition: "advisorEnabled",
  		},
-@@ -421,16 +421,16 @@ export const SETTINGS_SCHEMA = {
+@@ -415,16 +415,16 @@ export const SETTINGS_SCHEMA = {
  		default: ADVISOR_DEFAULT_BUDGET_PER_UPDATE,
  		ui: {
  			tab: "model",
@@ -2451,7 +2505,7 @@ index 4fb8447..4e5c30c 100644
  			],
  			condition: "advisorEnabled",
  		},
-@@ -442,8 +442,8 @@ export const SETTINGS_SCHEMA = {
+@@ -436,8 +436,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "interaction",
  			group: "Git",
@@ -2462,7 +2516,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -460,10 +460,10 @@ export const SETTINGS_SCHEMA = {
+@@ -454,10 +454,10 @@ export const SETTINGS_SCHEMA = {
  		default: EMPTY_NUMBER_RECORD,
  		ui: {
  			tab: "providers",
@@ -2476,7 +2530,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -473,8 +473,8 @@ export const SETTINGS_SCHEMA = {
+@@ -467,8 +467,8 @@ export const SETTINGS_SCHEMA = {
  		default: "off",
  		ui: {
  			tab: "providers",
@@ -2487,7 +2541,7 @@ index 4fb8447..4e5c30c 100644
  			description:
  				"Route Codex code_mode_only models (GPT-5.6) through eval. The direct tools are eval, ask, todo, yield, think, checkpoint, and rewind. Use eval cells for other session tools. Mirrors codex-rs Code Mode. 'auto' follows the model catalog flag.",
  		},
-@@ -485,8 +485,8 @@ export const SETTINGS_SCHEMA = {
+@@ -479,8 +479,8 @@ export const SETTINGS_SCHEMA = {
  		default: EMPTY_STRING_ARRAY,
  		ui: {
  			tab: "providers",
@@ -2498,7 +2552,7 @@ index 4fb8447..4e5c30c 100644
  			description:
  				"Extra direct tools for Codex Code Mode. The standard direct tools are eval, ask, todo, yield, think, checkpoint, and rewind.",
  		},
-@@ -500,19 +500,19 @@ export const SETTINGS_SCHEMA = {
+@@ -494,19 +494,19 @@ export const SETTINGS_SCHEMA = {
  		default: "global",
  		ui: {
  			tab: "model",
@@ -2525,7 +2579,7 @@ index 4fb8447..4e5c30c 100644
  				},
  			],
  		},
-@@ -536,9 +536,9 @@ export const SETTINGS_SCHEMA = {
+@@ -530,9 +530,9 @@ export const SETTINGS_SCHEMA = {
  		default: "titanium",
  		ui: {
  			tab: "appearance",
@@ -2538,7 +2592,7 @@ index 4fb8447..4e5c30c 100644
  			options: "runtime",
  		},
  	},
-@@ -548,9 +548,9 @@ export const SETTINGS_SCHEMA = {
+@@ -542,9 +542,9 @@ export const SETTINGS_SCHEMA = {
  		default: "light",
  		ui: {
  			tab: "appearance",
@@ -2551,7 +2605,7 @@ index 4fb8447..4e5c30c 100644
  			options: "runtime",
  		},
  	},
-@@ -561,13 +561,13 @@ export const SETTINGS_SCHEMA = {
+@@ -555,17 +555,17 @@ export const SETTINGS_SCHEMA = {
  		default: "unicode",
  		ui: {
  			tab: "appearance",
@@ -2563,15 +2617,19 @@ index 4fb8447..4e5c30c 100644
 +			description: "图标和符号使用的字形集(Unicode、Nerd Font 或 ASCII)",
  			options: [
 -				{ value: "unicode", label: "Unicode", description: "Standard symbols (default)" },
--				{ value: "nerd", label: "Nerd Font", description: "Requires Nerd Font" },
--				{ value: "ascii", label: "ASCII", description: "Maximum compatibility" },
 +				{ value: "unicode", label: "Unicode", description: "标准符号(默认)" },
-+				{ value: "nerd", label: "Nerd Font", description: "需要 Nerd Font" },
+ 				{
+ 					value: "nerd",
+ 					label: "Nerd Font",
+-					description: "Requires a Nerd Font, or a Glyph Protocol terminal (icons ship in-band)",
++					description: "需要 Nerd Font,或支持 Glyph Protocol 的终端(图标随流内传输)",
+ 				},
+-				{ value: "ascii", label: "ASCII", description: "Maximum compatibility" },
 +				{ value: "ascii", label: "ASCII", description: "最大兼容性" },
  			],
  		},
  	},
-@@ -577,9 +577,9 @@ export const SETTINGS_SCHEMA = {
+@@ -575,9 +575,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "appearance",
@@ -2584,7 +2642,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  	// Composer
-@@ -588,9 +588,9 @@ export const SETTINGS_SCHEMA = {
+@@ -586,9 +586,9 @@ export const SETTINGS_SCHEMA = {
  		default: "band",
  		ui: {
  			tab: "appearance",
@@ -2597,7 +2655,7 @@ index 4fb8447..4e5c30c 100644
  			options: "runtime",
  		},
  	},
-@@ -599,10 +599,10 @@ export const SETTINGS_SCHEMA = {
+@@ -597,10 +597,10 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "appearance",
@@ -2611,7 +2669,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -613,17 +613,17 @@ export const SETTINGS_SCHEMA = {
+@@ -611,17 +611,17 @@ export const SETTINGS_SCHEMA = {
  		default: "default",
  		ui: {
  			tab: "appearance",
@@ -2639,7 +2697,7 @@ index 4fb8447..4e5c30c 100644
  			],
  		},
  	},
-@@ -634,17 +634,17 @@ export const SETTINGS_SCHEMA = {
+@@ -632,17 +632,17 @@ export const SETTINGS_SCHEMA = {
  		default: "powerline-thin",
  		ui: {
  			tab: "appearance",
@@ -2667,7 +2725,7 @@ index 4fb8447..4e5c30c 100644
  			],
  		},
  	},
-@@ -655,25 +655,25 @@ export const SETTINGS_SCHEMA = {
+@@ -653,25 +653,25 @@ export const SETTINGS_SCHEMA = {
  		default: "embedded",
  		ui: {
  			tab: "appearance",
@@ -2703,7 +2761,7 @@ index 4fb8447..4e5c30c 100644
  				},
  			],
  		},
-@@ -684,9 +684,9 @@ export const SETTINGS_SCHEMA = {
+@@ -682,9 +682,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "appearance",
@@ -2716,7 +2774,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -695,10 +695,10 @@ export const SETTINGS_SCHEMA = {
+@@ -693,10 +693,10 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "appearance",
@@ -2730,7 +2788,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  	"statusLine.compactThinkingLevel": {
-@@ -706,10 +706,10 @@ export const SETTINGS_SCHEMA = {
+@@ -704,10 +704,10 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "appearance",
@@ -2744,7 +2802,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  	"tools.artifactSpillThreshold": {
-@@ -717,22 +717,22 @@ export const SETTINGS_SCHEMA = {
+@@ -715,22 +715,22 @@ export const SETTINGS_SCHEMA = {
  		default: 50,
  		ui: {
  			tab: "tools",
@@ -2782,7 +2840,7 @@ index 4fb8447..4e5c30c 100644
  			],
  		},
  	},
-@@ -741,18 +741,18 @@ export const SETTINGS_SCHEMA = {
+@@ -739,18 +739,18 @@ export const SETTINGS_SCHEMA = {
  		default: 20,
  		ui: {
  			tab: "tools",
@@ -2812,7 +2870,7 @@ index 4fb8447..4e5c30c 100644
  			],
  		},
  	},
-@@ -761,20 +761,20 @@ export const SETTINGS_SCHEMA = {
+@@ -759,20 +759,20 @@ export const SETTINGS_SCHEMA = {
  		default: 20,
  		ui: {
  			tab: "tools",
@@ -2845,7 +2903,7 @@ index 4fb8447..4e5c30c 100644
  			],
  		},
  	},
-@@ -783,18 +783,18 @@ export const SETTINGS_SCHEMA = {
+@@ -781,18 +781,18 @@ export const SETTINGS_SCHEMA = {
  		default: 768,
  		ui: {
  			tab: "tools",
@@ -2871,7 +2929,7 @@ index 4fb8447..4e5c30c 100644
  			],
  		},
  	},
-@@ -803,17 +803,17 @@ export const SETTINGS_SCHEMA = {
+@@ -801,17 +801,17 @@ export const SETTINGS_SCHEMA = {
  		default: 500,
  		ui: {
  			tab: "tools",
@@ -2899,7 +2957,7 @@ index 4fb8447..4e5c30c 100644
  			],
  		},
  	},
-@@ -823,9 +823,9 @@ export const SETTINGS_SCHEMA = {
+@@ -821,9 +821,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "appearance",
@@ -2912,7 +2970,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -841,9 +841,9 @@ export const SETTINGS_SCHEMA = {
+@@ -839,9 +839,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "appearance",
@@ -2925,7 +2983,7 @@ index 4fb8447..4e5c30c 100644
  			condition: "hasImageProtocol",
  		},
  	},
-@@ -853,9 +853,9 @@ export const SETTINGS_SCHEMA = {
+@@ -851,9 +851,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "appearance",
@@ -2938,7 +2996,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -864,9 +864,9 @@ export const SETTINGS_SCHEMA = {
+@@ -862,9 +862,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "appearance",
@@ -2951,7 +3009,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -875,10 +875,10 @@ export const SETTINGS_SCHEMA = {
+@@ -873,10 +873,10 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "model",
@@ -2965,7 +3023,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -887,8 +887,8 @@ export const SETTINGS_SCHEMA = {
+@@ -885,8 +885,8 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "model",
@@ -2976,7 +3034,7 @@ index 4fb8447..4e5c30c 100644
  			description:
  				"Publish outgoing images through the configured backend chain and send URL-fetching providers short URLs instead of inline base64. Falls back to inline automatically when every backend or a provider fetch fails",
  		},
-@@ -899,9 +899,9 @@ export const SETTINGS_SCHEMA = {
+@@ -897,9 +897,9 @@ export const SETTINGS_SCHEMA = {
  		default: ["provider-files", "tailscale", "cloudflared", "litterbox"] as BlobDestinationId[],
  		ui: {
  			tab: "model",
@@ -2989,7 +3047,7 @@ index 4fb8447..4e5c30c 100644
  			options: BLOB_BACKEND_CHOICES,
  			ordered: true,
  		},
-@@ -923,8 +923,8 @@ export const SETTINGS_SCHEMA = {
+@@ -921,8 +921,8 @@ export const SETTINGS_SCHEMA = {
  		default: undefined,
  		ui: {
  			tab: "model",
@@ -3000,7 +3058,7 @@ index 4fb8447..4e5c30c 100644
  			description:
  				"Argv template for the command backend; {file} is the image path, {mime}/{ext} optional. The last URL printed on stdout is used (e.g. pasta -b -f {file})",
  		},
-@@ -935,9 +935,9 @@ export const SETTINGS_SCHEMA = {
+@@ -933,9 +933,9 @@ export const SETTINGS_SCHEMA = {
  		default: undefined,
  		ui: {
  			tab: "model",
@@ -3013,7 +3071,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -946,8 +946,8 @@ export const SETTINGS_SCHEMA = {
+@@ -944,8 +944,8 @@ export const SETTINGS_SCHEMA = {
  		default: 72,
  		ui: {
  			tab: "model",
@@ -3024,7 +3082,7 @@ index 4fb8447..4e5c30c 100644
  			description:
  				"Serving window for locally hosted image URLs, measured from the last time a conversation sent them; resuming a conversation re-arms the window at the same link. 0 keeps links alive while the broker runs",
  		},
-@@ -958,9 +958,9 @@ export const SETTINGS_SCHEMA = {
+@@ -956,9 +956,9 @@ export const SETTINGS_SCHEMA = {
  		default: "127.0.0.1",
  		ui: {
  			tab: "model",
@@ -3037,7 +3095,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -969,9 +969,9 @@ export const SETTINGS_SCHEMA = {
+@@ -967,9 +967,9 @@ export const SETTINGS_SCHEMA = {
  		default: undefined,
  		ui: {
  			tab: "model",
@@ -3050,7 +3108,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -980,9 +980,9 @@ export const SETTINGS_SCHEMA = {
+@@ -978,9 +978,9 @@ export const SETTINGS_SCHEMA = {
  		default: 8787,
  		ui: {
  			tab: "model",
@@ -3063,7 +3121,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -990,21 +990,21 @@ export const SETTINGS_SCHEMA = {
+@@ -988,21 +988,21 @@ export const SETTINGS_SCHEMA = {
  		type: "number",
  		default: 100,
  		description:
@@ -3088,7 +3146,7 @@ index 4fb8447..4e5c30c 100644
  	},
  	"tui.resizeScrollback": {
  		type: "enum",
-@@ -1012,24 +1012,24 @@ export const SETTINGS_SCHEMA = {
+@@ -1010,24 +1010,24 @@ export const SETTINGS_SCHEMA = {
  		default: "rebuild",
  		ui: {
  			tab: "appearance",
@@ -3122,7 +3180,7 @@ index 4fb8447..4e5c30c 100644
  				},
  			],
  		},
-@@ -1040,9 +1040,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1038,9 +1038,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "appearance",
@@ -3135,7 +3193,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -1051,10 +1051,10 @@ export const SETTINGS_SCHEMA = {
+@@ -1049,10 +1049,10 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "appearance",
@@ -3149,7 +3207,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -1063,9 +1063,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1061,9 +1061,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "appearance",
@@ -3162,7 +3220,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -1074,9 +1074,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1072,9 +1072,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "appearance",
@@ -3175,7 +3233,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -1085,10 +1085,10 @@ export const SETTINGS_SCHEMA = {
+@@ -1083,10 +1083,10 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "appearance",
@@ -3189,7 +3247,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -1097,10 +1097,10 @@ export const SETTINGS_SCHEMA = {
+@@ -1095,10 +1095,10 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "appearance",
@@ -3203,7 +3261,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  	"tui.titleSpinner": {
-@@ -1109,29 +1109,29 @@ export const SETTINGS_SCHEMA = {
+@@ -1107,29 +1107,29 @@ export const SETTINGS_SCHEMA = {
  		default: "braille",
  		ui: {
  			tab: "appearance",
@@ -3244,7 +3302,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  	"tui.mouse": {
-@@ -1139,10 +1139,10 @@ export const SETTINGS_SCHEMA = {
+@@ -1137,10 +1137,10 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "appearance",
@@ -3258,7 +3316,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  	"tui.tight": {
-@@ -1150,9 +1150,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1148,9 +1148,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "appearance",
@@ -3271,7 +3329,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -1162,13 +1162,13 @@ export const SETTINGS_SCHEMA = {
+@@ -1160,13 +1160,13 @@ export const SETTINGS_SCHEMA = {
  		default: "classic",
  		ui: {
  			tab: "appearance",
@@ -3291,7 +3349,7 @@ index 4fb8447..4e5c30c 100644
  			],
  		},
  	},
-@@ -1178,14 +1178,14 @@ export const SETTINGS_SCHEMA = {
+@@ -1176,14 +1176,14 @@ export const SETTINGS_SCHEMA = {
  		default: "collapsed",
  		ui: {
  			tab: "appearance",
@@ -3312,7 +3370,7 @@ index 4fb8447..4e5c30c 100644
  			],
  		},
  	},
-@@ -1195,9 +1195,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1193,9 +1193,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "appearance",
@@ -3325,7 +3383,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -1206,9 +1206,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1204,9 +1204,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "appearance",
@@ -3338,7 +3396,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -1217,9 +1217,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1215,9 +1215,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "appearance",
@@ -3351,7 +3409,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -1228,9 +1228,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1226,9 +1226,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "appearance",
@@ -3364,7 +3422,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  	"display.cacheMissMarker": {
-@@ -1238,9 +1238,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1236,9 +1236,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "appearance",
@@ -3377,7 +3435,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -1249,10 +1249,10 @@ export const SETTINGS_SCHEMA = {
+@@ -1247,10 +1247,10 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "appearance",
@@ -3391,7 +3449,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -1261,9 +1261,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1259,9 +1259,9 @@ export const SETTINGS_SCHEMA = {
  		default: true, // will be computed based on platform if undefined
  		ui: {
  			tab: "appearance",
@@ -3404,7 +3462,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -1272,9 +1272,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1270,9 +1270,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "appearance",
@@ -3417,7 +3475,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -1289,9 +1289,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1287,9 +1287,9 @@ export const SETTINGS_SCHEMA = {
  		default: "high",
  		ui: {
  			tab: "model",
@@ -3430,7 +3488,7 @@ index 4fb8447..4e5c30c 100644
  			options: [
  				getConfiguredThinkingLevelMetadata(AUTO_THINKING),
  				...THINKING_EFFORTS.map(getThinkingLevelMetadata),
-@@ -1304,9 +1304,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1302,9 +1302,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "model",
@@ -3443,7 +3501,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  	proseOnlyThinking: {
-@@ -1314,9 +1314,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1312,9 +1312,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "model",
@@ -3456,7 +3514,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -1325,10 +1325,10 @@ export const SETTINGS_SCHEMA = {
+@@ -1323,10 +1323,10 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "model",
@@ -3470,7 +3528,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -1337,9 +1337,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1335,9 +1335,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "model",
@@ -3483,7 +3541,7 @@ index 4fb8447..4e5c30c 100644
  			warning:
  				"At your own risk: providers have flagged this request shape as abuse, up to account-level enforcement",
  		},
-@@ -1350,9 +1350,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1348,9 +1348,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "model",
@@ -3496,7 +3554,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -1361,9 +1361,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1359,9 +1359,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "model",
@@ -3509,7 +3567,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -1372,10 +1372,10 @@ export const SETTINGS_SCHEMA = {
+@@ -1370,10 +1370,10 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "model",
@@ -3523,7 +3581,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -1384,9 +1384,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1382,9 +1382,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "model",
@@ -3536,7 +3594,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -1395,9 +1395,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1393,9 +1393,9 @@ export const SETTINGS_SCHEMA = {
  		default: 5,
  		ui: {
  			tab: "model",
@@ -3549,7 +3607,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -1406,9 +1406,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1404,9 +1404,9 @@ export const SETTINGS_SCHEMA = {
  		default: DEFAULT_TOOL_CALL_LOOP_EXEMPT_TOOLS,
  		ui: {
  			tab: "model",
@@ -3562,7 +3620,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -1418,18 +1418,18 @@ export const SETTINGS_SCHEMA = {
+@@ -1416,18 +1416,18 @@ export const SETTINGS_SCHEMA = {
  		default: "auto",
  		ui: {
  			tab: "model",
@@ -3588,7 +3646,7 @@ index 4fb8447..4e5c30c 100644
  			],
  		},
  	},
-@@ -1439,9 +1439,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1437,9 +1437,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "model",
@@ -3601,7 +3659,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -1450,10 +1450,10 @@ export const SETTINGS_SCHEMA = {
+@@ -1448,10 +1448,10 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "model",
@@ -3615,7 +3673,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -1462,8 +1462,8 @@ export const SETTINGS_SCHEMA = {
+@@ -1460,8 +1460,8 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "model",
@@ -3626,7 +3684,7 @@ index 4fb8447..4e5c30c 100644
  			description:
  				"List available skills in the system prompt; disable to save context and toggle per-session with /skillful",
  		},
-@@ -1474,10 +1474,10 @@ export const SETTINGS_SCHEMA = {
+@@ -1472,10 +1472,10 @@ export const SETTINGS_SCHEMA = {
  		default: [] as string[],
  		ui: {
  			tab: "context",
@@ -3640,7 +3698,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -1487,26 +1487,26 @@ export const SETTINGS_SCHEMA = {
+@@ -1485,26 +1485,26 @@ export const SETTINGS_SCHEMA = {
  		default: "default",
  		ui: {
  			tab: "model",
@@ -3677,7 +3735,7 @@ index 4fb8447..4e5c30c 100644
  			],
  		},
  	},
-@@ -1517,16 +1517,16 @@ export const SETTINGS_SCHEMA = {
+@@ -1515,16 +1515,16 @@ export const SETTINGS_SCHEMA = {
  		default: -1,
  		ui: {
  			tab: "model",
@@ -3703,7 +3761,7 @@ index 4fb8447..4e5c30c 100644
  			],
  		},
  	},
-@@ -1536,16 +1536,16 @@ export const SETTINGS_SCHEMA = {
+@@ -1534,16 +1534,16 @@ export const SETTINGS_SCHEMA = {
  		default: -1,
  		ui: {
  			tab: "model",
@@ -3728,7 +3786,7 @@ index 4fb8447..4e5c30c 100644
  			],
  		},
  	},
-@@ -1555,15 +1555,15 @@ export const SETTINGS_SCHEMA = {
+@@ -1553,15 +1553,15 @@ export const SETTINGS_SCHEMA = {
  		default: -1,
  		ui: {
  			tab: "model",
@@ -3751,7 +3809,7 @@ index 4fb8447..4e5c30c 100644
  			],
  		},
  	},
-@@ -1573,14 +1573,14 @@ export const SETTINGS_SCHEMA = {
+@@ -1571,14 +1571,14 @@ export const SETTINGS_SCHEMA = {
  		default: -1,
  		ui: {
  			tab: "model",
@@ -3772,7 +3830,7 @@ index 4fb8447..4e5c30c 100644
  			],
  		},
  	},
-@@ -1590,15 +1590,15 @@ export const SETTINGS_SCHEMA = {
+@@ -1588,15 +1588,15 @@ export const SETTINGS_SCHEMA = {
  		default: -1,
  		ui: {
  			tab: "model",
@@ -3796,7 +3854,7 @@ index 4fb8447..4e5c30c 100644
  			],
  		},
  	},
-@@ -1608,16 +1608,16 @@ export const SETTINGS_SCHEMA = {
+@@ -1606,16 +1606,16 @@ export const SETTINGS_SCHEMA = {
  		default: -1,
  		ui: {
  			tab: "model",
@@ -3822,7 +3880,7 @@ index 4fb8447..4e5c30c 100644
  			],
  		},
  	},
-@@ -1628,13 +1628,13 @@ export const SETTINGS_SCHEMA = {
+@@ -1626,13 +1626,13 @@ export const SETTINGS_SCHEMA = {
  		default: "medium",
  		ui: {
  			tab: "model",
@@ -3842,7 +3900,7 @@ index 4fb8447..4e5c30c 100644
  			],
  		},
  	},
-@@ -1645,10 +1645,10 @@ export const SETTINGS_SCHEMA = {
+@@ -1643,10 +1643,10 @@ export const SETTINGS_SCHEMA = {
  		default: "none",
  		ui: {
  			tab: "model",
@@ -3856,7 +3914,7 @@ index 4fb8447..4e5c30c 100644
  			options: SERVICE_TIER_OPENAI_OPTIONS,
  		},
  	},
-@@ -1659,10 +1659,10 @@ export const SETTINGS_SCHEMA = {
+@@ -1657,10 +1657,10 @@ export const SETTINGS_SCHEMA = {
  		default: "none",
  		ui: {
  			tab: "model",
@@ -3870,7 +3928,7 @@ index 4fb8447..4e5c30c 100644
  			options: SERVICE_TIER_ANTHROPIC_OPTIONS,
  		},
  	},
-@@ -1673,10 +1673,10 @@ export const SETTINGS_SCHEMA = {
+@@ -1671,10 +1671,10 @@ export const SETTINGS_SCHEMA = {
  		default: "none",
  		ui: {
  			tab: "model",
@@ -3884,7 +3942,7 @@ index 4fb8447..4e5c30c 100644
  			options: SERVICE_TIER_GOOGLE_OPTIONS,
  		},
  	},
-@@ -1687,10 +1687,10 @@ export const SETTINGS_SCHEMA = {
+@@ -1685,10 +1685,10 @@ export const SETTINGS_SCHEMA = {
  		default: "inherit",
  		ui: {
  			tab: "model",
@@ -3898,7 +3956,7 @@ index 4fb8447..4e5c30c 100644
  			options: SERVICE_TIER_INHERIT_OPTIONS,
  		},
  	},
-@@ -1701,10 +1701,10 @@ export const SETTINGS_SCHEMA = {
+@@ -1699,10 +1699,10 @@ export const SETTINGS_SCHEMA = {
  		default: "none",
  		ui: {
  			tab: "model",
@@ -3912,7 +3970,7 @@ index 4fb8447..4e5c30c 100644
  			options: SERVICE_TIER_INHERIT_OPTIONS,
  			condition: "advisorEnabled",
  		},
-@@ -1718,15 +1718,15 @@ export const SETTINGS_SCHEMA = {
+@@ -1716,15 +1716,15 @@ export const SETTINGS_SCHEMA = {
  		default: 10,
  		ui: {
  			tab: "model",
@@ -3936,7 +3994,7 @@ index 4fb8447..4e5c30c 100644
  			],
  		},
  	},
-@@ -1737,10 +1737,10 @@ export const SETTINGS_SCHEMA = {
+@@ -1735,10 +1735,10 @@ export const SETTINGS_SCHEMA = {
  		default: 5 * 60 * 1000,
  		ui: {
  			tab: "model",
@@ -3950,7 +4008,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  	"retry.waitForUsageReset": {
-@@ -1748,8 +1748,8 @@ export const SETTINGS_SCHEMA = {
+@@ -1746,8 +1746,8 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "model",
@@ -3961,7 +4019,7 @@ index 4fb8447..4e5c30c 100644
  			description:
  				"When a provider reports usage-limit exhaustion with a reset time (5-hour or weekly quota windows on any provider), sleep until the reset instead of failing fast past retry.maxDelayMs. Waits are abortable (Esc) but also hold subagents, so leave off for unattended runs.",
  		},
-@@ -1759,9 +1759,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1757,9 +1757,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "model",
@@ -3974,7 +4032,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  	"retry.usageAwareFallback": {
-@@ -1769,10 +1769,10 @@ export const SETTINGS_SCHEMA = {
+@@ -1767,10 +1767,10 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "model",
@@ -3988,7 +4046,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  	"retry.usageReservePct": {
-@@ -1780,17 +1780,17 @@ export const SETTINGS_SCHEMA = {
+@@ -1778,17 +1778,17 @@ export const SETTINGS_SCHEMA = {
  		default: 10,
  		ui: {
  			tab: "model",
@@ -4014,7 +4072,7 @@ index 4fb8447..4e5c30c 100644
  			],
  		},
  	},
-@@ -1800,25 +1800,25 @@ export const SETTINGS_SCHEMA = {
+@@ -1798,25 +1798,25 @@ export const SETTINGS_SCHEMA = {
  		default: "confirm",
  		ui: {
  			tab: "model",
@@ -4049,7 +4107,7 @@ index 4fb8447..4e5c30c 100644
  				},
  			],
  		},
-@@ -1828,28 +1828,28 @@ export const SETTINGS_SCHEMA = {
+@@ -1826,28 +1826,28 @@ export const SETTINGS_SCHEMA = {
  		default: {} as Record<string, string[]>,
  		ui: {
  			tab: "model",
@@ -4088,7 +4146,7 @@ index 4fb8447..4e5c30c 100644
  			],
  		},
  	},
-@@ -1859,10 +1859,10 @@ export const SETTINGS_SCHEMA = {
+@@ -1857,10 +1857,10 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "model",
@@ -4102,7 +4160,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -1877,9 +1877,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1875,9 +1875,9 @@ export const SETTINGS_SCHEMA = {
  		default: "one-at-a-time",
  		ui: {
  			tab: "interaction",
@@ -4115,7 +4173,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -1889,9 +1889,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1887,9 +1887,9 @@ export const SETTINGS_SCHEMA = {
  		default: "one-at-a-time",
  		ui: {
  			tab: "interaction",
@@ -4128,7 +4186,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -1901,9 +1901,9 @@ export const SETTINGS_SCHEMA = {
+@@ -1899,9 +1899,9 @@ export const SETTINGS_SCHEMA = {
  		default: "immediate",
  		ui: {
  			tab: "interaction",
@@ -4141,7 +4199,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -1912,10 +1912,10 @@ export const SETTINGS_SCHEMA = {
+@@ -1910,10 +1910,10 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "interaction",
@@ -4155,7 +4213,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -1925,14 +1925,14 @@ export const SETTINGS_SCHEMA = {
+@@ -1923,14 +1923,14 @@ export const SETTINGS_SCHEMA = {
  		default: "text",
  		ui: {
  			tab: "interaction",
@@ -4176,7 +4234,7 @@ index 4fb8447..4e5c30c 100644
  			],
  		},
  	},
-@@ -1943,21 +1943,21 @@ export const SETTINGS_SCHEMA = {
+@@ -1941,21 +1941,21 @@ export const SETTINGS_SCHEMA = {
  		default: "prompt",
  		ui: {
  			tab: "interaction",
@@ -4206,7 +4264,7 @@ index 4fb8447..4e5c30c 100644
  			],
  		},
  	},
-@@ -1967,15 +1967,15 @@ export const SETTINGS_SCHEMA = {
+@@ -1965,15 +1965,15 @@ export const SETTINGS_SCHEMA = {
  		default: 30_000,
  		ui: {
  			tab: "interaction",
@@ -4229,7 +4287,7 @@ index 4fb8447..4e5c30c 100644
  			],
  		},
  	},
-@@ -1986,10 +1986,10 @@ export const SETTINGS_SCHEMA = {
+@@ -1984,10 +1984,10 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "interaction",
@@ -4243,7 +4301,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -1999,8 +1999,8 @@ export const SETTINGS_SCHEMA = {
+@@ -1997,8 +1997,8 @@ export const SETTINGS_SCHEMA = {
  		default: "rewind",
  		ui: {
  			tab: "interaction",
@@ -4254,7 +4312,7 @@ index 4fb8447..4e5c30c 100644
  			description:
  				"What pressing Escape twice with an empty editor does: open the transcript rewind selector, open the session tree, or nothing",
  		},
-@@ -2012,9 +2012,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2010,9 +2010,9 @@ export const SETTINGS_SCHEMA = {
  		default: "default",
  		ui: {
  			tab: "interaction",
@@ -4267,7 +4325,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -2023,16 +2023,16 @@ export const SETTINGS_SCHEMA = {
+@@ -2021,16 +2021,16 @@ export const SETTINGS_SCHEMA = {
  		default: 10,
  		ui: {
  			tab: "interaction",
@@ -4293,7 +4351,7 @@ index 4fb8447..4e5c30c 100644
  			],
  		},
  	},
-@@ -2042,9 +2042,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2040,9 +2040,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "interaction",
@@ -4306,7 +4364,7 @@ index 4fb8447..4e5c30c 100644
  			condition: "macOS",
  		},
  	},
-@@ -2054,9 +2054,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2052,9 +2052,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "interaction",
@@ -4319,7 +4377,7 @@ index 4fb8447..4e5c30c 100644
  			condition: "macOS",
  		},
  	},
-@@ -2066,9 +2066,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2064,9 +2064,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "interaction",
@@ -4332,7 +4390,7 @@ index 4fb8447..4e5c30c 100644
  			condition: "macOS",
  		},
  	},
-@@ -2078,9 +2078,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2076,9 +2076,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "interaction",
@@ -4345,7 +4403,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -2089,16 +2089,16 @@ export const SETTINGS_SCHEMA = {
+@@ -2087,16 +2087,16 @@ export const SETTINGS_SCHEMA = {
  		default: 100,
  		ui: {
  			tab: "interaction",
@@ -4370,7 +4428,7 @@ index 4fb8447..4e5c30c 100644
  			],
  		},
  	},
-@@ -2108,9 +2108,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2106,9 +2106,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "interaction",
@@ -4383,7 +4441,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -2119,10 +2119,10 @@ export const SETTINGS_SCHEMA = {
+@@ -2117,10 +2117,10 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "interaction",
@@ -4397,7 +4455,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -2131,9 +2131,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2129,9 +2129,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "interaction",
@@ -4410,7 +4468,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -2142,9 +2142,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2140,9 +2140,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "interaction",
@@ -4423,7 +4481,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  	"update.channel": {
-@@ -2153,12 +2153,12 @@ export const SETTINGS_SCHEMA = {
+@@ -2151,12 +2151,12 @@ export const SETTINGS_SCHEMA = {
  		default: "stable",
  		ui: {
  			tab: "interaction",
@@ -4441,7 +4499,7 @@ index 4fb8447..4e5c30c 100644
  			],
  		},
  	},
-@@ -2169,13 +2169,13 @@ export const SETTINGS_SCHEMA = {
+@@ -2167,13 +2167,13 @@ export const SETTINGS_SCHEMA = {
  		default: "notify",
  		ui: {
  			tab: "interaction",
@@ -4461,7 +4519,7 @@ index 4fb8447..4e5c30c 100644
  			],
  		},
  	},
-@@ -2186,24 +2186,24 @@ export const SETTINGS_SCHEMA = {
+@@ -2184,24 +2184,24 @@ export const SETTINGS_SCHEMA = {
  		default: "summary",
  		ui: {
  			tab: "interaction",
@@ -4495,59 +4553,20 @@ index 4fb8447..4e5c30c 100644
  				},
  			],
  		},
-@@ -2214,9 +2214,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2212,9 +2212,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "interaction",
 -			group: "Magic Keywords",
 -			label: "Magic Keywords",
--			description: "Enable hidden notices for standalone ultrathink, orchestrate, and workflowz keywords",
+-			description: `Enable hidden notices for standalone ${MAGIC_KEYWORDS.map(keyword => keyword.word).join(", ")} keywords`,
 +			group: "魔法关键词",
 +			label: "魔法关键词",
-+			description: "为独立的 ultrathink、orchestrate 和 workflowz 关键词启用隐藏提示",
++			description: `为独立的 ${MAGIC_KEYWORDS.map(keyword => keyword.word).join(", ")} 关键词启用隐藏提示`,
  		},
  	},
- 
-@@ -2225,9 +2225,9 @@ export const SETTINGS_SCHEMA = {
- 		default: true,
- 		ui: {
- 			tab: "interaction",
--			group: "Magic Keywords",
--			label: "Ultrathink Keyword",
--			description: "Let standalone ultrathink request maximum automatic thinking and append its hidden notice",
-+			group: "魔法关键词",
-+			label: "Ultrathink 关键词",
-+			description: "允许独立的 ultrathink 请求最大自动思考,并附加其隐藏提示",
- 		},
- 	},
- 
-@@ -2236,9 +2236,9 @@ export const SETTINGS_SCHEMA = {
- 		default: true,
- 		ui: {
- 			tab: "interaction",
--			group: "Magic Keywords",
--			label: "Orchestrate Keyword",
--			description: "Let standalone orchestrate append its hidden multi-agent orchestration notice",
-+			group: "魔法关键词",
-+			label: "Orchestrate 关键词",
-+			description: "允许独立的 orchestrate 附加其隐藏的多代理编排提示",
- 		},
- 	},
- 
-@@ -2247,9 +2247,9 @@ export const SETTINGS_SCHEMA = {
- 		default: true,
- 		ui: {
- 			tab: "interaction",
--			group: "Magic Keywords",
--			label: "Workflow Keyword",
--			description: "Let standalone workflowz append its hidden eval workflow notice",
-+			group: "魔法关键词",
-+			label: "Workflow 关键词",
-+			description: "允许独立的 workflowz 附加其隐藏的 eval workflow 提示",
- 		},
- 	},
- 
-@@ -2260,9 +2260,9 @@ export const SETTINGS_SCHEMA = {
+ 	...MAGIC_KEYWORD_SETTINGS,
+@@ -2226,9 +2226,9 @@ export const SETTINGS_SCHEMA = {
  		default: "on",
  		ui: {
  			tab: "interaction",
@@ -4560,7 +4579,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -2272,9 +2272,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2238,9 +2238,9 @@ export const SETTINGS_SCHEMA = {
  		default: "off",
  		ui: {
  			tab: "interaction",
@@ -4573,7 +4592,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -2283,15 +2283,15 @@ export const SETTINGS_SCHEMA = {
+@@ -2249,15 +2249,15 @@ export const SETTINGS_SCHEMA = {
  		default: 0,
  		ui: {
  			tab: "interaction",
@@ -4597,7 +4616,7 @@ index 4fb8447..4e5c30c 100644
  			],
  		},
  	},
-@@ -2302,9 +2302,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2268,9 +2268,9 @@ export const SETTINGS_SCHEMA = {
  		default: "on",
  		ui: {
  			tab: "interaction",
@@ -4610,7 +4629,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -2313,9 +2313,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2279,9 +2279,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "interaction",
@@ -4623,7 +4642,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -2324,15 +2324,15 @@ export const SETTINGS_SCHEMA = {
+@@ -2290,15 +2290,15 @@ export const SETTINGS_SCHEMA = {
  		default: 240,
  		ui: {
  			tab: "interaction",
@@ -4647,7 +4666,7 @@ index 4fb8447..4e5c30c 100644
  			],
  		},
  	},
-@@ -2343,9 +2343,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2309,9 +2309,9 @@ export const SETTINGS_SCHEMA = {
  		default: DEFAULT_RELAY_URL,
  		ui: {
  			tab: "interaction",
@@ -4660,7 +4679,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -2354,10 +2354,10 @@ export const SETTINGS_SCHEMA = {
+@@ -2320,10 +2320,10 @@ export const SETTINGS_SCHEMA = {
  		default: "",
  		ui: {
  			tab: "interaction",
@@ -4673,7 +4692,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -2366,9 +2366,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2332,9 +2332,9 @@ export const SETTINGS_SCHEMA = {
  		default: "",
  		ui: {
  			tab: "interaction",
@@ -4686,7 +4705,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -2378,21 +2378,21 @@ export const SETTINGS_SCHEMA = {
+@@ -2344,21 +2344,21 @@ export const SETTINGS_SCHEMA = {
  		default: "off",
  		ui: {
  			tab: "interaction",
@@ -4716,7 +4735,7 @@ index 4fb8447..4e5c30c 100644
  				},
  			],
  		},
-@@ -2403,10 +2403,10 @@ export const SETTINGS_SCHEMA = {
+@@ -2369,10 +2369,10 @@ export const SETTINGS_SCHEMA = {
  		default: DEFAULT_SHARE_URL,
  		ui: {
  			tab: "interaction",
@@ -4730,7 +4749,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -2416,19 +2416,19 @@ export const SETTINGS_SCHEMA = {
+@@ -2382,19 +2382,19 @@ export const SETTINGS_SCHEMA = {
  		default: "blob",
  		ui: {
  			tab: "interaction",
@@ -4756,7 +4775,7 @@ index 4fb8447..4e5c30c 100644
  				},
  			],
  		},
-@@ -2439,9 +2439,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2405,9 +2405,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "interaction",
@@ -4769,7 +4788,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -2451,10 +2451,10 @@ export const SETTINGS_SCHEMA = {
+@@ -2417,10 +2417,10 @@ export const SETTINGS_SCHEMA = {
  		default: DEFAULT_STREAM_URL,
  		ui: {
  			tab: "interaction",
@@ -4783,7 +4802,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -2463,10 +2463,10 @@ export const SETTINGS_SCHEMA = {
+@@ -2429,10 +2429,10 @@ export const SETTINGS_SCHEMA = {
  		default: EMPTY_STRING_ARRAY,
  		ui: {
  			tab: "interaction",
@@ -4797,7 +4816,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -2476,9 +2476,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2442,9 +2442,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "interaction",
@@ -4810,20 +4829,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -2493,23 +2493,23 @@ export const SETTINGS_SCHEMA = {
- 		default: DEFAULT_STT_MODEL_KEY,
- 		ui: {
- 			tab: "interaction",
--			group: "Speech",
--			label: "Speech Model",
-+			group: "语音",
-+			label: "语音模型",
- 			description:
--				"Local on-device speech model. Parakeet TDT v3 (sherpa-onnx) is the SoTA default; Whisper base/small/large-v3-turbo tiers (transformers.js) trade size for multilingual coverage. Downloaded on first use.",
-+				"本地设备端语音模型。Parakeet TDT v3 (sherpa-onnx) 是 SoTA 默认;Whisper base/small/large-v3-turbo 各档(transformers.js)以体积换取多语言覆盖。首次使用时下载。",
- 			options: STT_MODEL_OPTIONS,
- 		},
- 	},
+@@ -2456,13 +2456,13 @@ export const SETTINGS_SCHEMA = {
  	"stt.submitTrigger": {
  		type: "enum",
  		values: STT_SUBMIT_TRIGGER_VALUES,
@@ -4841,7 +4847,7 @@ index 4fb8447..4e5c30c 100644
  			options: STT_SUBMIT_TRIGGER_OPTIONS,
  		},
  	},
-@@ -2524,9 +2524,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2477,9 +2477,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "context",
@@ -4854,7 +4860,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -2538,10 +2538,10 @@ export const SETTINGS_SCHEMA = {
+@@ -2491,10 +2491,10 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "context",
@@ -4868,7 +4874,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -2551,9 +2551,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2504,9 +2504,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "context",
@@ -4881,7 +4887,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  	"compaction.experimentalContextManagement": {
-@@ -2561,10 +2561,10 @@ export const SETTINGS_SCHEMA = {
+@@ -2514,10 +2514,10 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "context",
@@ -4895,7 +4901,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -2573,9 +2573,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2526,9 +2526,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "context",
@@ -4908,7 +4914,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -2584,8 +2584,8 @@ export const SETTINGS_SCHEMA = {
+@@ -2537,8 +2537,8 @@ export const SETTINGS_SCHEMA = {
  		default: [...DEFAULT_COMPACTION_METHOD_ORDER],
  		ui: {
  			tab: "context",
@@ -4919,7 +4925,7 @@ index 4fb8447..4e5c30c 100644
  			description:
  				"Preferred fallback order for automatic context maintenance; unavailable or failed methods advance to the next choice",
  			options: COMPACTION_METHOD_CHOICES,
-@@ -2598,23 +2598,23 @@ export const SETTINGS_SCHEMA = {
+@@ -2551,23 +2551,23 @@ export const SETTINGS_SCHEMA = {
  		default: -1,
  		ui: {
  			tab: "context",
@@ -4959,7 +4965,7 @@ index 4fb8447..4e5c30c 100644
  			],
  		},
  	},
-@@ -2623,18 +2623,18 @@ export const SETTINGS_SCHEMA = {
+@@ -2576,18 +2576,18 @@ export const SETTINGS_SCHEMA = {
  		default: -1,
  		ui: {
  			tab: "context",
@@ -4989,7 +4995,7 @@ index 4fb8447..4e5c30c 100644
  			],
  		},
  	},
-@@ -2644,9 +2644,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2597,9 +2597,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "context",
@@ -5002,7 +5008,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -2655,9 +2655,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2608,9 +2608,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "context",
@@ -5015,7 +5021,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -2666,8 +2666,8 @@ export const SETTINGS_SCHEMA = {
+@@ -2619,8 +2619,8 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "context",
@@ -5026,7 +5032,7 @@ index 4fb8447..4e5c30c 100644
  			description:
  				"Speculatively summarize in the background as context nears the compaction threshold, then splice the ready result in when the threshold is crossed",
  		},
-@@ -2693,9 +2693,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2646,9 +2646,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "context",
@@ -5039,7 +5045,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -2704,9 +2704,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2657,9 +2657,9 @@ export const SETTINGS_SCHEMA = {
  		default: 200000,
  		ui: {
  			tab: "context",
@@ -5052,7 +5058,7 @@ index 4fb8447..4e5c30c 100644
  			options: [
  				{ value: "100000", label: "100K tokens" },
  				{ value: "200000", label: "200K tokens" },
-@@ -2726,16 +2726,16 @@ export const SETTINGS_SCHEMA = {
+@@ -2679,16 +2679,16 @@ export const SETTINGS_SCHEMA = {
  		default: 300,
  		ui: {
  			tab: "context",
@@ -5078,7 +5084,7 @@ index 4fb8447..4e5c30c 100644
  			],
  		},
  	},
-@@ -2745,9 +2745,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2698,9 +2698,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "context",
@@ -5091,7 +5097,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -2756,10 +2756,10 @@ export const SETTINGS_SCHEMA = {
+@@ -2709,10 +2709,10 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "context",
@@ -5105,7 +5111,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -2770,21 +2770,21 @@ export const SETTINGS_SCHEMA = {
+@@ -2723,21 +2723,21 @@ export const SETTINGS_SCHEMA = {
  		default: "none",
  		ui: {
  			tab: "context",
@@ -5134,7 +5140,7 @@ index 4fb8447..4e5c30c 100644
  				},
  			],
  		},
-@@ -2795,10 +2795,10 @@ export const SETTINGS_SCHEMA = {
+@@ -2748,10 +2748,10 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "context",
@@ -5148,7 +5154,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -2822,28 +2822,28 @@ export const SETTINGS_SCHEMA = {
+@@ -2775,28 +2775,28 @@ export const SETTINGS_SCHEMA = {
  		default: "auto",
  		ui: {
  			tab: "context",
@@ -5194,7 +5200,7 @@ index 4fb8447..4e5c30c 100644
  			],
  		},
  	},
-@@ -2854,103 +2854,103 @@ export const SETTINGS_SCHEMA = {
+@@ -2807,103 +2807,103 @@ export const SETTINGS_SCHEMA = {
  		default: "auto",
  		ui: {
  			tab: "context",
@@ -5337,7 +5343,7 @@ index 4fb8447..4e5c30c 100644
  				},
  			],
  		},
-@@ -2962,9 +2962,9 @@ export const SETTINGS_SCHEMA = {
+@@ -2915,9 +2915,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "context",
@@ -5350,7 +5356,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -3018,17 +3018,17 @@ export const SETTINGS_SCHEMA = {
+@@ -2971,17 +2971,17 @@ export const SETTINGS_SCHEMA = {
  		default: "off",
  		ui: {
  			tab: "memory",
@@ -5375,7 +5381,7 @@ index 4fb8447..4e5c30c 100644
  				},
  				{
  					value: "sharpshooter",
-@@ -3045,8 +3045,8 @@ export const SETTINGS_SCHEMA = {
+@@ -2998,8 +2998,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Sharpshooter",
@@ -5386,7 +5392,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  	"sharpshooter.intervalMinutes": { type: "number", default: 5 },
-@@ -3060,10 +3060,10 @@ export const SETTINGS_SCHEMA = {
+@@ -3013,10 +3013,10 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "memory",
@@ -5400,7 +5406,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  	"autolearn.autoContinue": {
-@@ -3071,10 +3071,10 @@ export const SETTINGS_SCHEMA = {
+@@ -3024,10 +3024,10 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "memory",
@@ -5414,7 +5420,7 @@ index 4fb8447..4e5c30c 100644
  			condition: "autolearnActive",
  		},
  	},
-@@ -3088,8 +3088,8 @@ export const SETTINGS_SCHEMA = {
+@@ -3041,8 +3041,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Mnemopi",
@@ -5425,7 +5431,7 @@ index 4fb8447..4e5c30c 100644
  			condition: "mnemopiActive",
  		},
  	},
-@@ -3099,8 +3099,8 @@ export const SETTINGS_SCHEMA = {
+@@ -3052,8 +3052,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Mnemopi",
@@ -5436,7 +5442,7 @@ index 4fb8447..4e5c30c 100644
  			condition: "mnemopiActive",
  		},
  	},
-@@ -3111,24 +3111,24 @@ export const SETTINGS_SCHEMA = {
+@@ -3064,24 +3064,24 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Mnemopi",
@@ -5469,7 +5475,7 @@ index 4fb8447..4e5c30c 100644
  				},
  			],
  			condition: "mnemopiActive",
-@@ -3141,19 +3141,19 @@ export const SETTINGS_SCHEMA = {
+@@ -3094,19 +3094,19 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Mnemopi",
@@ -5495,7 +5501,7 @@ index 4fb8447..4e5c30c 100644
  				},
  			],
  			condition: "mnemopiActive",
-@@ -3165,8 +3165,8 @@ export const SETTINGS_SCHEMA = {
+@@ -3118,8 +3118,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Mnemopi",
@@ -5506,7 +5512,7 @@ index 4fb8447..4e5c30c 100644
  			condition: "mnemopiActive",
  		},
  	},
-@@ -3176,8 +3176,8 @@ export const SETTINGS_SCHEMA = {
+@@ -3129,8 +3129,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Mnemopi",
@@ -5517,7 +5523,7 @@ index 4fb8447..4e5c30c 100644
  			condition: "mnemopiActive",
  		},
  	},
-@@ -3187,8 +3187,8 @@ export const SETTINGS_SCHEMA = {
+@@ -3140,8 +3140,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Mnemopi",
@@ -5528,7 +5534,7 @@ index 4fb8447..4e5c30c 100644
  			condition: "mnemopiActive",
  		},
  	},
-@@ -3198,8 +3198,8 @@ export const SETTINGS_SCHEMA = {
+@@ -3151,8 +3151,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Mnemopi",
@@ -5539,7 +5545,7 @@ index 4fb8447..4e5c30c 100644
  			condition: "mnemopiActive",
  		},
  	},
-@@ -3209,9 +3209,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3162,9 +3162,9 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Mnemopi",
@@ -5551,7 +5557,7 @@ index 4fb8447..4e5c30c 100644
  			condition: "mnemopiActive",
  		},
  	},
-@@ -3221,8 +3221,8 @@ export const SETTINGS_SCHEMA = {
+@@ -3174,8 +3174,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Mnemopi",
@@ -5562,7 +5568,7 @@ index 4fb8447..4e5c30c 100644
  			condition: "mnemopiActive",
  		},
  	},
-@@ -3232,9 +3232,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3185,9 +3185,9 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Mnemopi",
@@ -5574,7 +5580,7 @@ index 4fb8447..4e5c30c 100644
  			condition: "mnemopiActive",
  		},
  	},
-@@ -3244,8 +3244,8 @@ export const SETTINGS_SCHEMA = {
+@@ -3197,8 +3197,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Mnemopi",
@@ -5585,7 +5591,7 @@ index 4fb8447..4e5c30c 100644
  			condition: "mnemopiActive",
  		},
  	},
-@@ -3256,8 +3256,8 @@ export const SETTINGS_SCHEMA = {
+@@ -3209,8 +3209,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Mnemopi",
@@ -5596,7 +5602,7 @@ index 4fb8447..4e5c30c 100644
  			condition: "mnemopiActive",
  		},
  	},
-@@ -3268,18 +3268,18 @@ export const SETTINGS_SCHEMA = {
+@@ -3221,18 +3221,18 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Mnemopi",
@@ -5621,7 +5627,7 @@ index 4fb8447..4e5c30c 100644
  			],
  		},
  	},
-@@ -3289,8 +3289,8 @@ export const SETTINGS_SCHEMA = {
+@@ -3242,8 +3242,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Mnemopi",
@@ -5632,7 +5638,7 @@ index 4fb8447..4e5c30c 100644
  			condition: "mnemopiActive",
  		},
  	},
-@@ -3301,8 +3301,8 @@ export const SETTINGS_SCHEMA = {
+@@ -3254,8 +3254,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Mnemopi",
@@ -5643,7 +5649,7 @@ index 4fb8447..4e5c30c 100644
  			condition: "mnemopiActive",
  		},
  	},
-@@ -3312,8 +3312,8 @@ export const SETTINGS_SCHEMA = {
+@@ -3265,8 +3265,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Mnemopi",
@@ -5654,7 +5660,7 @@ index 4fb8447..4e5c30c 100644
  			condition: "mnemopiActive",
  		},
  	},
-@@ -3332,7 +3332,7 @@ export const SETTINGS_SCHEMA = {
+@@ -3285,7 +3285,7 @@ export const SETTINGS_SCHEMA = {
  			tab: "memory",
  			group: "Hindsight",
  			label: "Hindsight API URL",
@@ -5663,7 +5669,7 @@ index 4fb8447..4e5c30c 100644
  			condition: "hindsightActive",
  		},
  	},
-@@ -3344,8 +3344,8 @@ export const SETTINGS_SCHEMA = {
+@@ -3297,8 +3297,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Hindsight",
@@ -5674,7 +5680,7 @@ index 4fb8447..4e5c30c 100644
  			condition: "hindsightActive",
  		},
  	},
-@@ -3356,8 +3356,8 @@ export const SETTINGS_SCHEMA = {
+@@ -3309,8 +3309,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Hindsight",
@@ -5685,7 +5691,7 @@ index 4fb8447..4e5c30c 100644
  			condition: "hindsightActive",
  		},
  	},
-@@ -3370,25 +3370,25 @@ export const SETTINGS_SCHEMA = {
+@@ -3323,25 +3323,25 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Hindsight",
@@ -5719,7 +5725,7 @@ index 4fb8447..4e5c30c 100644
  				},
  			],
  			condition: "hindsightActive",
-@@ -3403,8 +3403,8 @@ export const SETTINGS_SCHEMA = {
+@@ -3356,8 +3356,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Hindsight",
@@ -5730,7 +5736,7 @@ index 4fb8447..4e5c30c 100644
  			condition: "hindsightActive",
  		},
  	},
-@@ -3414,8 +3414,8 @@ export const SETTINGS_SCHEMA = {
+@@ -3367,8 +3367,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Hindsight",
@@ -5741,7 +5747,7 @@ index 4fb8447..4e5c30c 100644
  			condition: "hindsightActive",
  		},
  	},
-@@ -3427,15 +3427,15 @@ export const SETTINGS_SCHEMA = {
+@@ -3380,15 +3380,15 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Hindsight",
@@ -5762,7 +5768,7 @@ index 4fb8447..4e5c30c 100644
  			],
  			condition: "hindsightActive",
  		},
-@@ -3467,9 +3467,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3420,9 +3420,9 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Hindsight",
@@ -5774,7 +5780,7 @@ index 4fb8447..4e5c30c 100644
  			condition: "hindsightActive",
  		},
  	},
-@@ -3479,9 +3479,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3432,9 +3432,9 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "memory",
  			group: "Hindsight",
@@ -5786,7 +5792,7 @@ index 4fb8447..4e5c30c 100644
  			condition: "hindsightActive",
  		},
  	},
-@@ -3493,9 +3493,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3446,9 +3446,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "context",
@@ -5798,7 +5804,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -3505,26 +3505,26 @@ export const SETTINGS_SCHEMA = {
+@@ -3458,26 +3458,26 @@ export const SETTINGS_SCHEMA = {
  		default: "discard",
  		ui: {
  			tab: "context",
@@ -5837,7 +5843,7 @@ index 4fb8447..4e5c30c 100644
  			],
  		},
  	},
-@@ -3535,9 +3535,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3488,9 +3488,9 @@ export const SETTINGS_SCHEMA = {
  		default: "once",
  		ui: {
  			tab: "context",
@@ -5850,7 +5856,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -3546,15 +3546,15 @@ export const SETTINGS_SCHEMA = {
+@@ -3499,15 +3499,15 @@ export const SETTINGS_SCHEMA = {
  		default: 10,
  		ui: {
  			tab: "context",
@@ -5874,7 +5880,7 @@ index 4fb8447..4e5c30c 100644
  			],
  		},
  	},
-@@ -3564,9 +3564,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3517,9 +3517,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "context",
@@ -5887,7 +5893,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -3575,9 +3575,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3528,9 +3528,9 @@ export const SETTINGS_SCHEMA = {
  		default: [] as string[],
  		ui: {
  			tab: "context",
@@ -5900,7 +5906,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -3592,9 +3592,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3545,9 +3545,9 @@ export const SETTINGS_SCHEMA = {
  		default: "hashline",
  		ui: {
  			tab: "files",
@@ -5913,7 +5919,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -3603,9 +3603,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3556,9 +3556,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "files",
@@ -5926,7 +5932,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -3614,14 +3614,14 @@ export const SETTINGS_SCHEMA = {
+@@ -3567,14 +3567,14 @@ export const SETTINGS_SCHEMA = {
  		default: 0.95,
  		ui: {
  			tab: "files",
@@ -5948,7 +5954,7 @@ index 4fb8447..4e5c30c 100644
  			],
  		},
  	},
-@@ -3631,9 +3631,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3584,9 +3584,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "files",
@@ -5961,7 +5967,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -3642,9 +3642,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3595,9 +3595,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "files",
@@ -5974,7 +5980,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -3653,9 +3653,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3606,9 +3606,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "files",
@@ -5987,7 +5993,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -3664,9 +3664,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3617,9 +3617,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "files",
@@ -6000,7 +6006,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  	"edit.blackbox.enabled": {
-@@ -3674,9 +3674,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3627,9 +3627,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "files",
@@ -6013,7 +6019,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  	"edit.autoRepair.enabled": {
-@@ -3684,8 +3684,8 @@ export const SETTINGS_SCHEMA = {
+@@ -3637,8 +3637,8 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "files",
@@ -6024,7 +6030,7 @@ index 4fb8447..4e5c30c 100644
  			description:
  				"When an edit breaks a file's AST parse, ask the smol model to fix the broken region (validated by re-parse; falls back to a warning)",
  		},
-@@ -3696,9 +3696,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3649,9 +3649,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "files",
@@ -6037,7 +6043,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -3707,15 +3707,15 @@ export const SETTINGS_SCHEMA = {
+@@ -3660,15 +3660,15 @@ export const SETTINGS_SCHEMA = {
  		default: 300,
  		ui: {
  			tab: "files",
@@ -6061,7 +6067,7 @@ index 4fb8447..4e5c30c 100644
  			],
  		},
  	},
-@@ -3725,9 +3725,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3678,9 +3678,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "files",
@@ -6074,7 +6080,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -3736,9 +3736,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3689,9 +3689,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "files",
@@ -6087,7 +6093,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -3747,9 +3747,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3700,9 +3700,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "files",
@@ -6100,7 +6106,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -3758,9 +3758,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3711,9 +3711,9 @@ export const SETTINGS_SCHEMA = {
  		default: 4,
  		ui: {
  			tab: "files",
@@ -6113,7 +6119,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -3769,9 +3769,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3722,9 +3722,9 @@ export const SETTINGS_SCHEMA = {
  		default: 6,
  		ui: {
  			tab: "files",
@@ -6126,7 +6132,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -3780,9 +3780,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3733,9 +3733,9 @@ export const SETTINGS_SCHEMA = {
  		default: 100,
  		ui: {
  			tab: "files",
@@ -6139,7 +6145,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -3791,10 +3791,10 @@ export const SETTINGS_SCHEMA = {
+@@ -3744,10 +3744,10 @@ export const SETTINGS_SCHEMA = {
  		default: 50,
  		ui: {
  			tab: "files",
@@ -6153,7 +6159,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -3803,10 +3803,10 @@ export const SETTINGS_SCHEMA = {
+@@ -3756,10 +3756,10 @@ export const SETTINGS_SCHEMA = {
  		default: 100,
  		ui: {
  			tab: "files",
@@ -6167,7 +6173,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -3815,9 +3815,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3768,9 +3768,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "files",
@@ -6180,7 +6186,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -3829,7 +3829,7 @@ export const SETTINGS_SCHEMA = {
+@@ -3782,7 +3782,7 @@ export const SETTINGS_SCHEMA = {
  			tab: "files",
  			group: "LSP",
  			label: "LSP",
@@ -6189,7 +6195,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -3839,9 +3839,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3792,9 +3792,9 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "files",
  			group: "LSP",
@@ -6201,7 +6207,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -3851,9 +3851,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3804,9 +3804,9 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "files",
  			group: "LSP",
@@ -6213,7 +6219,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -3863,8 +3863,8 @@ export const SETTINGS_SCHEMA = {
+@@ -3816,8 +3816,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "files",
  			group: "LSP",
@@ -6224,7 +6230,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -3874,8 +3874,8 @@ export const SETTINGS_SCHEMA = {
+@@ -3827,8 +3827,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "files",
  			group: "LSP",
@@ -6235,7 +6241,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -3885,8 +3885,8 @@ export const SETTINGS_SCHEMA = {
+@@ -3838,8 +3838,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "files",
  			group: "LSP",
@@ -6246,7 +6252,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -3896,8 +3896,8 @@ export const SETTINGS_SCHEMA = {
+@@ -3849,8 +3849,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "files",
  			group: "LSP",
@@ -6257,7 +6263,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -3908,7 +3908,7 @@ export const SETTINGS_SCHEMA = {
+@@ -3861,7 +3861,7 @@ export const SETTINGS_SCHEMA = {
  			tab: "shell",
  			group: "Bash",
  			label: "Bash",
@@ -6266,7 +6272,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -3918,7 +3918,7 @@ export const SETTINGS_SCHEMA = {
+@@ -3871,7 +3871,7 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "shell",
  			group: "Bash",
@@ -6275,7 +6281,7 @@ index 4fb8447..4e5c30c 100644
  			description:
  				"Evaluate literal && chains per command; unmatched commands use normal bash approval policy and mode",
  		},
-@@ -3930,8 +3930,8 @@ export const SETTINGS_SCHEMA = {
+@@ -3883,8 +3883,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "shell",
  			group: "Bash",
@@ -6286,7 +6292,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  	"bash.patterns": {
-@@ -3940,9 +3940,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3893,9 +3893,9 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "shell",
  			group: "Bash",
@@ -6298,7 +6304,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -3953,8 +3953,8 @@ export const SETTINGS_SCHEMA = {
+@@ -3906,8 +3906,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "shell",
  			group: "Bash",
@@ -6309,7 +6315,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  	"bashInterceptor.patterns": { type: "array", default: DEFAULT_BASH_INTERCEPTOR_RULES },
-@@ -3966,9 +3966,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3919,9 +3919,9 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "shell",
  			group: "Bash",
@@ -6321,7 +6327,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  	"bash.direnvLoadTimeoutMs": {
-@@ -3977,9 +3977,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3930,9 +3930,9 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "shell",
  			group: "Bash",
@@ -6333,7 +6339,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  	// Shell output minimizer
-@@ -3989,8 +3989,8 @@ export const SETTINGS_SCHEMA = {
+@@ -3942,8 +3942,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "shell",
  			group: "Bash",
@@ -6344,7 +6350,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  	"shellMinimizer.settingsPath": {
-@@ -4010,8 +4010,8 @@ export const SETTINGS_SCHEMA = {
+@@ -3963,8 +3963,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "shell",
  			group: "Bash",
@@ -6355,7 +6361,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  	"shellMinimizer.legacyFilters": {
-@@ -4025,9 +4025,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3978,9 +3978,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "shell",
@@ -6368,7 +6374,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -4036,9 +4036,9 @@ export const SETTINGS_SCHEMA = {
+@@ -3989,9 +3989,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "shell",
@@ -6381,7 +6387,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -4047,8 +4047,8 @@ export const SETTINGS_SCHEMA = {
+@@ -4000,8 +4000,8 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "shell",
@@ -6392,7 +6398,7 @@ index 4fb8447..4e5c30c 100644
  			description:
  				"Let eval cells define tools (@tool in Python, tool(fn) in JS) that task, agent(), and workpool() subagents can call",
  		},
-@@ -4059,8 +4059,8 @@ export const SETTINGS_SCHEMA = {
+@@ -4012,8 +4012,8 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "shell",
@@ -6403,7 +6409,7 @@ index 4fb8447..4e5c30c 100644
  			description:
  				"Spawn a new subagent for every workpool item instead of reusing workers or batching queued items",
  		},
-@@ -4071,9 +4071,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4024,9 +4024,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "shell",
@@ -6416,7 +6422,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -4089,9 +4089,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4042,9 +4042,9 @@ export const SETTINGS_SCHEMA = {
  		default: "session",
  		ui: {
  			tab: "shell",
@@ -6429,7 +6435,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  	"python.interpreter": {
-@@ -4099,10 +4099,10 @@ export const SETTINGS_SCHEMA = {
+@@ -4052,10 +4052,10 @@ export const SETTINGS_SCHEMA = {
  		default: "",
  		ui: {
  			tab: "shell",
@@ -6443,7 +6449,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -4116,10 +4116,10 @@ export const SETTINGS_SCHEMA = {
+@@ -4069,10 +4069,10 @@ export const SETTINGS_SCHEMA = {
  		default: {},
  		ui: {
  			tab: "interaction",
@@ -6457,7 +6463,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -4133,27 +4133,27 @@ export const SETTINGS_SCHEMA = {
+@@ -4086,27 +4086,27 @@ export const SETTINGS_SCHEMA = {
  		default: "yolo",
  		ui: {
  			tab: "interaction",
@@ -6493,7 +6499,7 @@ index 4fb8447..4e5c30c 100644
  				},
  			],
  		},
-@@ -4165,9 +4165,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4118,9 +4118,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tools",
@@ -6506,7 +6512,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -4176,9 +4176,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4129,9 +4129,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tools",
@@ -6519,7 +6525,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -4187,35 +4187,35 @@ export const SETTINGS_SCHEMA = {
+@@ -4140,35 +4140,35 @@ export const SETTINGS_SCHEMA = {
  		default: 3,
  		ui: {
  			tab: "tools",
@@ -6570,7 +6576,7 @@ index 4fb8447..4e5c30c 100644
  			],
  		},
  	},
-@@ -4226,9 +4226,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4179,9 +4179,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tools",
@@ -6582,7 +6588,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -4237,9 +4237,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4190,9 +4190,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tools",
@@ -6594,7 +6600,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -4248,15 +4248,15 @@ export const SETTINGS_SCHEMA = {
+@@ -4201,15 +4201,15 @@ export const SETTINGS_SCHEMA = {
  		default: 1,
  		ui: {
  			tab: "tools",
@@ -6618,7 +6624,7 @@ index 4fb8447..4e5c30c 100644
  			],
  		},
  	},
-@@ -4266,16 +4266,16 @@ export const SETTINGS_SCHEMA = {
+@@ -4219,16 +4219,16 @@ export const SETTINGS_SCHEMA = {
  		default: 3,
  		ui: {
  			tab: "tools",
@@ -6644,7 +6650,7 @@ index 4fb8447..4e5c30c 100644
  			],
  		},
  	},
-@@ -4285,9 +4285,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4238,9 +4238,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "tools",
@@ -6656,7 +6662,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -4296,9 +4296,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4249,9 +4249,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tools",
@@ -6668,7 +6674,21 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -4309,9 +4309,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4260,10 +4260,10 @@ export const SETTINGS_SCHEMA = {
+ 		default: false,
+ 		ui: {
+ 			tab: "tools",
+-			group: "Available Tools",
+-			label: "Find (semantic grep)",
++			group: "可用工具",
++			label: "检索(语义 grep)",
+ 			description:
+-				"Enable the find tool: natural-language search for files and line ranges, judged by the judge model role",
++				"启用 find 工具:用自然语言搜索文件与行范围,由 judge 模型角色判定",
+ 		},
+ 	},
+ 
+@@ -4274,9 +4274,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tools",
@@ -6680,7 +6700,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -4320,9 +4320,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4285,9 +4285,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tools",
@@ -6692,7 +6712,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -4331,9 +4331,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4296,9 +4296,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "tools",
@@ -6705,7 +6725,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  	"generate_image.enabled": {
-@@ -4341,10 +4341,10 @@ export const SETTINGS_SCHEMA = {
+@@ -4306,10 +4306,10 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "tools",
@@ -6719,7 +6739,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -4353,9 +4353,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4318,9 +4318,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "tools",
@@ -6732,7 +6752,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -4364,9 +4364,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4329,9 +4329,9 @@ export const SETTINGS_SCHEMA = {
  		default: "all",
  		ui: {
  			tab: "tools",
@@ -6745,7 +6765,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -4375,9 +4375,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4340,9 +4340,9 @@ export const SETTINGS_SCHEMA = {
  		default: 3840,
  		ui: {
  			tab: "tools",
@@ -6758,7 +6778,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -4386,9 +4386,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4351,9 +4351,9 @@ export const SETTINGS_SCHEMA = {
  		default: 2400,
  		ui: {
  			tab: "tools",
@@ -6771,7 +6791,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -4397,16 +4397,16 @@ export const SETTINGS_SCHEMA = {
+@@ -4362,16 +4362,16 @@ export const SETTINGS_SCHEMA = {
  		default: 300_000,
  		ui: {
  			tab: "tools",
@@ -6795,7 +6815,7 @@ index 4fb8447..4e5c30c 100644
  			],
  		},
  	},
-@@ -4416,9 +4416,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4381,9 +4381,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "tools",
@@ -6808,7 +6828,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -4428,9 +4428,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4393,9 +4393,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tools",
@@ -6821,7 +6841,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -4439,10 +4439,10 @@ export const SETTINGS_SCHEMA = {
+@@ -4404,10 +4404,10 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "tools",
@@ -6834,7 +6854,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -4451,10 +4451,10 @@ export const SETTINGS_SCHEMA = {
+@@ -4416,10 +4416,10 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "tools",
@@ -6847,7 +6867,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -4464,8 +4464,8 @@ export const SETTINGS_SCHEMA = {
+@@ -4429,8 +4429,8 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "tools",
  			group: "GitHub",
@@ -6858,7 +6878,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -4475,9 +4475,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4440,9 +4440,9 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "tools",
  			group: "GitHub",
@@ -6870,7 +6890,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -4487,9 +4487,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4452,9 +4452,9 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "tools",
  			group: "GitHub",
@@ -6882,7 +6902,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -4498,9 +4498,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4463,9 +4463,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tools",
@@ -6895,7 +6915,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -4509,10 +4509,10 @@ export const SETTINGS_SCHEMA = {
+@@ -4474,10 +4474,10 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "tools",
@@ -6909,7 +6929,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -4521,9 +4521,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4486,9 +4486,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tools",
@@ -6922,7 +6942,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -4532,9 +4532,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4497,9 +4497,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tools",
@@ -6934,7 +6954,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -4543,10 +4543,10 @@ export const SETTINGS_SCHEMA = {
+@@ -4508,10 +4508,10 @@ export const SETTINGS_SCHEMA = {
  		default: undefined,
  		ui: {
  			tab: "tools",
@@ -6948,7 +6968,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -4555,8 +4555,8 @@ export const SETTINGS_SCHEMA = {
+@@ -4520,8 +4520,8 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "tools",
@@ -6959,7 +6979,7 @@ index 4fb8447..4e5c30c 100644
  			description:
  				"Drive your own Chrome tabs through the omp browser relay. Install the extension once (`omp browser-relay install`); the relay server auto-starts when the browser prelude needs it. Takes precedence over Browser CDP URL; set PI_BROWSER_RELAY=0 or PI_BROWSER_RELAY=1 to override.",
  		},
-@@ -4567,9 +4567,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4532,9 +4532,9 @@ export const SETTINGS_SCHEMA = {
  		default: undefined,
  		ui: {
  			tab: "tools",
@@ -6972,7 +6992,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -4578,9 +4578,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4543,9 +4543,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tools",
@@ -6985,7 +7005,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -4589,10 +4589,10 @@ export const SETTINGS_SCHEMA = {
+@@ -4554,10 +4554,10 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tools",
@@ -6999,7 +7019,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  	"browser.freezeOnTurnEnd": {
-@@ -4600,10 +4600,10 @@ export const SETTINGS_SCHEMA = {
+@@ -4565,10 +4565,10 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tools",
@@ -7013,7 +7033,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  	"browser.idleCloseSec": {
-@@ -4611,15 +4611,15 @@ export const SETTINGS_SCHEMA = {
+@@ -4576,15 +4576,15 @@ export const SETTINGS_SCHEMA = {
  		default: 1800,
  		ui: {
  			tab: "tools",
@@ -7036,7 +7056,7 @@ index 4fb8447..4e5c30c 100644
  			],
  		},
  	},
-@@ -4628,10 +4628,10 @@ export const SETTINGS_SCHEMA = {
+@@ -4593,10 +4593,10 @@ export const SETTINGS_SCHEMA = {
  		default: undefined,
  		ui: {
  			tab: "tools",
@@ -7050,7 +7070,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -4641,9 +4641,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4606,9 +4606,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tools",
@@ -7063,7 +7083,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  	"tools.abortOnFabricatedResult": {
-@@ -4651,10 +4651,10 @@ export const SETTINGS_SCHEMA = {
+@@ -4616,10 +4616,10 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tools",
@@ -7077,7 +7097,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -4663,10 +4663,10 @@ export const SETTINGS_SCHEMA = {
+@@ -4628,10 +4628,10 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "tools",
@@ -7091,7 +7111,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -4675,14 +4675,14 @@ export const SETTINGS_SCHEMA = {
+@@ -4640,14 +4640,14 @@ export const SETTINGS_SCHEMA = {
  		default: 2,
  		ui: {
  			tab: "tools",
@@ -7113,7 +7133,7 @@ index 4fb8447..4e5c30c 100644
  			],
  		},
  	},
-@@ -4692,16 +4692,16 @@ export const SETTINGS_SCHEMA = {
+@@ -4657,16 +4657,16 @@ export const SETTINGS_SCHEMA = {
  		default: 0,
  		ui: {
  			tab: "tools",
@@ -7139,7 +7159,7 @@ index 4fb8447..4e5c30c 100644
  			],
  		},
  	},
-@@ -4712,9 +4712,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4677,9 +4677,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tools",
@@ -7152,7 +7172,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -4728,15 +4728,15 @@ export const SETTINGS_SCHEMA = {
+@@ -4693,15 +4693,15 @@ export const SETTINGS_SCHEMA = {
  		default: 120_000,
  		ui: {
  			tab: "tools",
@@ -7176,7 +7196,7 @@ index 4fb8447..4e5c30c 100644
  			],
  		},
  	},
-@@ -4751,8 +4751,8 @@ export const SETTINGS_SCHEMA = {
+@@ -4716,8 +4716,8 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tools",
@@ -7187,7 +7207,7 @@ index 4fb8447..4e5c30c 100644
  			description:
  				"Mount rarely-used (discoverable) tools under xd:// device URLs driven via read/write instead of shipping their schemas on every request. Sessions whose explicit tool list grants read but omits write mount devices through a device-only write transport (filesystem writes stay rejected). Disable to expose every enabled tool top-level.",
  		},
-@@ -4764,18 +4764,18 @@ export const SETTINGS_SCHEMA = {
+@@ -4729,18 +4729,18 @@ export const SETTINGS_SCHEMA = {
  		default: "builtins",
  		ui: {
  			tab: "tools",
@@ -7213,7 +7233,7 @@ index 4fb8447..4e5c30c 100644
  			],
  		},
  	},
-@@ -4785,10 +4785,10 @@ export const SETTINGS_SCHEMA = {
+@@ -4750,10 +4750,10 @@ export const SETTINGS_SCHEMA = {
  		default: EMPTY_STRING_ARRAY,
  		ui: {
  			tab: "tools",
@@ -7227,7 +7247,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -4798,9 +4798,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4763,9 +4763,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tools",
@@ -7240,7 +7260,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -4809,9 +4809,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4774,9 +4774,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tools",
@@ -7253,7 +7273,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -4820,9 +4820,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4785,9 +4785,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "tools",
@@ -7266,7 +7286,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -4831,10 +4831,10 @@ export const SETTINGS_SCHEMA = {
+@@ -4796,10 +4796,10 @@ export const SETTINGS_SCHEMA = {
  		default: 500,
  		ui: {
  			tab: "tools",
@@ -7280,7 +7300,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -4848,9 +4848,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4813,9 +4813,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tasks",
@@ -7293,7 +7313,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -4859,9 +4859,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4824,9 +4824,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "tasks",
@@ -7306,7 +7326,7 @@ index 4fb8447..4e5c30c 100644
  			condition: "planModeEnabled",
  		},
  	},
-@@ -4871,9 +4871,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4836,9 +4836,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "tasks",
@@ -7319,7 +7339,7 @@ index 4fb8447..4e5c30c 100644
  			condition: "planModeEnabled",
  		},
  	},
-@@ -4883,10 +4883,10 @@ export const SETTINGS_SCHEMA = {
+@@ -4848,10 +4848,10 @@ export const SETTINGS_SCHEMA = {
  		default: undefined,
  		ui: {
  			tab: "tasks",
@@ -7333,7 +7353,7 @@ index 4fb8447..4e5c30c 100644
  			condition: "planAutosaveEnabled",
  		},
  	},
-@@ -4896,9 +4896,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4861,9 +4861,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tasks",
@@ -7346,7 +7366,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -4907,9 +4907,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4872,9 +4872,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tasks",
@@ -7359,7 +7379,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -4918,9 +4918,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4883,9 +4883,9 @@ export const SETTINGS_SCHEMA = {
  		default: ["interactive"],
  		ui: {
  			tab: "tasks",
@@ -7372,7 +7392,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -4929,9 +4929,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4894,9 +4894,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tasks",
@@ -7385,7 +7405,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -4941,9 +4941,9 @@ export const SETTINGS_SCHEMA = {
+@@ -4906,9 +4906,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "tasks",
@@ -7398,7 +7418,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -4953,30 +4953,30 @@ export const SETTINGS_SCHEMA = {
+@@ -4918,30 +4918,30 @@ export const SETTINGS_SCHEMA = {
  		default: "auto",
  		ui: {
  			tab: "tasks",
@@ -7442,7 +7462,7 @@ index 4fb8447..4e5c30c 100644
  				},
  			],
  		},
-@@ -4987,8 +4987,8 @@ export const SETTINGS_SCHEMA = {
+@@ -4952,8 +4952,8 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tasks",
@@ -7453,7 +7473,7 @@ index 4fb8447..4e5c30c 100644
  			description:
  				"New worktrees from `github pr_checkout` and `git worktree add` in bash start as a copy-on-write clone of the current checkout so ignored build artifacts (node_modules, target) carry over; falls back to a plain checkout when the filesystem cannot clone",
  		},
-@@ -4999,8 +4999,8 @@ export const SETTINGS_SCHEMA = {
+@@ -4964,8 +4964,8 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "tasks",
@@ -7464,7 +7484,7 @@ index 4fb8447..4e5c30c 100644
  			description:
  				"When creating a worktree with `/wt`, reset tracked changes and remove untracked files from the original checkout after carrying them over",
  		},
-@@ -5011,10 +5011,10 @@ export const SETTINGS_SCHEMA = {
+@@ -4976,10 +4976,10 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tasks",
@@ -7478,7 +7498,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -5024,12 +5024,12 @@ export const SETTINGS_SCHEMA = {
+@@ -4989,12 +4989,12 @@ export const SETTINGS_SCHEMA = {
  		default: "patch",
  		ui: {
  			tab: "tasks",
@@ -7496,7 +7516,7 @@ index 4fb8447..4e5c30c 100644
  			],
  		},
  	},
-@@ -5040,12 +5040,12 @@ export const SETTINGS_SCHEMA = {
+@@ -5005,12 +5005,12 @@ export const SETTINGS_SCHEMA = {
  		default: "generic",
  		ui: {
  			tab: "tasks",
@@ -7514,7 +7534,7 @@ index 4fb8447..4e5c30c 100644
  			],
  		},
  	},
-@@ -5055,30 +5055,30 @@ export const SETTINGS_SCHEMA = {
+@@ -5020,30 +5020,30 @@ export const SETTINGS_SCHEMA = {
  		default: undefined,
  		ui: {
  			tab: "tasks",
@@ -7556,7 +7576,7 @@ index 4fb8447..4e5c30c 100644
  			],
  		},
  	},
-@@ -5088,10 +5088,10 @@ export const SETTINGS_SCHEMA = {
+@@ -5053,10 +5053,10 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tasks",
@@ -7570,7 +7590,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -5100,10 +5100,10 @@ export const SETTINGS_SCHEMA = {
+@@ -5065,10 +5065,10 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "tasks",
@@ -7584,7 +7604,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -5112,18 +5112,18 @@ export const SETTINGS_SCHEMA = {
+@@ -5077,18 +5077,18 @@ export const SETTINGS_SCHEMA = {
  		default: 32,
  		ui: {
  			tab: "tasks",
@@ -7614,7 +7634,7 @@ index 4fb8447..4e5c30c 100644
  			],
  		},
  	},
-@@ -5133,10 +5133,10 @@ export const SETTINGS_SCHEMA = {
+@@ -5098,10 +5098,10 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "tasks",
@@ -7628,7 +7648,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -5145,15 +5145,15 @@ export const SETTINGS_SCHEMA = {
+@@ -5110,15 +5110,15 @@ export const SETTINGS_SCHEMA = {
  		default: 2,
  		ui: {
  			tab: "tasks",
@@ -7652,7 +7672,7 @@ index 4fb8447..4e5c30c 100644
  			],
  		},
  	},
-@@ -5163,16 +5163,16 @@ export const SETTINGS_SCHEMA = {
+@@ -5128,16 +5128,16 @@ export const SETTINGS_SCHEMA = {
  		default: 0,
  		ui: {
  			tab: "tasks",
@@ -7677,7 +7697,7 @@ index 4fb8447..4e5c30c 100644
  			],
  		},
  	},
-@@ -5182,10 +5182,10 @@ export const SETTINGS_SCHEMA = {
+@@ -5147,10 +5147,10 @@ export const SETTINGS_SCHEMA = {
  		default: 420_000,
  		ui: {
  			tab: "tasks",
@@ -7691,7 +7711,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -5194,15 +5194,15 @@ export const SETTINGS_SCHEMA = {
+@@ -5159,15 +5159,15 @@ export const SETTINGS_SCHEMA = {
  		default: 200,
  		ui: {
  			tab: "tasks",
@@ -7714,7 +7734,7 @@ index 4fb8447..4e5c30c 100644
  			],
  		},
  	},
-@@ -5212,10 +5212,10 @@ export const SETTINGS_SCHEMA = {
+@@ -5177,10 +5177,10 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tasks",
@@ -7728,7 +7748,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -5225,10 +5225,10 @@ export const SETTINGS_SCHEMA = {
+@@ -5190,10 +5190,10 @@ export const SETTINGS_SCHEMA = {
  		default: "max",
  		ui: {
  			tab: "tasks",
@@ -7742,7 +7762,7 @@ index 4fb8447..4e5c30c 100644
  			options: THINKING_EFFORTS.map(getThinkingLevelMetadata),
  		},
  	},
-@@ -5259,8 +5259,8 @@ export const SETTINGS_SCHEMA = {
+@@ -5224,8 +5224,8 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "tasks",
@@ -7753,7 +7773,7 @@ index 4fb8447..4e5c30c 100644
  			description:
  				"Arm prewalk for the bundled generic `task` subagent: it starts on its resolved model, plans and begins the implementation, then hands off to the 'smol' role at its first edit/write. Per-agent overrides (task.agentPrewalk, configured from the /agents hub) and user agent `prewalk` frontmatter apply regardless of this toggle.",
  		},
-@@ -5271,17 +5271,17 @@ export const SETTINGS_SCHEMA = {
+@@ -5236,17 +5236,17 @@ export const SETTINGS_SCHEMA = {
  		default: 60,
  		ui: {
  			tab: "tools",
@@ -7781,7 +7801,7 @@ index 4fb8447..4e5c30c 100644
  			],
  		},
  	},
-@@ -5291,9 +5291,9 @@ export const SETTINGS_SCHEMA = {
+@@ -5256,9 +5256,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "appearance",
@@ -7794,7 +7814,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -5305,9 +5305,9 @@ export const SETTINGS_SCHEMA = {
+@@ -5270,9 +5270,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tasks",
@@ -7807,7 +7827,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -5337,9 +5337,9 @@ export const SETTINGS_SCHEMA = {
+@@ -5302,9 +5302,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "tasks",
@@ -7820,7 +7840,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -5348,9 +5348,9 @@ export const SETTINGS_SCHEMA = {
+@@ -5313,9 +5313,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tasks",
@@ -7833,7 +7853,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -5359,9 +5359,9 @@ export const SETTINGS_SCHEMA = {
+@@ -5324,9 +5324,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "tasks",
@@ -7846,7 +7866,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -5370,9 +5370,9 @@ export const SETTINGS_SCHEMA = {
+@@ -5335,9 +5335,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tasks",
@@ -7859,7 +7879,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -5386,9 +5386,9 @@ export const SETTINGS_SCHEMA = {
+@@ -5351,9 +5351,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "providers",
@@ -7872,7 +7892,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -5398,10 +5398,10 @@ export const SETTINGS_SCHEMA = {
+@@ -5363,10 +5363,10 @@ export const SETTINGS_SCHEMA = {
  		default: 3,
  		ui: {
  			tab: "providers",
@@ -7885,35 +7905,8 @@ index 4fb8447..4e5c30c 100644
 +				"每个进程的 Ollama Cloud 子代理最大并发运行数;0 禁用该提供商特定限制",
  		},
  	},
- 	"providers.webSearchOrder": {
-@@ -5409,10 +5409,10 @@ export const SETTINGS_SCHEMA = {
- 		default: [] as SearchProviderId[],
- 		ui: {
- 			tab: "providers",
--			group: "Services",
--			label: "Web Search Provider Order",
-+			group: "服务",
-+			label: "Web 搜索提供商顺序",
- 			description:
--				"Prioritized providers for the web_search tool; unlisted providers retain their default order afterward",
-+				"web_search 工具的优先级提供商列表;未列出的提供商之后保持默认顺序",
- 			options: SEARCH_PROVIDER_CHOICES,
- 			ordered: true,
- 		},
-@@ -5422,9 +5422,9 @@ export const SETTINGS_SCHEMA = {
- 		default: [] as SearchProviderId[],
- 		ui: {
- 			tab: "providers",
--			group: "Services",
--			label: "Excluded Web Search Providers",
--			description: "Providers that web_search should never use, even as fallbacks",
-+			group: "服务",
-+			label: "排除的 Web 搜索提供商",
-+			description: "web_search 绝不使用的提供商,即使作为回退",
- 			options: SEARCH_PROVIDER_CHOICES,
- 		},
- 	},
-@@ -5433,15 +5433,15 @@ export const SETTINGS_SCHEMA = {
+ 	"providers.webSearchTimeoutSeconds": {
+@@ -5374,15 +5374,15 @@ export const SETTINGS_SCHEMA = {
  		default: DEFAULT_WEB_SEARCH_TIMEOUT_SECONDS,
  		ui: {
  			tab: "providers",
@@ -7937,20 +7930,7 @@ index 4fb8447..4e5c30c 100644
  			],
  		},
  	},
-@@ -5450,9 +5450,9 @@ export const SETTINGS_SCHEMA = {
- 		default: undefined,
- 		ui: {
- 			tab: "providers",
--			group: "Services",
--			label: "Gemini web_search model",
--			description: "Model ID for Gemini Google Search grounding. Defaults to gemini-2.5-flash.",
-+			group: "服务",
-+			label: "Gemini web_search 模型",
-+			description: "Gemini Google Search grounding 的模型 ID。默认为 gemini-2.5-flash。",
- 		},
- 	},
- 	"providers.antigravityEndpoint": {
-@@ -5461,24 +5461,24 @@ export const SETTINGS_SCHEMA = {
+@@ -5392,24 +5392,24 @@ export const SETTINGS_SCHEMA = {
  		default: "auto",
  		ui: {
  			tab: "providers",
@@ -7984,21 +7964,7 @@ index 4fb8447..4e5c30c 100644
  				},
  			],
  		},
-@@ -5488,10 +5488,10 @@ export const SETTINGS_SCHEMA = {
- 		default: [] as ImageProvider[],
- 		ui: {
- 			tab: "providers",
--			group: "Services",
--			label: "Image Provider Order",
-+			group: "服务",
-+			label: "图片提供商顺序",
- 			description:
--				"Prioritized providers for image generation; unlisted providers follow the active session provider and the built-in order",
-+				"图片生成的优先级提供商列表;未列出的提供商遵循当前会话提供商和内置顺序",
- 			options: IMAGE_PROVIDER_CHOICES,
- 			ordered: true,
- 		},
-@@ -5503,15 +5503,15 @@ export const SETTINGS_SCHEMA = {
+@@ -5421,15 +5421,15 @@ export const SETTINGS_SCHEMA = {
  		ui: {
  			tab: "providers",
  			group: "Fireworks",
@@ -8019,7 +7985,7 @@ index 4fb8447..4e5c30c 100644
  				},
  			],
  		},
-@@ -5522,9 +5522,9 @@ export const SETTINGS_SCHEMA = {
+@@ -5440,9 +5440,9 @@ export const SETTINGS_SCHEMA = {
  		default: DEFAULT_LIVE_VOICE,
  		ui: {
  			tab: "providers",
@@ -8032,56 +7998,7 @@ index 4fb8447..4e5c30c 100644
  			options: LIVE_VOICE_OPTIONS,
  		},
  	},
-@@ -5534,26 +5534,26 @@ export const SETTINGS_SCHEMA = {
- 		default: "auto",
- 		ui: {
- 			tab: "providers",
--			group: "Services",
--			label: "Text-to-Speech Provider",
-+			group: "服务",
-+			label: "文本转语音提供商",
- 			description:
- 				"Backend for the tts tool: local on-device neural TTS (Kokoro-82M), xAI Grok Voice, or DeepInfra speech",
- 			options: [
- 				{
- 					value: "auto",
--					label: "Auto",
--					description: "Prefer local on-device TTS; route .mp3 output to xAI when credentials exist",
-+					label: "自动",
-+					description: "优先使用本地设备端 TTS;存在 credentials 时将 .mp3 输出路由到 xAI",
- 				},
--				{ value: "local", label: "Local", description: "On-device neural TTS (Kokoro-82M); output is WAV/PCM16" },
-+				{ value: "local", label: "本地", description: "设备端神经 TTS (Kokoro-82M);输出为 WAV/PCM16" },
- 				{
- 					value: "xai",
--					label: "xAI Grok Voice",
--					description: "Requires xAI Grok OAuth or XAI_API_KEY; MP3 or WAV",
-+					label: "xAI Grok 语音",
-+					description: "需要 xAI Grok OAuth 或 XAI_API_KEY;MP3 或 WAV",
- 				},
- 				{
- 					value: "deepinfra",
--					label: "DeepInfra Speech",
--					description: "Requires DEEPINFRA_API_KEY; MP3 or WAV",
-+					label: "DeepInfra 语音",
-+					description: "需要 DEEPINFRA_API_KEY；MP3 或 WAV",
- 				},
- 			],
- 		},
-@@ -5564,9 +5564,9 @@ export const SETTINGS_SCHEMA = {
- 		default: DEFAULT_TTS_LOCAL_MODEL_KEY,
- 		ui: {
- 			tab: "providers",
--			group: "Services",
--			label: "Local TTS Model",
--			description: "On-device neural TTS model (Kokoro-82M) used by the local TTS backend",
-+			group: "服务",
-+			label: "本地 TTS 模型",
-+			description: "本地 TTS 后端使用的设备端神经 TTS 模型 (Kokoro-82M)",
- 			options: TTS_LOCAL_MODEL_OPTIONS,
- 		},
- 	},
-@@ -5576,9 +5576,9 @@ export const SETTINGS_SCHEMA = {
+@@ -5452,9 +5452,9 @@ export const SETTINGS_SCHEMA = {
  		default: DEFAULT_TTS_VOICE,
  		ui: {
  			tab: "providers",
@@ -8094,7 +8011,7 @@ index 4fb8447..4e5c30c 100644
  			options: TTS_LOCAL_VOICE_OPTIONS,
  		},
  	},
-@@ -5587,9 +5587,9 @@ export const SETTINGS_SCHEMA = {
+@@ -5463,9 +5463,9 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "providers",
@@ -8107,7 +8024,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  	"speech.mode": {
-@@ -5598,14 +5598,14 @@ export const SETTINGS_SCHEMA = {
+@@ -5474,14 +5474,14 @@ export const SETTINGS_SCHEMA = {
  		default: "assistant",
  		ui: {
  			tab: "providers",
@@ -8128,7 +8045,7 @@ index 4fb8447..4e5c30c 100644
  			],
  		},
  	},
-@@ -5614,10 +5614,10 @@ export const SETTINGS_SCHEMA = {
+@@ -5490,10 +5490,10 @@ export const SETTINGS_SCHEMA = {
  		default: false,
  		ui: {
  			tab: "providers",
@@ -8142,7 +8059,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  	"speech.voice": {
-@@ -5626,9 +5626,9 @@ export const SETTINGS_SCHEMA = {
+@@ -5502,9 +5502,9 @@ export const SETTINGS_SCHEMA = {
  		default: DEFAULT_TTS_VOICE,
  		ui: {
  			tab: "providers",
@@ -8155,49 +8072,7 @@ index 4fb8447..4e5c30c 100644
  			options: TTS_LOCAL_VOICE_OPTIONS,
  		},
  	},
-@@ -5638,21 +5638,21 @@ export const SETTINGS_SCHEMA = {
- 		default: "auto",
- 		ui: {
- 			tab: "providers",
--			group: "Tiny Model",
--			label: "Judgment Provider",
-+			group: "小模型",
-+			label: "判定提供商",
- 			description:
--				"Preferred backend for typed judgments (auto-thinking difficulty, Smart unexpected-stop detection, git AI staging, eval judge()). Auto uses TypeSafe when authenticated; failed TypeSafe requests fall back through tiny, smol, default, then the active session model.",
-+				"类型化判定(auto 思考难度、Smart 意外停止检测、git AI 暂存、eval judge())的首选后端。Auto 在已认证时使用 TypeSafe;TypeSafe 请求失败后依次回退到 tiny、smol、default,最后是当前会话模型。",
- 			options: [
--				{ value: "auto", label: "Auto", description: "TypeSafe when authenticated, else the LLM bridge (default)" },
-+				{ value: "auto", label: "自动", description: "已认证时使用 TypeSafe,否则使用 LLM 桥接(默认)" },
- 				{
- 					value: "typesafe",
- 					label: "TypeSafe",
--					description: "Prefer TypeSafe; fall back through the online model roles on failure",
-+					description: "优先 TypeSafe;失败后回退到在线模型角色",
- 				},
- 				{
- 					value: "llm",
- 					label: "LLM",
--					description: "Never TypeSafe; keyword prompts to the tiny/smol or local model",
-+					description: "从不使用 TypeSafe;改为向 tiny/smol 或本地模型发送关键词提示",
- 				},
- 			],
- 		},
-@@ -5663,10 +5663,10 @@ export const SETTINGS_SCHEMA = {
- 		default: ONLINE_TINY_TITLE_MODEL_KEY,
- 		ui: {
- 			tab: "providers",
--			group: "Tiny Model",
--			label: "Tiny Model",
-+			group: "小模型",
-+			label: "小模型",
- 			description:
--				"Session-title model: online (the TINY role from /models, else @smol) by default, or a local on-device model",
-+				"会话标题模型:默认使用在线模型(来自 /models 的 TINY 角色,否则为 @smol),或使用本地设备端模型",
- 			options: TINY_TITLE_MODEL_OPTIONS,
- 		},
- 	},
-@@ -5676,8 +5676,8 @@ export const SETTINGS_SCHEMA = {
+@@ -5514,8 +5514,8 @@ export const SETTINGS_SCHEMA = {
  		default: TINY_MODEL_DEVICE_DEFAULT,
  		ui: {
  			tab: "providers",
@@ -8208,7 +8083,7 @@ index 4fb8447..4e5c30c 100644
  			description:
  				"Inference backend for local tiny models (titles + memory): an ONNX execution provider, or `mlx` to download MLX weights and run them through mlx-lm on Apple silicon. Default uses CPU-only ONNX. The PI_TINY_DEVICE env var overrides this.",
  			options: TINY_MODEL_DEVICE_SETTING_OPTIONS,
-@@ -5689,8 +5689,8 @@ export const SETTINGS_SCHEMA = {
+@@ -5527,8 +5527,8 @@ export const SETTINGS_SCHEMA = {
  		default: TINY_MODEL_DTYPE_DEFAULT,
  		ui: {
  			tab: "providers",
@@ -8219,35 +8094,7 @@ index 4fb8447..4e5c30c 100644
  			description:
  				"ONNX quantization/precision for local tiny models. Default uses each model's shipped dtype (q4); lower precision is faster, higher is more faithful. Ignored by the MLX backend (its repos are pre-quantized 4-bit). The PI_TINY_DTYPE env var overrides this.",
  			options: TINY_MODEL_DTYPE_SETTING_OPTIONS,
-@@ -5702,10 +5702,10 @@ export const SETTINGS_SCHEMA = {
- 		default: ONLINE_MEMORY_MODEL_KEY,
- 		ui: {
- 			tab: "memory",
--			group: "General",
--			label: "Memory Model",
-+			group: "通用",
-+			label: "记忆模型",
- 			description:
--				"Mnemopi LLM for fact extraction + consolidation: online (the TINY role from /models, else smol/remote) by default, or a local on-device model",
-+				"用于事实提取 + 整合的 Mnemopi LLM:默认使用在线模型(来自 /models 的 TINY 角色,否则为 smol/remote),或使用本地设备端模型",
- 			condition: "mnemopiActive",
- 			options: TINY_MEMORY_MODEL_OPTIONS,
- 		},
-@@ -5717,10 +5717,10 @@ export const SETTINGS_SCHEMA = {
- 		default: ONLINE_AUTO_THINKING_MODEL_KEY,
- 		ui: {
- 			tab: "model",
--			group: "Thinking",
--			label: "Auto Thinking Model",
-+			group: "思考",
-+			label: "自动思考模型",
- 			description:
--				"Difficulty classifier for the `auto` thinking level: online (the TINY role from /models, else smol) by default, or a local on-device model",
-+				"`auto` 思考级别的难度分类器:默认使用在线模型(来自 /models 的 TINY 角色,否则为 smol),或使用本地设备端模型",
- 			condition: "autoThinkingActive",
- 			options: AUTO_THINKING_MODEL_OPTIONS,
- 		},
-@@ -5731,14 +5731,14 @@ export const SETTINGS_SCHEMA = {
+@@ -5540,14 +5540,14 @@ export const SETTINGS_SCHEMA = {
  		default: "xhigh",
  		ui: {
  			tab: "model",
@@ -8267,7 +8114,7 @@ index 4fb8447..4e5c30c 100644
  			],
  		},
  	},
-@@ -5748,21 +5748,21 @@ export const SETTINGS_SCHEMA = {
+@@ -5557,21 +5557,21 @@ export const SETTINGS_SCHEMA = {
  		default: "mechanical",
  		ui: {
  			tab: "interaction",
@@ -8296,18 +8143,7 @@ index 4fb8447..4e5c30c 100644
  				},
  			],
  		},
-@@ -5773,8 +5773,8 @@ export const SETTINGS_SCHEMA = {
- 		default: ONLINE_MEMORY_MODEL_KEY,
- 		ui: {
- 			tab: "providers",
--			group: "Tiny Model",
--			label: "Unexpected Stop Model",
-+			group: "小模型",
-+			label: "意外停止检测模型",
- 			description:
- 				"Classifier for Smart unexpected-stop detection: online (the TINY role from /models, else smol) by default, or a local on-device model.",
- 			condition: "unexpectedStopSmart",
-@@ -5788,11 +5788,11 @@ export const SETTINGS_SCHEMA = {
+@@ -5583,11 +5583,11 @@ export const SETTINGS_SCHEMA = {
  		default: "auto",
  		ui: {
  			tab: "providers",
@@ -8323,7 +8159,7 @@ index 4fb8447..4e5c30c 100644
  				{ value: "openai", label: "OpenAI", description: "api.kimi.com" },
  				{ value: "anthropic", label: "Anthropic", description: "api.moonshot.ai" },
  			],
-@@ -5805,13 +5805,13 @@ export const SETTINGS_SCHEMA = {
+@@ -5600,13 +5600,13 @@ export const SETTINGS_SCHEMA = {
  		default: "auto",
  		ui: {
  			tab: "providers",
@@ -8342,7 +8178,7 @@ index 4fb8447..4e5c30c 100644
  			],
  		},
  	},
-@@ -5822,29 +5822,29 @@ export const SETTINGS_SCHEMA = {
+@@ -5617,29 +5617,29 @@ export const SETTINGS_SCHEMA = {
  		default: "auto",
  		ui: {
  			tab: "providers",
@@ -8380,7 +8216,7 @@ index 4fb8447..4e5c30c 100644
  			],
  		},
  	},
-@@ -5854,16 +5854,16 @@ export const SETTINGS_SCHEMA = {
+@@ -5649,16 +5649,16 @@ export const SETTINGS_SCHEMA = {
  		default: -1,
  		ui: {
  			tab: "providers",
@@ -8405,7 +8241,7 @@ index 4fb8447..4e5c30c 100644
  			],
  		},
  	},
-@@ -5873,16 +5873,16 @@ export const SETTINGS_SCHEMA = {
+@@ -5668,16 +5668,16 @@ export const SETTINGS_SCHEMA = {
  		default: -1,
  		ui: {
  			tab: "providers",
@@ -8430,7 +8266,7 @@ index 4fb8447..4e5c30c 100644
  			],
  		},
  	},
-@@ -5893,19 +5893,19 @@ export const SETTINGS_SCHEMA = {
+@@ -5688,19 +5688,19 @@ export const SETTINGS_SCHEMA = {
  		default: "default",
  		ui: {
  			tab: "providers",
@@ -8458,7 +8294,7 @@ index 4fb8447..4e5c30c 100644
  				},
  			],
  		},
-@@ -5916,21 +5916,21 @@ export const SETTINGS_SCHEMA = {
+@@ -5711,21 +5711,21 @@ export const SETTINGS_SCHEMA = {
  		default: "auto",
  		ui: {
  			tab: "providers",
@@ -8491,7 +8327,7 @@ index 4fb8447..4e5c30c 100644
  			],
  		},
  	},
-@@ -5941,18 +5941,18 @@ export const SETTINGS_SCHEMA = {
+@@ -5736,18 +5736,18 @@ export const SETTINGS_SCHEMA = {
  		default: "unset" as const,
  		ui: {
  			tab: "providers",
@@ -8517,7 +8353,7 @@ index 4fb8447..4e5c30c 100644
  			],
  		},
  	},
-@@ -5961,10 +5961,10 @@ export const SETTINGS_SCHEMA = {
+@@ -5756,10 +5756,10 @@ export const SETTINGS_SCHEMA = {
  		default: 60,
  		ui: {
  			tab: "providers",
@@ -8531,7 +8367,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  	"codexResets.keepCredits": {
-@@ -5972,10 +5972,10 @@ export const SETTINGS_SCHEMA = {
+@@ -5767,10 +5767,10 @@ export const SETTINGS_SCHEMA = {
  		default: 0,
  		ui: {
  			tab: "providers",
@@ -8545,7 +8381,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  	"codexResets.salvageHorizonHours": {
-@@ -5983,10 +5983,10 @@ export const SETTINGS_SCHEMA = {
+@@ -5778,10 +5778,10 @@ export const SETTINGS_SCHEMA = {
  		default: 12,
  		ui: {
  			tab: "providers",
@@ -8559,7 +8395,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  	"provider.appendOnlyContext": {
-@@ -5995,14 +5995,14 @@ export const SETTINGS_SCHEMA = {
+@@ -5790,14 +5790,14 @@ export const SETTINGS_SCHEMA = {
  		default: "auto",
  		ui: {
  			tab: "providers",
@@ -8580,7 +8416,7 @@ index 4fb8447..4e5c30c 100644
  			],
  		},
  	},
-@@ -6013,9 +6013,9 @@ export const SETTINGS_SCHEMA = {
+@@ -5808,9 +5808,9 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "providers",
@@ -8592,7 +8428,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -6024,9 +6024,9 @@ export const SETTINGS_SCHEMA = {
+@@ -5819,9 +5819,9 @@ export const SETTINGS_SCHEMA = {
  		default: 1_000,
  		ui: {
  			tab: "providers",
@@ -8605,7 +8441,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -6036,9 +6036,9 @@ export const SETTINGS_SCHEMA = {
+@@ -5831,9 +5831,9 @@ export const SETTINGS_SCHEMA = {
  		default: undefined,
  		ui: {
  			tab: "providers",
@@ -8618,7 +8454,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -6096,10 +6096,10 @@ export const SETTINGS_SCHEMA = {
+@@ -5891,10 +5891,10 @@ export const SETTINGS_SCHEMA = {
  		default: 30_000,
  		ui: {
  			tab: "tools",
@@ -8632,7 +8468,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -6108,10 +6108,10 @@ export const SETTINGS_SCHEMA = {
+@@ -5903,10 +5903,10 @@ export const SETTINGS_SCHEMA = {
  		default: true,
  		ui: {
  			tab: "tools",
@@ -8646,7 +8482,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -6120,9 +6120,9 @@ export const SETTINGS_SCHEMA = {
+@@ -5915,9 +5915,9 @@ export const SETTINGS_SCHEMA = {
  		default: "https://qa.omp.sh/v1/grievances" as const,
  		ui: {
  			tab: "tools",
@@ -8659,7 +8495,7 @@ index 4fb8447..4e5c30c 100644
  		},
  	},
  
-@@ -6381,7 +6381,7 @@ export interface CommitSettings {
+@@ -6176,7 +6176,7 @@ export interface CommitSettings {
  export interface TtsrSettings {
  	enabled: boolean;
  	contextMode: "discard" | "keep";
@@ -8669,10 +8505,10 @@ index 4fb8447..4e5c30c 100644
  	repeatGap: number;
  	/** Bucketing-only (read by bucketRules, not the TtsrManager). */
 diff --git a/pi-coding-agent/src/modes/acp/acp-agent.ts b/pi-coding-agent-zh/src/modes/acp/acp-agent.ts
-index 45950f9..cbbf3eb 100644
+index a767690..db67b19 100644
 --- a/pi-coding-agent/src/modes/acp/acp-agent.ts
 +++ b/pi-coding-agent-zh/src/modes/acp/acp-agent.ts
-@@ -95,8 +95,8 @@ import { ACP_TERMINAL_AUTH_FLAG } from "./terminal-auth";
+@@ -90,8 +90,8 @@ import { ACP_TERMINAL_AUTH_FLAG } from "./terminal-auth";
  const ACP_DEFAULT_MODE_ID = "default";
  const ACP_PLAN_MODE_ID = "plan";
  const DEFAULT_PLAN_FILE_URL = "local://PLAN.md";
@@ -8683,7 +8519,7 @@ index 45950f9..cbbf3eb 100644
  const MODE_CONFIG_ID = "mode";
  const MODEL_CONFIG_ID = "model";
  const THINKING_CONFIG_ID = "thinking";
-@@ -635,7 +635,7 @@ export class AcpAgent implements Agent {
+@@ -637,7 +637,7 @@ export class AcpAgent implements Agent {
  			{
  				id: "agent",
  				name: "Use existing local credentials",
@@ -8692,7 +8528,7 @@ index 45950f9..cbbf3eb 100644
  			},
  		];
  		if (params.clientCapabilities?.auth?.terminal === true) {
-@@ -643,7 +643,7 @@ export class AcpAgent implements Agent {
+@@ -645,7 +645,7 @@ export class AcpAgent implements Agent {
  				type: "terminal",
  				id: "terminal",
  				name: "Set up Oh My Pi in terminal",
@@ -8701,7 +8537,7 @@ index 45950f9..cbbf3eb 100644
  				args: [ACP_TERMINAL_AUTH_FLAG],
  			});
  		}
-@@ -1789,7 +1789,7 @@ export class AcpAgent implements Agent {
+@@ -1791,7 +1791,7 @@ export class AcpAgent implements Agent {
  	#buildThinkingOptions(session: AgentSession): Array<{ value: string; name: string; description?: string }> {
  		return [
  			{ value: THINKING_OFF, name: "Off" },
@@ -8710,7 +8546,7 @@ index 45950f9..cbbf3eb 100644
  			...session.getAvailableThinkingLevels().map(level => ({
  				value: level,
  				name: level,
-@@ -1829,12 +1829,12 @@ export class AcpAgent implements Agent {
+@@ -1831,12 +1831,12 @@ export class AcpAgent implements Agent {
  	}
  
  	#getAvailableModes(session: AgentSession): Array<{ id: string; name: string; description: string }> {
@@ -8725,7 +8561,7 @@ index 45950f9..cbbf3eb 100644
  			});
  		}
  		void session;
-@@ -1959,7 +1959,7 @@ export class AcpAgent implements Agent {
+@@ -1961,7 +1961,7 @@ export class AcpAgent implements Agent {
  					type: "text" as const,
  					text: autosaveFailed
  						? `Plan approved at ${planFilePath}. Plan mode exited; proceed with the implementation. (Plan autosave failed; continuing.)`
@@ -8734,7 +8570,7 @@ index 45950f9..cbbf3eb 100644
  				},
  			],
  			details,
-@@ -2026,7 +2026,7 @@ export class AcpAgent implements Agent {
+@@ -2028,7 +2028,7 @@ export class AcpAgent implements Agent {
  		// inline and a multi-thousand-line plan blows out the dialog.
  		const previewLines = planContent.split("\n").slice(0, 12).join("\n");
  		const ellipsis = planContent.split("\n").length > 12 ? "\n…" : "";
@@ -9161,10 +8997,10 @@ index 0f0eca3..270f832 100644
  	if (status === "ok") return "success";
  	return "dim";
 diff --git a/pi-coding-agent/src/modes/controllers/input-controller.ts b/pi-coding-agent-zh/src/modes/controllers/input-controller.ts
-index 7ef9fa6..4807098 100644
+index 596fe64..d060ade 100644
 --- a/pi-coding-agent/src/modes/controllers/input-controller.ts
 +++ b/pi-coding-agent-zh/src/modes/controllers/input-controller.ts
-@@ -766,7 +766,7 @@ export class InputController {
+@@ -787,7 +787,7 @@ export class InputController {
  		// what the click displayed.
  		const nextId = pickRecentFocusableAgentId(scoped, this.ctx.focusedAgentId);
  		if (nextId === undefined) {
@@ -9173,7 +9009,7 @@ index 7ef9fa6..4807098 100644
  			return;
  		}
  		this.#focusResolvedAgent(nextId);
-@@ -1434,7 +1434,7 @@ export class InputController {
+@@ -1456,7 +1456,7 @@ export class InputController {
  		// as local and does not blank the editor the dequeue just restored to.
  		this.ctx.locallySubmittedUserSignatures.delete(`${popped.text}\u0000${popped.images?.length ?? 0}`);
  		this.#restoreEntriesToEditor([popped]);
@@ -9182,7 +9018,7 @@ index 7ef9fa6..4807098 100644
  	}
  
  	/**
-@@ -2146,9 +2146,9 @@ export class InputController {
+@@ -2168,9 +2168,9 @@ export class InputController {
  			choice = await this.ctx.showHookSelector(
  				`Pasted ${lineCount} lines`,
  				[
@@ -9209,10 +9045,10 @@ index 082baea..3d581a1 100644
  				].join("\n"),
  			);
 diff --git a/pi-coding-agent/src/modes/controllers/selector-controller.ts b/pi-coding-agent-zh/src/modes/controllers/selector-controller.ts
-index 51a22a7..ad1c4b3 100644
+index 6c79091..8809eea 100644
 --- a/pi-coding-agent/src/modes/controllers/selector-controller.ts
 +++ b/pi-coding-agent-zh/src/modes/controllers/selector-controller.ts
-@@ -1396,7 +1396,7 @@ export class SelectorController {
+@@ -1373,7 +1373,7 @@ export class SelectorController {
  	showUserMessageSelector(): void {
  		const entries = this.ctx.sessionManager.getBranch().filter(isTranscriptEntry);
  		if (entries.length === 0) {
@@ -9221,7 +9057,7 @@ index 51a22a7..ad1c4b3 100644
  			return;
  		}
  
-@@ -1422,7 +1422,7 @@ export class SelectorController {
+@@ -1399,7 +1399,7 @@ export class SelectorController {
  		});
  		if (selector.targetCount === 0) {
  			selector.dispose();
@@ -9230,7 +9066,7 @@ index 51a22a7..ad1c4b3 100644
  			return;
  		}
  		// Fullscreen alternate-screen overlay: the transcript replica draws over
-@@ -1527,7 +1527,7 @@ export class SelectorController {
+@@ -1504,7 +1504,7 @@ export class SelectorController {
  	showCopySelector(): void {
  		const entries = this.ctx.sessionManager.getBranch().filter(isTranscriptEntry);
  		if (entries.length === 0) {
@@ -9239,7 +9075,7 @@ index 51a22a7..ad1c4b3 100644
  			return;
  		}
  
-@@ -1565,7 +1565,7 @@ export class SelectorController {
+@@ -1542,7 +1542,7 @@ export class SelectorController {
  		});
  		if (selector.targetCount === 0) {
  			selector.dispose();
@@ -9248,7 +9084,7 @@ index 51a22a7..ad1c4b3 100644
  			return;
  		}
  		const overlayHandle = this.ctx.ui.showOverlay(selector, {
-@@ -1584,7 +1584,7 @@ export class SelectorController {
+@@ -1561,7 +1561,7 @@ export class SelectorController {
  		const realLeafId = this.ctx.sessionManager.getLeafId();
  
  		if (tree.length === 0) {
@@ -9257,7 +9093,7 @@ index 51a22a7..ad1c4b3 100644
  			return;
  		}
  
-@@ -1629,10 +1629,10 @@ export class SelectorController {
+@@ -1606,10 +1606,10 @@ export class SelectorController {
  					const branchSummariesEnabled = settings.get("branchSummary.enabled");
  
  					while (!wantsSummary && branchSummariesEnabled) {
@@ -9272,7 +9108,7 @@ index 51a22a7..ad1c4b3 100644
  						]);
  
  						if (summaryChoice === undefined) {
-@@ -1641,10 +1641,10 @@ export class SelectorController {
+@@ -1618,10 +1618,10 @@ export class SelectorController {
  							return;
  						}
  
@@ -9286,7 +9122,7 @@ index 51a22a7..ad1c4b3 100644
  							if (customInstructions === undefined) {
  								// User cancelled - loop back to summary selector
  								continue;
-@@ -2057,7 +2057,7 @@ export class SelectorController {
+@@ -2034,7 +2034,7 @@ export class SelectorController {
  	async handleSessionDeleteCommand(): Promise<void> {
  		const sessionFile = this.ctx.sessionManager.getSessionFile();
  		if (!sessionFile) {
@@ -9295,7 +9131,7 @@ index 51a22a7..ad1c4b3 100644
  			return;
  		}
  
-@@ -2398,14 +2398,14 @@ export class SelectorController {
+@@ -2375,14 +2375,14 @@ export class SelectorController {
  		}
  		const accounts = toResetUsageAccounts(statuses);
  		if (accounts.length === 0) {
@@ -9340,10 +9176,10 @@ index 338dea3..8697f9e 100644
  							}
  							return extractAssistantText(clone.getLastAssistantMessage()) || "(no output)";
 diff --git a/pi-coding-agent/src/modes/interactive-mode.ts b/pi-coding-agent-zh/src/modes/interactive-mode.ts
-index ad002e9..0058b92 100644
+index b0a3963..565bfef 100644
 --- a/pi-coding-agent/src/modes/interactive-mode.ts
 +++ b/pi-coding-agent-zh/src/modes/interactive-mode.ts
-@@ -686,7 +686,7 @@ export function renderSubagentHudLines(sessions: ObservableSession[], columns: n
+@@ -687,7 +687,7 @@ export function renderSubagentHudLines(sessions: ObservableSession[], columns: n
  					truncateToWidth(
  						`${outerIndent}${theme.fg(
  							"dim",
@@ -9352,7 +9188,7 @@ index ad002e9..0058b92 100644
  						)}`,
  						columns,
  						"",
-@@ -3938,7 +3938,7 @@ export class InteractiveMode implements InteractiveModeContext {
+@@ -3946,7 +3946,7 @@ export class InteractiveMode implements InteractiveModeContext {
  	 */
  	#warnPlanModeBlocks(): void {
  		this.showWarning(
@@ -9361,7 +9197,7 @@ index ad002e9..0058b92 100644
  		);
  	}
  
-@@ -4143,11 +4143,11 @@ export class InteractiveMode implements InteractiveModeContext {
+@@ -4151,11 +4151,11 @@ export class InteractiveMode implements InteractiveModeContext {
  
  	#formatKeepContextLabel(contextUsage: ContextUsage | undefined): string {
  		if (!contextUsage) {
@@ -9375,7 +9211,7 @@ index ad002e9..0058b92 100644
  	}
  
  	#isKeepContextDisabled(contextUsage: ContextUsage | undefined): boolean {
-@@ -5254,7 +5254,7 @@ export class InteractiveMode implements InteractiveModeContext {
+@@ -5262,7 +5262,7 @@ export class InteractiveMode implements InteractiveModeContext {
  		const slider: HookSelectorSlider | undefined =
  			cycle && cycle.models.length > 1
  				? {
@@ -9384,7 +9220,7 @@ index ad002e9..0058b92 100644
  						index: startTierIndex,
  						segments: cycle.models.map(entry => ({
  							label: entry.role,
-@@ -5267,7 +5267,7 @@ export class InteractiveMode implements InteractiveModeContext {
+@@ -5275,7 +5275,7 @@ export class InteractiveMode implements InteractiveModeContext {
  				: undefined;
  		// The overlay now owns the dynamic, focus-aware help line; the caller only
  		// supplies the trailing cancel hint.
@@ -9393,7 +9229,7 @@ index ad002e9..0058b92 100644
  		// In-overlay edits (section deletes/undo) and section annotations. Deletes
  		// update `editedContent` (and mirror to disk); annotations build `feedback`
  		// that the Refine branch re-prompts the model with.
-@@ -5277,12 +5277,12 @@ export class InteractiveMode implements InteractiveModeContext {
+@@ -5285,12 +5285,12 @@ export class InteractiveMode implements InteractiveModeContext {
  
  		const choice = await this.showPlanReview(
  			planContent,
@@ -9410,7 +9246,7 @@ index ad002e9..0058b92 100644
  				PLAN_SAVE_AND_QUIT_OPTION,
  			],
  			{
-@@ -5324,7 +5324,7 @@ export class InteractiveMode implements InteractiveModeContext {
+@@ -5332,7 +5332,7 @@ export class InteractiveMode implements InteractiveModeContext {
  			return;
  		}
  
@@ -9419,7 +9255,7 @@ index ad002e9..0058b92 100644
  			try {
  				// Prefer in-overlay edits (already in memory) over a disk re-read. The
  				// overlay mirrors edits as they happen, and approval awaits one final
-@@ -5369,8 +5369,8 @@ export class InteractiveMode implements InteractiveModeContext {
+@@ -5377,8 +5377,8 @@ export class InteractiveMode implements InteractiveModeContext {
  				const executionDispatched = await this.#approvePlan(latestPlanContent, {
  					planFilePath,
  					title: details.title,
@@ -9430,7 +9266,7 @@ index ad002e9..0058b92 100644
  					executionModel,
  				});
  				if (executionDispatched) this.#planReviewAnnotationState.delete(annotationStateKey);
-@@ -5383,7 +5383,7 @@ export class InteractiveMode implements InteractiveModeContext {
+@@ -5391,7 +5391,7 @@ export class InteractiveMode implements InteractiveModeContext {
  			return;
  		}
  
@@ -9439,7 +9275,7 @@ index ad002e9..0058b92 100644
  			const refinement = feedback.trim();
  			try {
  				if (refinement) {
-@@ -5396,10 +5396,10 @@ export class InteractiveMode implements InteractiveModeContext {
+@@ -5404,10 +5404,10 @@ export class InteractiveMode implements InteractiveModeContext {
  						this.#planReviewAnnotationState.delete(annotationStateKey);
  					}
  				} else {
@@ -9452,7 +9288,7 @@ index ad002e9..0058b92 100644
  			}
  			closePlanReview();
  			return;
-@@ -5566,8 +5566,8 @@ export class InteractiveMode implements InteractiveModeContext {
+@@ -5574,8 +5574,8 @@ export class InteractiveMode implements InteractiveModeContext {
  		this.#teardownFailed = this.session.isDisposed;
  		this.showError(
  			this.#teardownFailed
@@ -9463,7 +9299,7 @@ index ad002e9..0058b92 100644
  		);
  	}
  
-@@ -5606,7 +5606,7 @@ export class InteractiveMode implements InteractiveModeContext {
+@@ -5614,7 +5614,7 @@ export class InteractiveMode implements InteractiveModeContext {
  			const child = Bun.spawn(cmd, { stdin: "inherit", stdout: "inherit", stderr: "inherit" });
  			await postmortem.quit(await child.exited);
  		} catch (err) {
@@ -9472,7 +9308,7 @@ index ad002e9..0058b92 100644
  			await postmortem.quit(1);
  		}
  	}
-@@ -5687,7 +5687,7 @@ export class InteractiveMode implements InteractiveModeContext {
+@@ -5695,7 +5695,7 @@ export class InteractiveMode implements InteractiveModeContext {
  		// Background extensions do not submit terminal input. Start the same
  		// settled-boundary check without waiting for another user keystroke.
  		void this.checkShutdownRequested().catch(error => {
@@ -9528,6 +9364,54 @@ index f60240d..8cd0b33 100644
 +		message: `循环条件 ${quoteCommand(condition.command)} 执行失败（${status}）${detail}。已停用循环模式。`,
  	};
  }
+diff --git a/pi-coding-agent/src/modes/magic-keywords.ts b/pi-coding-agent-zh/src/modes/magic-keywords.ts
+index 1132e21..65451c1 100644
+--- a/pi-coding-agent/src/modes/magic-keywords.ts
++++ b/pi-coding-agent-zh/src/modes/magic-keywords.ts
+@@ -70,8 +70,8 @@ export const MAGIC_KEYWORDS = [
+ 		id: "ultrathink",
+ 		word: "ultrathink",
+ 		hue: [0, 330],
+-		label: "Ultrathink Keyword",
+-		description: "Let standalone ultrathink request maximum automatic thinking and append its hidden notice",
++		label: "Ultrathink 关键词",
++		description: "允许独立的 ultrathink 请求最大自动思考,并附加其隐藏提示",
+ 		requires: [],
+ 		notice: () => ULTRATHINK_NOTICE,
+ 	},
+@@ -79,8 +79,8 @@ export const MAGIC_KEYWORDS = [
+ 		id: "orchestrate",
+ 		word: "orchestrate",
+ 		hue: [150, 280],
+-		label: "Orchestrate Keyword",
+-		description: "Let standalone orchestrate append its hidden multi-agent orchestration notice",
++		label: "Orchestrate 关键词",
++		description: "允许独立的 orchestrate 附加其隐藏的多代理编排提示",
+ 		// The contract is entirely about `task` subagent dispatch.
+ 		requires: ["task"],
+ 		notice: renderOrchestrateNotice,
+@@ -89,8 +89,8 @@ export const MAGIC_KEYWORDS = [
+ 		id: "workflow",
+ 		word: "workflowz",
+ 		hue: [30, 150],
+-		label: "Workflow Keyword",
+-		description: "Let standalone workflowz append its hidden eval workflow notice",
++		label: "Workflow 关键词",
++		description: "允许独立的 workflowz 附加其隐藏的 eval workflow 提示",
+ 		requires: ["task", "eval"],
+ 		notice: renderWorkflowNotice,
+ 	},
+@@ -98,8 +98,8 @@ export const MAGIC_KEYWORDS = [
+ 		id: "jevify",
+ 		word: "jevify",
+ 		hue: [300, 420],
+-		label: "Jevify Keyword",
+-		description: "Let standalone jevify append its hidden bulk-judge classification notice",
++		label: "Jevify 关键词",
++		description: "让独立的 jevify 附加其隐藏的批量评判分类提示",
+ 		// The contract is entirely about the eval kernel's `judge()` helper.
+ 		requires: ["eval"],
+ 		notice: () => JEVIFY_NOTICE,
 diff --git a/pi-coding-agent/src/modes/persistence-failure.ts b/pi-coding-agent-zh/src/modes/persistence-failure.ts
 index 9226e7a..fb8eeb0 100644
 --- a/pi-coding-agent/src/modes/persistence-failure.ts
@@ -9664,6 +9548,32 @@ index 8522181..7bcb5b6 100644
  			type: "ask",
  			urgency: "normal",
  			actions: "focus",
+diff --git a/pi-coding-agent/src/tools/browser/cmux/cmux-tab.ts b/pi-coding-agent-zh/src/tools/browser/cmux/cmux-tab.ts
+index 47e9f1f..f16aff5 100644
+--- a/pi-coding-agent/src/tools/browser/cmux/cmux-tab.ts
++++ b/pi-coding-agent-zh/src/tools/browser/cmux/cmux-tab.ts
+@@ -1254,7 +1254,7 @@ export class CmuxTab {
+ 		});
+ 		context.output.push({
+ 			type: "text",
+-			text: `Screenshot diff: ${diff.pixelChangeRatio.toFixed(6)} changed-pixel ratio (${changed ? "changed" : "unchanged"}); saved to ${diffPath}`,
++			text: `截图差异: ${diff.pixelChangeRatio.toFixed(6)} 变化像素比 (${changed ? "已变化" : "无变化"}); 已保存到 ${diffPath}`,
+ 		});
+ 		context.output.push({ type: "image", data: resized.data, mimeType: resized.mimeType });
+ 		return { pixelChangeRatio: diff.pixelChangeRatio, changed, diffPath };
+diff --git a/pi-coding-agent/src/tools/browser/tab-worker.ts b/pi-coding-agent-zh/src/tools/browser/tab-worker.ts
+index 46cee87..bf94fd3 100644
+--- a/pi-coding-agent/src/tools/browser/tab-worker.ts
++++ b/pi-coding-agent-zh/src/tools/browser/tab-worker.ts
+@@ -2733,7 +2733,7 @@ export class WorkerCore {
+ 		});
+ 		output.push({
+ 			type: "text",
+-			text: `Screenshot diff: ${diff.pixelChangeRatio.toFixed(6)} changed-pixel ratio (${changed ? "changed" : "unchanged"}); saved to ${diffPath}`,
++			text: `截图差异: ${diff.pixelChangeRatio.toFixed(6)} 变化像素比 (${changed ? "已变化" : "无变化"}); 已保存到 ${diffPath}`,
+ 		});
+ 		output.push({ type: "image", data: resized.data, mimeType: resized.mimeType });
+ 		return { pixelChangeRatio: diff.pixelChangeRatio, changed, diffPath };
 diff --git a/pi-coding-agent/src/tools/checkpoint.ts b/pi-coding-agent-zh/src/tools/checkpoint.ts
 index 9a60cb2..55cf1d8 100644
 --- a/pi-coding-agent/src/tools/checkpoint.ts
@@ -9715,7 +9625,7 @@ index 6b93c86..ddbdf40 100644
  			signal?.removeEventListener("abort", abort);
  			this.#pendingCapabilities.delete(id);
 diff --git a/pi-coding-agent/src/tools/hub/jobs.ts b/pi-coding-agent-zh/src/tools/hub/jobs.ts
-index d61d4b3..637de5b 100644
+index 3406c13..6f75919 100644
 --- a/pi-coding-agent/src/tools/hub/jobs.ts
 +++ b/pi-coding-agent-zh/src/tools/hub/jobs.ts
 @@ -104,7 +104,7 @@ function describeAgents(agents: AgentActivitySnapshot[]): string[] {
@@ -9728,7 +9638,7 @@ index d61d4b3..637de5b 100644
  		lines.push(`- \`${agent.id}\`${parent} — up ${formatDuration(agent.ageMs)}${activity}${stale}`);
  	}
 diff --git a/pi-coding-agent/src/tools/hub/launch.ts b/pi-coding-agent-zh/src/tools/hub/launch.ts
-index 871c404..c9edaae 100644
+index f2fc841..2458893 100644
 --- a/pi-coding-agent/src/tools/hub/launch.ts
 +++ b/pi-coding-agent-zh/src/tools/hub/launch.ts
 @@ -235,7 +235,7 @@ function toolContent(result: DaemonRpcResult, params: LaunchParams): string {
@@ -9746,9 +9656,45 @@ index 871c404..c9edaae 100644
  			if (result.timedOut) {
 -				lines.push(`Wait timed out (still waiting on: ${waitPendingSummary(result.daemon, params).join("; ")}).`);
 +				lines.push(`等待超时（仍在等待：${waitPendingSummary(result.daemon, params).join("; ")}）。`);
+ 			} else if (params.pattern && result.matched === undefined) {
+ 				lines.push(`Process exited before output pattern /${params.pattern}/ matched.`);
  			}
- 			return lines.join("\n");
- 		}
+diff --git a/pi-coding-agent/src/tools/image-gen.ts b/pi-coding-agent-zh/src/tools/image-gen.ts
+index c02711a..e335447 100644
+--- a/pi-coding-agent/src/tools/image-gen.ts
++++ b/pi-coding-agent-zh/src/tools/image-gen.ts
+@@ -162,7 +162,7 @@ async function buildToolResult(
+ 	const imagePaths = await saveImagesToTemp(result.images);
+ 	if (imagePaths.length === 0) {
+ 		return {
+-			content: [{ type: "text", text: `No image data returned.${result.text ? `\n\n${result.text}` : ""}` }],
++			content: [{ type: "text", text: `未返回图片数据。${result.text ? `\n\n${result.text}` : ""}` }],
+ 			details: {
+ 				provider: model.provider,
+ 				model: model.id,
+diff --git a/pi-coding-agent/src/tools/jfind/index.ts b/pi-coding-agent-zh/src/tools/jfind/index.ts
+index 38e24a7..aa09185 100644
+--- a/pi-coding-agent/src/tools/jfind/index.ts
++++ b/pi-coding-agent-zh/src/tools/jfind/index.ts
+@@ -46,15 +46,15 @@ export class FindTool implements AgentTool<typeof findSchema, FindToolDetails> {
+ 
+ 	readonly examples: readonly ToolExample<typeof findSchema.inferIn>[] = [
+ 		{
+-			caption: "Find a behavior by description",
++			caption: "按描述查找某个行为",
+ 			call: { query: "where are request retries counted and reported?", grep_keywords: ["retry", "attempt"] },
+ 		},
+ 		{
+-			caption: "Locate an implementation without known symbol names",
++			caption: "在不知道符号名的情况下定位实现",
+ 			call: { query: "how is the database connection pooled?", grep_keywords: [] },
+ 		},
+ 		{
+-			caption: "Scope the search to one directory",
++			caption: "把搜索限定到单个目录",
+ 			call: { query: "where are tool renderers registered?", grep_keywords: ["renderer"], path: "packages/tui" },
+ 		},
+ 	];
 diff --git a/pi-coding-agent/src/tools/learn.ts b/pi-coding-agent-zh/src/tools/learn.ts
 index 461c6ab..dba5f9c 100644
 --- a/pi-coding-agent/src/tools/learn.ts
@@ -9840,6 +9786,55 @@ index a8e5d44..3106719 100644
  	readonly loadMode = "discoverable";
  	readonly summary = "Run OMP-native scans and explicit Codex Security cloud operations";
  	readonly description = securityScanDescription.trim();
+diff --git a/pi-coding-agent/src/tools/tts.ts b/pi-coding-agent-zh/src/tools/tts.ts
+index 502a815..e2587ed 100644
+--- a/pi-coding-agent/src/tools/tts.ts
++++ b/pi-coding-agent-zh/src/tools/tts.ts
+@@ -123,7 +123,7 @@ async function synthesizeCloud(
+ 		content: [
+ 			{
+ 				type: "text",
+-				text: `Saved ${result.audio.length} bytes to ${displayPath} (model=${model.provider}/${model.id}, voice=${voiceId}, codec=${codec}).`,
++				text: `已保存 ${result.audio.length} 字节到 ${displayPath} (model=${model.provider}/${model.id}, voice=${voiceId}, codec=${codec})。`,
+ 			},
+ 		],
+ 		details: { bytes: result.audio.length, voiceId, codec, backend },
+@@ -146,7 +146,7 @@ async function synthesizeLocal(
+ 			content: [
+ 				{
+ 					type: "text",
+-					text: `Local TTS synthesis failed (model=${model.id}). The on-device worker may be unavailable or the model download was interrupted.`,
++					text: `本地 TTS 合成失败 (model=${model.id})。设备端 worker 可能不可用，或模型下载被中断。`,
+ 				},
+ 			],
+ 		};
+@@ -163,7 +163,7 @@ async function synthesizeLocal(
+ 		content: [
+ 			{
+ 				type: "text",
+-				text: `Saved ${wav.length} bytes to ${displayPath} (voice=${model.id}/${voice}, codec=wav, backend=local, ${audio.sampleRate} Hz).${note}`,
++				text: `已保存 ${wav.length} 字节到 ${displayPath} (voice=${model.id}/${voice}, codec=wav, backend=local, ${audio.sampleRate} Hz)。${note}`,
+ 			},
+ 		],
+ 		details: { bytes: wav.length, voiceId: `${model.id}/${voice}`, codec: "wav", backend: "local-inference" },
+@@ -198,7 +198,7 @@ export const ttsTool: CustomTool<typeof ttsSchema, TtsToolDetails> = {
+ 		if (candidates.length === 0) {
+ 			return {
+ 				isError: true,
+-				content: [{ type: "text", text: "No available speech model matches the speech role." }],
++				content: [{ type: "text", text: "没有可用的语音模型匹配 speech 角色。" }],
+ 			};
+ 		}
+ 
+@@ -224,7 +224,7 @@ export const ttsTool: CustomTool<typeof ttsSchema, TtsToolDetails> = {
+ 
+ 		return {
+ 			isError: true,
+-			content: [{ type: "text", text: `Speech synthesis failed for every candidate: ${failures.join("; ")}` }],
++			content: [{ type: "text", text: `所有候选的语音合成都失败了：${failures.join("; ")}` }],
+ 		};
+ 	},
+ };
 diff --git a/pi-coding-agent/src/tools/yield.ts b/pi-coding-agent-zh/src/tools/yield.ts
 index 431c813..9186d23 100644
 --- a/pi-coding-agent/src/tools/yield.ts
