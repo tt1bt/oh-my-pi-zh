@@ -109,8 +109,8 @@ if (existsSync(excludedPath)) {
 		console.warn('[extract] excluded.jsonc 解析失败，忽略:', e);
 	}
 }
-const EXTRACT_ROOTS = ['src/cli/', 'src/commands/', 'src/modes/', 'src/tui/', 'src/config/', 'src/tools/', 'src/prompts/system/'];
-const FIELD_RE = /\b(label|description|title|text|group|hint|summary|placeholder|note|message|detail|header|footer|caption|prefix|suffix|subtitle)s?\s*:\s*$/;
+const EXTRACT_ROOTS = ['src/cli/', 'src/commands/', 'src/slash-commands/', 'src/modes/', 'src/tui/', 'src/config/', 'src/tools/', 'src/prompts/system/'];
+const FIELD_RE = /\b(acpDescription|label|description|title|text|group|hint|summary|placeholder|note|message|detail|header|footer|caption|prefix|suffix|subtitle)s?\s*:\s*$/;
 const TEXT_EXT = /\.(txt|md)$/;
 
 function inScope(file: string): boolean {
