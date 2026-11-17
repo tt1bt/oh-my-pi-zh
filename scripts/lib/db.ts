@@ -126,6 +126,7 @@ export function writeTranslationFiles(dir: string, entries: Entry[]): string[] {
 	const areaOf = (file: string): string => {
 		if (file.startsWith('src/cli/')) return 'cli';
 		if (file.startsWith('src/commands/')) return 'commands';
+		if (file.startsWith('src/slash-commands/')) return 'commands';
 		if (file.startsWith('src/config/')) return 'settings';
 		if (file.startsWith('src/modes/')) return 'modes';
 		if (file.startsWith('src/tools/')) return 'tools';
